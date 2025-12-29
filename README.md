@@ -2,11 +2,9 @@
 
 Typings by variables
 
-<br/>
-
 ## Usage
 
-```typescript
+```ts
 import { transform } from '@bemedev/typings';
 
 const result = transform(({ array, maybe, intersection }) => ({
@@ -29,7 +27,33 @@ const result = transform(({ array, maybe, intersection }) => ({
     ),
   ),
 }));
+
+expectTypeOf(result).toEqualTypeOf<{
+  nodes?: Array<{
+    position: { x: number; y: number };
+    data: { label?: string; content: string };
+    input: boolean;
+    id: string;
+  }>;
+}>();
 ```
+
+<br/>
+
+## Available Helpers
+
+- `any`: Any type
+- `array`: Array of types
+- `custom`: Custom type
+- `intersection`: Intersection of types
+- `litterals`: Literal types
+- `maybe`: Optional types
+- `partial`: Partial types
+- `record`: Record types
+- `soa`: Single or Array types
+- `sv`: State Value
+- `tuple`: Tuple types
+- `union`: Union types
 
 <br/>
 
@@ -37,28 +61,7 @@ const result = transform(({ array, maybe, intersection }) => ({
 
 MIT
 
-## CHANGE_LOG
-
-<details>
-
-<summary>
-...
-</summary>
-
-### Version [0.0.1] --> 29/12/2025 => 11:12
-
-- ✨ Première version de la bibliothèque
-- Add `transform` core logic
-- Add type helpers (`any`, `array`, `custom`, `intersection`, `litterals`,
-  `maybe`, `partial`, `record`, `soa`, `sv`, `tuple`, `union`)
-- Add `expandFn` utility
-- Add comprehensive tests for `transform`
-- Update project configuration
-- <u>Test coverage **_100%_**</u>
-
-</details>
-
-<br/>
+## [CHANGE_LOG](CHANGE_LOG.md)
 
 ## Auteur
 
@@ -72,4 +75,4 @@ chlbri (bri_lvi@icloud.com)
 
 ## Liens
 
-- [Documentation](https://github.com/chlbri/new-package)
+- [Documentation](https://github.com/chlbri/typings)

@@ -5,6 +5,21 @@
 <details>
 <summary>
 
+## **[0.0.2] - 29/12/2025** => _11:45_
+
+</summary>
+
+- Add `expectTypeOf` examples in `README.md`
+- Refactor complex test scenarios
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.0.1] - 29/12/2025** => _11:12_
 
 </summary>
