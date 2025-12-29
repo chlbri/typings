@@ -43,23 +43,21 @@ describe('Transform: Complex scenarios', () => {
   });
 
   it('#02 => Complex form schema', () => {
-    const result = transform(
-      ({ array, maybe, union, litterals, custom }) => ({
-        fields: array({
-          name: 'string',
-          type: litterals('text', 'number', 'select', 'checkbox'),
-          required: 'boolean',
-          options: maybe(array('string')),
-          validation: maybe({
-            min: maybe('number'),
-            max: maybe('number'),
-            pattern: maybe(custom<RegExp>()),
-          }),
+    const result = transform(({ array, maybe, litterals, custom }) => ({
+      fields: array({
+        name: 'string',
+        type: litterals('text', 'number', 'select', 'checkbox'),
+        required: 'boolean',
+        options: maybe(array('string')),
+        validation: maybe({
+          min: maybe('number'),
+          max: maybe('number'),
+          pattern: maybe(custom<RegExp>()),
         }),
-        submitUrl: 'string',
-        method: union('string', litterals('GET', 'POST', 'PUT', 'DELETE')),
       }),
-    );
+      submitUrl: 'string',
+      method: litterals('GET', 'POST', 'PUT', 'DELETE'),
+    }));
 
     expect(result).toEqual({
       fields: {
