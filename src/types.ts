@@ -5,12 +5,43 @@ import type {
   PARTIAL,
   PRIMITIVES,
   PRIMITIVE_OBJECTS,
+  SOA,
 } from './constants';
+
+export type Ru = Record<Keys, unknown>;
+
+export type TrueObject = Ru & {
+  [Symbol.iterator]?: never;
+  //@ts-expect-error - 'SymbolConstructor' does not exist on type 'object'
+  [SymbolConstructor]?: never;
+};
+
+export type Fn<Args extends any[] = any[], R = any> = (...args: Args) => R;
+
+type ReduceTuple<T extends AnyArray> = T extends [
+  infer First,
+  ...infer Rest extends AnyArray,
+]
+  ? [NotReadonly<First>, ...ReduceTuple<Rest>]
+  : T extends AnyArray<infer A>
+    ? NotReadonly<A>[]
+    : [];
+
+export type NotReadonly<T> = T extends AnyArray
+  ? ReduceTuple<T>
+  : T extends object
+    ? {
+        -readonly [P in keyof T]: T[P] extends Fn
+          ? T[P]
+          : T[P] extends TrueObject
+            ? NotReadonly<T[P]>
+            : T[P];
+      }
+    : T;
 
 export type AnyArray<T = unknown> = ReadonlyArray<T> | T[];
 export type Keys = keyof any;
 export type NOmit<T, K extends keyof T> = Omit<T, K>;
-export type Ru = Record<Keys, unknown>;
 export type SingleOrArray<T> = T | T[] | ReadonlyArray<T>;
 export type SoA<T> = SingleOrArray<T>;
 
@@ -60,6 +91,10 @@ export type Custom<T = any> = {
   [CUSTOM]: T;
 };
 
+export type SoaCustom<T extends ObjectS = any> = {
+  [SOA]: T;
+};
+
 export type PartialCustom = {
   [PARTIAL]: undefined;
 };
@@ -101,19 +136,21 @@ type ReduceTuple2<T extends AnyArray<ObjectS>> = T extends [
 
 type __TransformPrimitiveObject<T> = T extends Types
   ? TransformTypes<T>
-  : T extends Custom<infer TCustom>
-    ? TCustom
-    : T extends AnyArray<ObjectS>
-      ? ReduceTuple2<T>
-      : T extends ArrayCustom<infer A>
-        ? TransformS<A>[]
-        : T extends PartialCustom
-          ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
-          : T extends Maybe<infer TMaybe>
-            ? __TransformPrimitiveObject<TMaybe> | undefined
-            : {
-                [K in keyof T]: __TransformPrimitiveObject<T[K]>;
-              };
+  : T extends ArrayCustom<infer A>
+    ? TransformS<A>[]
+    : T extends SoaCustom<infer TSoA>
+      ? SoA<__TransformPrimitiveObject<TSoA>>
+      : T extends Custom<infer TCustom>
+        ? TCustom
+        : T extends AnyArray<ObjectS>
+          ? ReduceTuple2<T>
+          : T extends PartialCustom
+            ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
+            : T extends Maybe<infer TMaybe>
+              ? __TransformPrimitiveObject<TMaybe> | undefined
+              : {
+                  [K in keyof T]: __TransformPrimitiveObject<T[K]>;
+                };
 
 type ReduceTupleU<T extends AnyArray> = T extends [
   infer First,

@@ -1,12 +1,25 @@
 ## CHANGELOG
 
 <br/>
+
+<details>
+<summary>
+
+## **[0.0.1] - 29/12/2025** => _11:12_
+
+</summary>
+
+- Add `transform` core logic
+- Add type helpers (`any`, `array`, `custom`, `intersection`, `litterals`,
+  `maybe`, `partial`, `record`, `soa`, `sv`, `tuple`, `union`)
+- Add `expandFn` utility
+- Add comprehensive tests for `transform`
+- Update project configuration
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
 <br/>
-
-### Version [0.0.1] --> _date & hour_
-
-- ✨ Première version de la bibliothèque
-
 <br/>
 
 ## Auteur

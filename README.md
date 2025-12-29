@@ -1,6 +1,35 @@
-# Beatifull lib
+# @bemedev/typings
 
-A beautifull description
+Typings by variables
+
+<br/>
+
+## Usage
+
+```typescript
+import { transform } from '@bemedev/typings';
+
+const result = transform(({ array, maybe, intersection }) => ({
+  nodes: maybe(
+    array(
+      intersection(
+        {
+          position: {
+            x: 'number',
+            y: 'number',
+          },
+          data: {
+            label: maybe('string'),
+            content: 'string',
+          },
+          input: 'boolean',
+        },
+        { id: 'string' },
+      ),
+    ),
+  ),
+}));
+```
 
 <br/>
 
@@ -16,9 +45,16 @@ MIT
 ...
 </summary>
 
-### Version [0.0.1] --> _date & hour_
+### Version [0.0.1] --> 29/12/2025 => 11:12
 
 - ✨ Première version de la bibliothèque
+- Add `transform` core logic
+- Add type helpers (`any`, `array`, `custom`, `intersection`, `litterals`,
+  `maybe`, `partial`, `record`, `soa`, `sv`, `tuple`, `union`)
+- Add `expandFn` utility
+- Add comprehensive tests for `transform`
+- Update project configuration
+- <u>Test coverage **_100%_**</u>
 
 </details>
 

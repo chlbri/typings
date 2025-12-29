@@ -1,7 +1,9 @@
-import type { ObjectS, SoA } from '../types';
+import { SOA } from '../constants';
+import type { NotReadonly, ObjectS, SoaCustom } from '../types';
 
-const soa = <T extends ObjectS>(value: T) => {
-  return value as SoA<T>;
+const soa = <const T extends ObjectS>(value: T) => {
+  type Out = SoaCustom<Extract<NotReadonly<T>, ObjectS>>;
+  return { [SOA]: value } as Out;
 };
 
 export default soa;

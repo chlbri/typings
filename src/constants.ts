@@ -13,3 +13,4 @@ export const MAYBE = '$$app-ts => maybe$$' as const;
 export const CUSTOM = '$$app-ts => custom$$' as const;
 export const PARTIAL = '$$app-ts => partial$$' as const;
 export const ARRAY = '$$app-ts => array$$' as const;
+export const SOA = '$$app-ts => soa$$' as const;

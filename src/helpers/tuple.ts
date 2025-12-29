@@ -1,12 +1,13 @@
-import type { __ObjectS, ArrayCustom, Maybe } from '../types';
+import type { __ObjectS, ArrayCustom, NotReadonly, Maybe } from '../types';
 
 const tuple = <
-  T extends [
+  const T extends [
+    __ObjectS | Maybe | ArrayCustom,
     __ObjectS | Maybe | ArrayCustom,
     ...(__ObjectS | Maybe | ArrayCustom)[],
   ],
 >(
   ...values: T
-) => values;
+) => values as NotReadonly<T>;
 
 export default tuple;
