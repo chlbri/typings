@@ -1,7 +1,7 @@
 import type {
   ARRAY,
   CUSTOM,
-  MAYBE,
+  OPTIONAL,
   PARTIAL,
   PRIMITIVES,
   PRIMITIVE_OBJECTS,
@@ -70,13 +70,15 @@ type TransformPrimitiveS<T extends PrimitiveS> = T extends 'string'
     ? number
     : T extends 'boolean'
       ? boolean
-      : T extends 'null'
-        ? null
-        : T extends 'undefined'
-          ? undefined
-          : T extends 'symbol'
-            ? symbol
-            : never;
+      : T extends 'bigint'
+        ? bigint
+        : T extends 'null'
+          ? null
+          : T extends 'undefined'
+            ? undefined
+            : T extends 'symbol'
+              ? symbol
+              : never;
 
 export type Types = PrimitiveS | (typeof PRIMITIVE_OBJECTS)[number];
 
@@ -101,10 +103,10 @@ export type PartialCustom = {
 
 export type __ObjectS = Types | ObjectMapS | Custom | PartialCustom;
 
-export type Maybe<
-  T extends __ObjectS | ArrayCustom | __ObjectS[] = __ObjectS,
+export type Optional<
+  T extends __ObjectS | ArrayCustom | AnyArray<__ObjectS> = __ObjectS,
 > = {
-  [MAYBE]: T;
+  [OPTIONAL]: T;
 };
 
 export type ArrayCustom<T extends ObjectS = any> = {
@@ -115,7 +117,12 @@ export type ObjectMapS = {
   [key: Keys]: SoRa<_ObjectS>;
 };
 
-type _ObjectS = __ObjectS | Maybe | ArrayCustom;
+export class OptionalHelperClass {
+  readonly __NO_TYPE__ = '@bemedev/addons/NO_TYPE';
+  private constructor() {}
+}
+
+type _ObjectS = __ObjectS | Optional | ArrayCustom;
 
 /**
  * A type that represents a primitive object, which can be a primitive value or an object
@@ -146,8 +153,8 @@ type __TransformPrimitiveObject<T> = T extends Types
           ? ReduceTuple2<T>
           : T extends PartialCustom
             ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
-            : T extends Maybe<infer TMaybe>
-              ? __TransformPrimitiveObject<TMaybe> | undefined
+            : T extends Optional<infer TOptional>
+              ? __TransformPrimitiveObject<TOptional> | OptionalHelperClass
               : {
                   [K in keyof T]: __TransformPrimitiveObject<T[K]>;
                 };
@@ -164,14 +171,14 @@ type ReduceTupleU<T extends AnyArray> = T extends [
       : number extends T['length']
         ? T
         : Undefiny<T[number]>[];
-type HasUndefined<T> = undefined extends T ? true : false;
+type HasUndefined<T> = OptionalHelperClass extends T ? true : false;
 type UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
     T[K]
   >;
 } & {
   [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
-    Exclude<T[K], undefined>
+    T[K]
   >;
 } extends infer F
   ? {
@@ -179,11 +186,14 @@ type UndefinyObject<T extends object> = {
     }
   : never;
 
-type Undefiny<T> = T extends AnyArray
-  ? ReduceTupleU<T>
-  : T extends Ru
-    ? UndefinyObject<T>
-    : T;
+type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
+  ? ReduceTupleU<U>
+  : U extends Ru
+    ? UndefinyObject<U>
+    : U;
+
 export type TransformS<T> = Undefiny<__TransformPrimitiveObject<T>>;
 
 export type inferT<T extends ObjectS> = TransformS<T>;
+
+export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;

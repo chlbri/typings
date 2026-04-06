@@ -1,4 +1,4 @@
 export * from './constants';
 export * from './helpers';
-export * from './transform';
+export * from './type';
 export * from './types';

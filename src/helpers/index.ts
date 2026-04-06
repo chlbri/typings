@@ -3,7 +3,7 @@ export { default as array } from './array';
 export { default as custom } from './custom';
 export { default as intersection } from './intersection';
 export { default as litterals } from './litterals';
-export { default as maybe } from './maybe';
+export { default as optional } from './optional';
 export { default as partial } from './partial';
 export { default as record } from './record';
 export { default as soa } from './soa';

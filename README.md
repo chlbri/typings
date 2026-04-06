@@ -5,10 +5,10 @@ Typings by variables
 ## Usage
 
 ```ts
-import { transform } from '@bemedev/typings';
+import { type } from '@bemedev/typings';
 
-const result = transform(({ array, maybe, intersection }) => ({
-  nodes: maybe(
+const result = type(({ array, optional, intersection }) => ({
+  nodes: optional(
     array(
       intersection(
         {
@@ -17,7 +17,7 @@ const result = transform(({ array, maybe, intersection }) => ({
             y: 'number',
           },
           data: {
-            label: maybe('string'),
+            label: optional('string'),
             content: 'string',
           },
           input: 'boolean',
@@ -47,7 +47,7 @@ expectTypeOf(result).toEqualTypeOf<{
 - `custom`: Custom type
 - `intersection`: Intersection of types
 - `litterals`: Literal types
-- `maybe`: Optional types
+- `optional`: Optional types
 - `partial`: Partial types
 - `record`: Record types
 - `soa`: Single or Array types
@@ -61,7 +61,7 @@ expectTypeOf(result).toEqualTypeOf<{
 
 MIT
 
-## [CHANGE_LOG](CHANGE_LOG.md)
+## [CHANGELOG](CHANGELOG.md)
 
 ## Auteur
 

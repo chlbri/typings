@@ -1,6 +1,4 @@
-type Fn<Args extends any[] = any[], R = any> = (...args: Args) => R;
-
-type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;
+import type { Fn, FnBasic } from '../types';
 
 export const expandFn = <
   Main extends Fn,

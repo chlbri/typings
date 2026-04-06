@@ -1,10 +1,15 @@
-import type { __ObjectS, ArrayCustom, NotReadonly, Maybe } from '../types';
+import type {
+  __ObjectS,
+  ArrayCustom,
+  NotReadonly,
+  Optional,
+} from '../types';
 
 const tuple = <
   const T extends [
-    __ObjectS | Maybe | ArrayCustom,
-    __ObjectS | Maybe | ArrayCustom,
-    ...(__ObjectS | Maybe | ArrayCustom)[],
+    __ObjectS | Optional | ArrayCustom,
+    __ObjectS | Optional | ArrayCustom,
+    ...(__ObjectS | Optional | ArrayCustom)[],
   ],
 >(
   ...values: T

@@ -1,5 +1,5 @@
-import { aliasTs } from '@bemedev/vitest-alias';
-import { exclude } from '@bemedev/vitest-exclude';
+import { aliasTs } from '@bemedev/dev-utils/vitest-alias';
+import { exclude } from '@bemedev/dev-utils/vitest-exclude';
 import { defineConfig } from 'vitest/config';
 import tsconfig from './tsconfig.json';
 
@@ -7,7 +7,12 @@ export default defineConfig({
   plugins: [
     aliasTs(tsconfig as any),
     exclude({
-      ignoreCoverageFiles: ['**/index.ts', '**/types.ts', '**/*.types.ts'],
+      ignoreCoverageFiles: [
+        '**/index.ts',
+        '**/fixtures.ts',
+        'src/types.ts',
+        '**/*.types.ts',
+      ],
     }),
   ],
   test: {
@@ -17,6 +22,10 @@ export default defineConfig({
     slowTestThreshold: 3000,
     globals: true,
     logHeapUsage: true,
+    typecheck: {
+      enabled: true,
+      ignoreSourceErrors: true,
+    },
     coverage: {
       enabled: true,
       extension: 'ts',
