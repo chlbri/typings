@@ -11,9 +11,11 @@
 
 - Remove `transform` — replaced by `type` (breaking change)
 - Remove `maybe` helper — replaced by `optional` (breaking change)
-- Add `type` function as the new main API (`src/type.ts`, `src/type.types.ts`)
+- Add `type` function as the new main API (`src/type.ts`,
+  `src/type.types.ts`)
 - Add `optional` helper as a standalone module (`src/helpers/optional.ts`)
-- Refactor tests — co-located with source files (moved from `src/__tests__/helpers/` to `src/helpers/`)
+- Refactor tests — co-located with source files (moved from
+  `src/__tests__/helpers/` to `src/helpers/`)
 - Replace rollup with rolldown for bundling
 - Replace eslint + prettier with oxlint + oxfmt for linting and formatting
 - Update CI scripts with timing instrumentation
