@@ -1,10 +1,18 @@
-import type { inferT, PrimitiveObjectMapS, PrimitiveObjectT } from "../types";
 import { type } from "../type";
+import type {
+  inferT,
+  NotReadonly,
+  PrimitiveObjectMapS,
+  PrimitiveObjectT,
+} from "../types";
 import { primitiveObject } from "./primitiveObject";
 
 // No argument — defaults to PrimitiveObjectS
 const noArg = primitiveObject();
-expectTypeOf(noArg).branded.toEqualTypeOf<PrimitiveObjectT>();
+expectTypeOf(noArg).branded.toEqualTypeOf<NotReadonly<PrimitiveObjectT>>();
+
+const noMapArg = primitiveObject.map();
+expectTypeOf(noMapArg).branded.toEqualTypeOf<PrimitiveObjectMapS>();
 
 // Primitive type string literal
 const withString = primitiveObject("string");
@@ -23,7 +31,10 @@ const withNested = primitiveObject({
   user: { name: "string", active: "boolean" },
 });
 expectTypeOf(withNested).toEqualTypeOf<{
-  user: { name: "string"; active: "boolean" };
+  user: {
+    name: "string";
+    active: "boolean";
+  };
 }>();
 
 // .map() — defaults to PrimitiveObjectMapS
@@ -84,7 +95,10 @@ const typeWithNested = type(({ primitiveObject }) =>
   primitiveObject({ user: { name: "string", active: "boolean" } }),
 );
 expectTypeOf(typeWithNested).toEqualTypeOf<{
-  user: { name: string; active: boolean };
+  user: {
+    name: string;
+    active: boolean;
+  };
 }>();
 
 // type() with primitiveObject: combined with other helpers

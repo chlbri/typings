@@ -6,12 +6,11 @@ export const PRIMITIVES = [
   "symbol",
   "undefined",
   "null",
-  "unknown",
   "never",
   "primitive",
 ] as const;
 
-export const PRIMITIVE_OBJECTS = ["date", "any", "object"] as const;
+export const PRIMITIVE_OBJECTS = ["date", "any", "object", "unknown"] as const;
 export const OPTIONAL = "$$app-ts => optional$$" as const;
 export const CUSTOM = "$$app-ts => custom$$" as const;
 export const PARTIAL = "$$app-ts => partial$$" as const;

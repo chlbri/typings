@@ -5,6 +5,28 @@
 <details>
 <summary>
 
+## **[0.2.2] - 19/04/2026** => _17:28_
+
+</summary>
+
+- Enhance `primitiveObject` and `primitiveObject.map` — now accept
+  `IntersectionCustom<PrimitiveObjectMapS[]>` as input, enabling
+  `primitiveObject(intersection(...))` usage
+- Add `IntersectionCustom` type export to `src/types.ts` (centralised)
+- Refactor `src/helpers/intersection.ts` — remove local
+  `IntersectionCustom` definition, import from `src/types.ts`
+- Add test coverage for `primitiveObject(intersection(...))` pattern in
+  `primitives.test-d.ts`
+- Fix quote style in `src/types.ts` — normalise to single quotes
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.2.1] - 19/04/2026** => _16:34_
 
 </summary>

@@ -70,11 +70,10 @@ export type Primiive =
   | null
   | undefined
   | symbol
-  | unknown
   | never;
 
-export type PrimitiveS = (typeof PRIMITIVES)[number];
-type TransformPrimitiveS<T extends PrimitiveS> = T extends "string"
+export type PrimitiveT = (typeof PRIMITIVES)[number];
+type TransformPrimitiveS<T extends PrimitiveT> = T extends "string"
   ? string
   : T extends "number"
     ? number
@@ -90,19 +89,19 @@ type TransformPrimitiveS<T extends PrimitiveS> = T extends "string"
               ? symbol
               : T extends "never"
                 ? never
-                : T extends "unknown"
-                  ? unknown
-                  : PrimitiveS;
+                : Primiive;
 
-export type Types = PrimitiveS | (typeof PRIMITIVE_OBJECTS)[number];
+export type Types = PrimitiveT | (typeof PRIMITIVE_OBJECTS)[number];
 
-export type TransformTypes<T extends Types> = T extends PrimitiveS
+export type TransformTypes<T extends Types> = T extends PrimitiveT
   ? TransformPrimitiveS<T>
   : T extends "date"
     ? Date
     : T extends "any"
       ? any
-      : object;
+      : T extends "unknown"
+        ? unknown
+        : object;
 
 export type Custom<T = any> = {
   [CUSTOM]: T;
@@ -137,14 +136,23 @@ export class OptionalHelperClass {
   private constructor() {}
 }
 
+export type IntersectionCustom<T extends ObjectMapS[]> = T extends [
+  infer First extends ObjectMapS,
+  ...infer Rest extends ObjectMapS[],
+]
+  ? First & IntersectionCustom<Rest>
+  : unknown;
+
 type _ObjectT = __ObjectT | Optional | ArrayCustom;
 
-export type PrimitiveObjectT =
+export type PrimitiveObjectT = SoRa<
   | Types
   | ArrayCustom<Types>
   | Optional<Types>
   | PrimitiveObjectMapS
-  | (PrimitiveObjectMapS & PartialCustom);
+  | (PrimitiveObjectMapS & PartialCustom)
+>;
+
 export interface PrimitiveObjectMapS {
   [key: Keys]: PrimitiveObjectT;
 }
@@ -200,7 +208,11 @@ type __TransformPrimitiveObject<T> = T extends Types
                 };
 
 // #region type Undefiny
-type HasUndefined<T> = OptionalHelperClass extends T ? true : false;
+type HasUndefined<T> = unknown extends T
+  ? false
+  : OptionalHelperClass extends T
+    ? true
+    : false;
 type UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<T[K]>;
 } & {

@@ -1,8 +1,8 @@
 import { ARRAY } from "../constants";
-import type { ArrayCustom, NotReadonly, ObjectT } from "../types";
+import type { ArrayCustom, ObjectT } from "../types";
 
-const array = <const T extends ObjectT>(value: T) => {
-  type Out = ArrayCustom<Extract<NotReadonly<T>, ObjectT>>;
+const array = <T extends ObjectT>(value: T) => {
+  type Out = ArrayCustom<T>;
 
   return { [ARRAY]: value } as Out;
 };

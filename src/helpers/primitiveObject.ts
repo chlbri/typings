@@ -1,4 +1,5 @@
 import type {
+  IntersectionCustom,
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
@@ -6,15 +7,23 @@ import type {
 import { expandFn } from "../utils/expandFn";
 
 const primitiveObject = expandFn(
-  <const T extends PrimitiveObjectT = PrimitiveObjectT>(
+  <
+    const T extends
+      | PrimitiveObjectT
+      | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectT,
+  >(
     value?: T,
-  ): Exclude<NotReadonly<T>, undefined> => {
+  ): NotReadonly<T> => {
     return (value || {}) as any;
   },
   {
-    map: <const T extends PrimitiveObjectMapS = PrimitiveObjectMapS>(
+    map: <
+      const T extends
+        | PrimitiveObjectMapS
+        | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectMapS,
+    >(
       value?: T,
-    ): Exclude<NotReadonly<T>, undefined> => {
+    ): NotReadonly<T> => {
       return (value || {}) as any;
     },
   },

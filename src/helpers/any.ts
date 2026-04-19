@@ -1,5 +1,7 @@
-import type { ObjectT } from "../types";
+import type { NotReadonly, ObjectT } from "../types";
 
-const any = <T extends ObjectT = ObjectT>(value?: T) =>
-  value as ObjectT extends T ? "any" : T;
+const any = <const T extends ObjectT = ObjectT>(value?: T) => {
+  return value as ObjectT extends NotReadonly<T> ? "any" : NotReadonly<T>;
+};
+
 export { any };

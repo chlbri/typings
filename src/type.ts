@@ -1,4 +1,8 @@
 import { CUSTOM, OPTIONAL, PARTIAL } from "./constants";
+import { readonly } from "./helpers/readonly";
+import type { Transform_F } from "./type.types";
+import type { inferT, ObjectT, TransformTypes, Types } from "./types";
+
 import {
   any,
   array,
@@ -7,6 +11,7 @@ import {
   litterals,
   optional,
   partial,
+  primitive,
   primitiveObject,
   record,
   soa,
@@ -14,8 +19,6 @@ import {
   tuple,
   union,
 } from "./helpers";
-import type { Transform_F } from "./type.types";
-import type { inferT, ObjectT, TransformTypes, Types } from "./types";
 
 const transformTypes = <T extends Types>(_: T): TransformTypes<T> => {
   return undefined as any;
@@ -69,7 +72,10 @@ export const type: Transform_F = (option) => {
       array,
       tuple,
       primitiveObject,
+      primitive,
+      readonly,
     });
+
     return _transform(objectS);
   }
 
