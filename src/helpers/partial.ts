@@ -12,4 +12,4 @@ const partial = <T extends ObjectT>(value: T): T & PartialCustom => {
   return out;
 };
 
-export default partial;
+export { partial };

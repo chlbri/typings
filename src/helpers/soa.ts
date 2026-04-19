@@ -6,4 +6,4 @@ const soa = <const T extends ObjectT>(value: T) => {
   return { [SOA]: value } as Out;
 };
 
-export default soa;
+export { soa };

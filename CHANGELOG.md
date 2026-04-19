@@ -5,6 +5,27 @@
 <details>
 <summary>
 
+## **[0.2.1] - 19/04/2026** => _16:34_
+
+</summary>
+
+- Refactor all helpers from default exports to named exports
+  (`export { name }`)
+- Refactor `src/helpers/index.ts` — replace `export { default as name }`
+  with `export * from "./name"`
+- Refactor `src/index.ts` — namespace helpers under
+  `export * as helpers from './helpers'`
+- Refactor `union.ts` internal naming (`fn` → `union`, `union` → `_union`)
+  for clarity
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.2.0] - 19/04/2026** => _09:45_
 
 </summary>

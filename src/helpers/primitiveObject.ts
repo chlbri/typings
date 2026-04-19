@@ -20,4 +20,4 @@ const primitiveObject = expandFn(
   },
 );
 
-export default primitiveObject;
+export { primitiveObject };

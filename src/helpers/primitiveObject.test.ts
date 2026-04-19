@@ -1,5 +1,5 @@
 import { type } from "../type";
-import primitiveObject from "./primitiveObject";
+import { primitiveObject } from "./primitiveObject";
 
 describe("Helper: primitiveObject", () => {
   it("#01 => should return empty object when called with no argument", () => {

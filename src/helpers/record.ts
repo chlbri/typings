@@ -12,4 +12,4 @@ const record = <const K extends Keys[], V extends ObjectT>(
   return object as Record<K[number] extends never ? Keys : K[number], V>;
 };
 
-export default record;
+export { record };

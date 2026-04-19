@@ -7,4 +7,4 @@ const array = <const T extends ObjectT>(value: T) => {
   return { [ARRAY]: value } as Out;
 };
 
-export default array;
+export { array };

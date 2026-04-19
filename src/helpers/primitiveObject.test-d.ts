@@ -1,6 +1,6 @@
 import type { inferT, PrimitiveObjectMapS, PrimitiveObjectT } from "../types";
 import { type } from "../type";
-import primitiveObject from "./primitiveObject";
+import { primitiveObject } from "./primitiveObject";
 
 // No argument — defaults to PrimitiveObjectS
 const noArg = primitiveObject();

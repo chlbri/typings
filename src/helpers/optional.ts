@@ -8,4 +8,4 @@ const optional = <T extends __ObjectT | ArrayCustom | AnyArray<__ObjectT>>(
     [OPTIONAL]: value,
   }) as Optional<T>;
 
-export default optional;
+export { optional };
