@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/typings",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Typings by variables",
   "author": {
     "email": "bri_lvi@icloud.com",
@@ -16,6 +16,20 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    },
+    "./helpers": {
+      "import": "./lib/helpers/index.js",
+      "require": "./lib/helpers/index.cjs",
+      "types": "./lib/helpers/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json"
+  },
   "maintainers": [
     {
       "email": "bri_lvi@icloud.com",

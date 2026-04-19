@@ -131,7 +131,7 @@ export type ObjectMapS = {
   [key: Keys]: SoRa<_ObjectT>;
 };
 
-export class OptionalHelperClass {
+class OptionalHelperClass {
   readonly __NO_TYPE__ = "@bemedev/addons/NO_TYPE";
   private constructor() {}
 }
