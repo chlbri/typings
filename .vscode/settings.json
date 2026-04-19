@@ -1,3 +1,6 @@
 {
-  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"]
+  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
+  "chat.tools.terminal.autoApprove": {
+    "pnpm": true
+  }
 }

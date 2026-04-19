@@ -1,6 +1,6 @@
-import type { Keys, ObjectS } from '../types';
+import type { Keys, ObjectT } from "../types";
 
-const record = <const K extends Keys[], V extends ObjectS>(
+const record = <const K extends Keys[], V extends ObjectT>(
   value: V,
   ...keys: K
 ) => {

@@ -1,13 +1,11 @@
-import type { Keys, ObjectMapS, ObjectS } from '../types';
-import { expandFn } from '../utils/expandFn';
+import type { Keys, ObjectMapS, ObjectT } from "../types";
+import { expandFn } from "../utils/expandFn";
 
-const union = <T extends [ObjectS, ObjectS, ...ObjectS[]]>(
-  ...values: T
-) => {
+const union = <T extends [ObjectT, ObjectT, ...ObjectT[]]>(...values: T) => {
   return values[0] as T[number];
 };
 
-type Discriminated<K extends Keys> = ObjectMapS & Record<K, ObjectS>;
+type Discriminated<K extends Keys> = ObjectMapS & Record<K, ObjectT>;
 
 const fn = expandFn(union, {
   discriminated: <

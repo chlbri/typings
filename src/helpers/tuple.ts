@@ -1,18 +1,6 @@
-import type {
-  __ObjectS,
-  ArrayCustom,
-  NotReadonly,
-  Optional,
-} from '../types';
+import type { NotReadonly, ObjectT } from "../types";
 
-const tuple = <
-  const T extends [
-    __ObjectS | Optional | ArrayCustom,
-    __ObjectS | Optional | ArrayCustom,
-    ...(__ObjectS | Optional | ArrayCustom)[],
-  ],
->(
-  ...values: T
-) => values as NotReadonly<T>;
+const tuple = <const T extends [ObjectT, ...ObjectT[]]>(...values: T) =>
+  values as NotReadonly<T>;
 
 export default tuple;

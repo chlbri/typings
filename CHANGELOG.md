@@ -5,6 +5,30 @@
 <details>
 <summary>
 
+## **[0.2.0] - 19/04/2026** => _09:45_
+
+</summary>
+
+- Add `primitiveObject` helper for type schema definitions
+  (`src/helpers/primitiveObject.ts`)
+- Add `type()` function support for `primitiveObject` parameter
+- Add `inferT` type utility to handle transformation cases
+- Add comprehensive test coverage for `primitiveObject` with `type()`
+  function
+- Add complex test scenarios combining `primitiveObject` with `optional`,
+  `array`, and `intersection` helpers
+- Enhance optional tests with type transformation scenarios
+- Refactor helpers index exports
+- Update type system infrastructure for better helper support
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.1.0] - 06/04/2026** => _10:00_
 
 </summary>

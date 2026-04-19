@@ -6,7 +6,7 @@ import type {
   PRIMITIVES,
   PRIMITIVE_OBJECTS,
   SOA,
-} from './constants';
+} from "./constants";
 
 export type Ru = Record<Keys, unknown>;
 
@@ -62,38 +62,53 @@ export type SingleOrRecursiveArrayOf<T> = T | RecursiveArrayOf<T>;
 
 export type SoRa<T> = SingleOrRecursiveArrayOf<T>;
 // #endregion
+export type Primiive =
+  | string
+  | number
+  | boolean
+  | bigint
+  | null
+  | undefined
+  | symbol
+  | unknown
+  | never;
 
 export type PrimitiveS = (typeof PRIMITIVES)[number];
-type TransformPrimitiveS<T extends PrimitiveS> = T extends 'string'
+type TransformPrimitiveS<T extends PrimitiveS> = T extends "string"
   ? string
-  : T extends 'number'
+  : T extends "number"
     ? number
-    : T extends 'boolean'
+    : T extends "boolean"
       ? boolean
-      : T extends 'bigint'
+      : T extends "bigint"
         ? bigint
-        : T extends 'null'
+        : T extends "null"
           ? null
-          : T extends 'undefined'
+          : T extends "undefined"
             ? undefined
-            : T extends 'symbol'
+            : T extends "symbol"
               ? symbol
-              : never;
+              : T extends "never"
+                ? never
+                : T extends "unknown"
+                  ? unknown
+                  : PrimitiveS;
 
 export type Types = PrimitiveS | (typeof PRIMITIVE_OBJECTS)[number];
 
 export type TransformTypes<T extends Types> = T extends PrimitiveS
   ? TransformPrimitiveS<T>
-  : T extends 'date'
+  : T extends "date"
     ? Date
-    : // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-      {};
+    : T extends "any"
+      ? any
+      : object;
 
 export type Custom<T = any> = {
   [CUSTOM]: T;
 };
 
-export type SoaCustom<T extends ObjectS = any> = {
+export type SoaCustom<T extends ObjectT = any> = {
   [SOA]: T;
 };
 
@@ -101,55 +116,80 @@ export type PartialCustom = {
   [PARTIAL]: undefined;
 };
 
-export type __ObjectS = Types | ObjectMapS | Custom | PartialCustom;
+export type __ObjectT = Types | ObjectMapS | Custom | PartialCustom;
 
 export type Optional<
-  T extends __ObjectS | ArrayCustom | AnyArray<__ObjectS> = __ObjectS,
+  T extends __ObjectT | ArrayCustom | AnyArray<__ObjectT> = __ObjectT,
 > = {
   [OPTIONAL]: T;
 };
 
-export type ArrayCustom<T extends ObjectS = any> = {
+export type ArrayCustom<T extends ObjectT = any> = {
   [ARRAY]: T;
 };
 
 export type ObjectMapS = {
-  [key: Keys]: SoRa<_ObjectS>;
+  [key: Keys]: SoRa<_ObjectT>;
 };
 
 export class OptionalHelperClass {
-  readonly __NO_TYPE__ = '@bemedev/addons/NO_TYPE';
+  readonly __NO_TYPE__ = "@bemedev/addons/NO_TYPE";
   private constructor() {}
 }
 
-type _ObjectS = __ObjectS | Optional | ArrayCustom;
+type _ObjectT = __ObjectT | Optional | ArrayCustom;
+
+export type PrimitiveObjectT =
+  | Types
+  | ArrayCustom<Types>
+  | Optional<Types>
+  | PrimitiveObjectMapS
+  | (PrimitiveObjectMapS & PartialCustom);
+export interface PrimitiveObjectMapS {
+  [key: Keys]: PrimitiveObjectT;
+}
 
 /**
  * A type that represents a primitive object, which can be a primitive value or an object
  *
  * @remark
  */
-export type ObjectS = _ObjectS | SoRa<_ObjectS>;
-export type POS = ObjectS;
+export type ObjectT = SoRa<_ObjectT | PrimitiveObjectT>;
+export type POS = ObjectT;
 
-type ReduceTuple2<T extends AnyArray<ObjectS>> = T extends [
+// #region tuple helpers
+type ReduceTuple2<T extends AnyArray<ObjectT>> = T extends [
   infer First,
-  ...infer Rest extends AnyArray<ObjectS>,
+  ...infer Rest extends AnyArray<ObjectT>,
 ]
-  ? [TransformS<First>, ...ReduceTuple2<Rest>]
-  : T extends AnyArray<infer A extends ObjectS>
-    ? TransformS<A>[]
+  ? [TransformT<First>, ...ReduceTuple2<Rest>]
+  : T extends AnyArray<infer A extends ObjectT>
+    ? TransformT<A>[]
     : [];
+
+type ReduceTupleU<T extends AnyArray> = T extends [
+  infer First,
+  ...infer Rest extends AnyArray,
+]
+  ? [Undefiny<First>, ...ReduceTupleU<Rest>]
+  : T[number] extends never
+    ? []
+    : T["length"] extends 0
+      ? []
+      : number extends T["length"]
+        ? T
+        : Undefiny<T[number]>[];
+// #endregion
 
 type __TransformPrimitiveObject<T> = T extends Types
   ? TransformTypes<T>
   : T extends ArrayCustom<infer A>
-    ? TransformS<A>[]
+    ? TransformT<A>[]
     : T extends SoaCustom<infer TSoA>
       ? SoA<__TransformPrimitiveObject<TSoA>>
       : T extends Custom<infer TCustom>
         ? TCustom
-        : T extends AnyArray<ObjectS>
+        : T extends AnyArray<ObjectT>
           ? ReduceTuple2<T>
           : T extends PartialCustom
             ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
@@ -159,23 +199,10 @@ type __TransformPrimitiveObject<T> = T extends Types
                   [K in keyof T]: __TransformPrimitiveObject<T[K]>;
                 };
 
-type ReduceTupleU<T extends AnyArray> = T extends [
-  infer First,
-  ...infer Rest extends AnyArray,
-]
-  ? [Undefiny<First>, ...ReduceTupleU<Rest>]
-  : T[number] extends never
-    ? []
-    : T['length'] extends 0
-      ? []
-      : number extends T['length']
-        ? T
-        : Undefiny<T[number]>[];
+// #region type Undefiny
 type HasUndefined<T> = OptionalHelperClass extends T ? true : false;
 type UndefinyObject<T extends object> = {
-  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
-    T[K]
-  >;
+  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<T[K]>;
 } & {
   [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
     T[K]
@@ -191,9 +218,10 @@ type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
   : U extends Ru
     ? UndefinyObject<U>
     : U;
+// #endregion
 
-export type TransformS<T> = Undefiny<__TransformPrimitiveObject<T>>;
-
-export type inferT<T extends ObjectS> = TransformS<T>;
-
+type TransformT<T> = Undefiny<__TransformPrimitiveObject<T>>;
+export type inferT<T extends ObjectT = ObjectT> = ObjectT extends T
+  ? unknown
+  : TransformT<T>;
 export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;

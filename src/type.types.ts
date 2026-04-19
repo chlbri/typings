@@ -1,18 +1,19 @@
 import type {
   any,
+  array,
   custom,
   intersection,
   litterals,
   optional,
   partial,
+  primitiveObject,
   record,
   soa,
   sv,
-  union,
-  array,
   tuple,
-} from './helpers';
-import type { ObjectS, TransformS } from './types';
+  union,
+} from "./helpers";
+import type { inferT, ObjectT } from "./types";
 
 export type Helpers = {
   any: typeof any;
@@ -27,8 +28,9 @@ export type Helpers = {
   union: typeof union;
   array: typeof array;
   tuple: typeof tuple;
+  primitiveObject: typeof primitiveObject;
 };
 
-export type Transform_F = <T extends ObjectS = ObjectS>(
-  option: (helpers: Helpers) => T,
-) => TransformS<T>;
+export type Transform_F = <T extends ObjectT = ObjectT>(
+  option?: ((helpers: Helpers) => T) | T,
+) => inferT<T>;

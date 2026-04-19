@@ -1,4 +1,4 @@
-import { CUSTOM, OPTIONAL, PARTIAL } from './constants';
+import { CUSTOM, OPTIONAL, PARTIAL } from "./constants";
 import {
   any,
   array,
@@ -7,21 +7,21 @@ import {
   litterals,
   optional,
   partial,
+  primitiveObject,
   record,
   soa,
   sv,
   tuple,
   union,
-} from './helpers';
-import type { Transform_F } from './type.types';
-import type { inferT, ObjectS, TransformTypes, Types } from './types';
+} from "./helpers";
+import type { Transform_F } from "./type.types";
+import type { inferT, ObjectT, TransformTypes, Types } from "./types";
 
-const transformTypes = <T extends Types>(type: T): TransformTypes<T> => {
-  const out: any = type === 'primitive' ? {} : undefined;
-  return out;
+const transformTypes = <T extends Types>(_: T): TransformTypes<T> => {
+  return undefined as any;
 };
 
-const _transform = <T extends ObjectS>(obj: T): inferT<T> => {
+const _transform = <T extends ObjectT>(obj: T): inferT<T> => {
   const _obj = obj as any;
 
   const checkArray = Array.isArray(obj);
@@ -29,13 +29,13 @@ const _transform = <T extends ObjectS>(obj: T): inferT<T> => {
     return obj.map(_transform as any) as any;
   }
 
-  const checkObject = typeof obj === 'object';
+  const checkObject = typeof obj === "object";
   if (checkObject) {
     if (OPTIONAL in _obj) {
-      return _transform(_obj[OPTIONAL]);
+      return _transform(_obj[OPTIONAL]) as any;
     }
 
-    const isCustom = Object.keys(obj).every(key => key === CUSTOM);
+    const isCustom = Object.keys(obj).every((key) => key === CUSTOM);
     const out: any = {};
     if (isCustom) return out;
 
@@ -51,21 +51,27 @@ const _transform = <T extends ObjectS>(obj: T): inferT<T> => {
   return transformTypes(_obj) as any;
 };
 
-export const type: Transform_F = option => {
-  const objectS = option({
-    any,
-    custom,
-    intersection,
-    litterals,
-    optional,
-    partial,
-    record,
-    soa,
-    sv,
-    union,
-    array,
-    tuple,
-  });
+export const type: Transform_F = (option) => {
+  if (!option) return undefined as any;
 
-  return _transform(objectS);
+  if (typeof option === "function") {
+    const objectS = option({
+      any,
+      custom,
+      intersection,
+      litterals,
+      optional,
+      partial,
+      record,
+      soa,
+      sv,
+      union,
+      array,
+      tuple,
+      primitiveObject,
+    });
+    return _transform(objectS);
+  }
+
+  return _transform(option);
 };

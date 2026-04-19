@@ -1,24 +1,24 @@
-import { ARRAY, SOA } from '../constants';
-import { type } from '../type';
+import { ARRAY, SOA } from "../constants";
+import { type } from "../type";
 
-describe('Transform: Complex scenarios', () => {
-  it('#01 => Complex nested structure with array, optional, intersection', () => {
+describe("Transform: Complex scenarios", () => {
+  it("#01 => Complex nested structure with array, optional, intersection", () => {
     const result = type(({ array, optional, intersection }) => ({
       nodes: optional(
         array(
           intersection(
             {
               position: {
-                x: 'number',
-                y: 'number',
+                x: "number",
+                y: "number",
               },
               data: {
-                label: optional('string'),
-                content: 'string',
+                label: optional("string"),
+                content: "string",
               },
-              input: 'boolean',
+              input: "boolean",
             },
-            { id: 'string' },
+            { id: "string" },
           ),
         ),
       ),
@@ -42,21 +42,21 @@ describe('Transform: Complex scenarios', () => {
     });
   });
 
-  it('#02 => Complex form schema', () => {
+  it("#02 => Complex form schema", () => {
     const result = type(({ array, optional, litterals, custom }) => ({
       fields: array({
-        name: 'string',
-        type: litterals('text', 'number', 'select', 'checkbox'),
-        required: 'boolean',
-        options: optional(array('string')),
+        name: "string",
+        type: litterals("text", "number", "select", "checkbox"),
+        required: "boolean",
+        options: optional(array("string")),
         validation: optional({
-          min: optional('number'),
-          max: optional('number'),
+          min: optional("number"),
+          max: optional("number"),
           pattern: optional(custom<RegExp>()),
         }),
       }),
-      submitUrl: 'string',
-      method: litterals('GET', 'POST', 'PUT', 'DELETE'),
+      submitUrl: "string",
+      method: litterals("GET", "POST", "PUT", "DELETE"),
     }));
 
     expect(result).toEqual({
@@ -78,46 +78,46 @@ describe('Transform: Complex scenarios', () => {
     });
   });
 
-  it('#03 => API response schema', () => {
+  it("#03 => API response schema", () => {
     const result = type(({ array, optional, union, intersection }) => ({
       data: union(
         {
-          success: 'boolean',
+          success: "boolean",
           items: array(
             intersection(
-              { id: 'string', createdAt: 'date' },
+              { id: "string", createdAt: "date" },
               {
-                name: 'string',
+                name: "string",
                 metadata: optional({
-                  tags: optional(array('string')),
-                  priority: 'number',
+                  tags: optional(array("string")),
+                  priority: "number",
                 }),
               },
             ),
           ),
         },
         {
-          success: 'boolean',
-          error: { code: 'number', message: 'string' },
+          success: "boolean",
+          error: { code: "number", message: "string" },
         },
       ),
       pagination: optional({
-        page: 'number',
-        total: 'number',
-        hasMore: 'boolean',
+        page: "number",
+        total: "number",
+        hasMore: "boolean",
       }),
     }));
 
     expect(result).toEqual({
       data: {
         items: {
-          '$$app-ts => array$$': {
+          "$$app-ts => array$$": {
             createdAt: undefined,
             id: undefined,
             metadata: {
               priority: undefined,
               tags: {
-                '$$app-ts => array$$': undefined,
+                "$$app-ts => array$$": undefined,
               },
             },
             name: undefined,
@@ -133,40 +133,40 @@ describe('Transform: Complex scenarios', () => {
     });
   });
 
-  it('#04 => Nested tuples and arrays', () => {
+  it("#04 => Nested tuples and arrays", () => {
     const result = type(({ tuple, array, optional }) => ({
-      coordinates: tuple('number', 'number', 'number'),
-      path: array(tuple('number', 'number')),
-      bounds: optional(tuple({ min: 'number' }, { max: 'number' })),
+      coordinates: tuple("number", "number", "number"),
+      path: array(tuple("number", "number")),
+      bounds: optional(tuple({ min: "number" }, { max: "number" })),
     }));
 
     expect(result).toEqual({
       bounds: [{ min: undefined }, { max: undefined }],
       coordinates: [undefined, undefined, undefined],
       path: {
-        '$$app-ts => array$$': [undefined, undefined],
+        "$$app-ts => array$$": [undefined, undefined],
       },
     });
   });
 
-  it('#05 => Record with complex values', () => {
+  it("#05 => Record with complex values", () => {
     const result = type(({ record, optional, array }) => ({
       users: record(
         {
           profile: {
-            firstName: 'string',
-            lastName: 'string',
-            avatar: optional('string'),
+            firstName: "string",
+            lastName: "string",
+            avatar: optional("string"),
           },
           posts: array({
-            title: 'string',
-            content: 'string',
-            published: 'boolean',
+            title: "string",
+            content: "string",
+            published: "boolean",
           }),
         },
-        'admin',
-        'editor',
-        'viewer',
+        "admin",
+        "editor",
+        "viewer",
       ),
     }));
 
@@ -188,7 +188,7 @@ describe('Transform: Complex scenarios', () => {
     });
   });
 
-  it('#06 => All helpers combined', () => {
+  it("#06 => All helpers combined", () => {
     const result = type(
       ({
         any,
@@ -204,19 +204,19 @@ describe('Transform: Complex scenarios', () => {
         tuple,
         union,
       }) => ({
-        anyValue: any('string'),
-        items: array({ id: 'string' }),
+        anyValue: any("string"),
+        items: array({ id: "string" }),
         customData: custom<{ foo: string }>(),
-        merged: intersection({ a: 'string' }, { b: 'number' }),
-        status: litterals('on', 'off'),
-        optional: optional('boolean'),
-        partialObj: partial({ x: 'number', y: 'number' }),
-        mapping: record('string', 'key1', 'key2'),
-        mapping2: record('number'),
-        single: soa('number'),
+        merged: intersection({ a: "string" }, { b: "number" }),
+        status: litterals("on", "off"),
+        optional: optional("boolean"),
+        partialObj: partial({ x: "number", y: "number" }),
+        mapping: record("string", "key1", "key2"),
+        mapping2: record("number"),
+        single: soa("number"),
         stateValue: sv,
-        coords: tuple('number', 'number'),
-        choice: union('string', 'number'),
+        coords: tuple("number", "number"),
+        choice: union("string", "number"),
       }),
     );
 
@@ -226,7 +226,7 @@ describe('Transform: Complex scenarios', () => {
       coords: [undefined, undefined],
       customData: {},
       items: {
-        '$$app-ts => array$$': {
+        "$$app-ts => array$$": {
           id: undefined,
         },
       },
@@ -247,6 +247,49 @@ describe('Transform: Complex scenarios', () => {
       single: { [SOA]: undefined },
       stateValue: {},
       status: undefined,
+    });
+  });
+
+  it("#07 => primitiveObject map combined with optional and array", () => {
+    const result = type(({ primitiveObject, optional, array }) => ({
+      config: primitiveObject({ host: "string", port: "number" }),
+      tags: optional(array("string")),
+    }));
+
+    expect(result).toEqual({
+      config: { host: undefined, port: undefined },
+      tags: { [ARRAY]: undefined },
+    });
+  });
+
+  it("#08 => primitiveObject inside array", () => {
+    const result = type(({ primitiveObject, array }) => ({
+      items: array(primitiveObject({ id: "string", value: "number" })),
+    }));
+
+    expect(result).toEqual({
+      items: { [ARRAY]: { id: undefined, value: undefined } },
+    });
+  });
+
+  it("#09 => primitiveObject inside intersection", () => {
+    const result = type(({ primitiveObject, intersection }) =>
+      intersection(
+        primitiveObject({ name: "string" }),
+        primitiveObject({ age: "number" }),
+      ),
+    );
+
+    expect(result).toEqual({ name: undefined, age: undefined });
+  });
+
+  it("#10 => primitiveObject nested map via type()", () => {
+    const result = type(({ primitiveObject }) =>
+      primitiveObject({ user: { name: "string", active: "boolean" } }),
+    );
+
+    expect(result).toEqual({
+      user: { name: undefined, active: undefined },
     });
   });
 });
