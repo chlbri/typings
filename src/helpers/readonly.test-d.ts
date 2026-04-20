@@ -1,5 +1,5 @@
 import { type } from "../type";
-import type { SoA } from "../types";
+import type { Sh, SoA } from "../types";
 import { litterals } from "./litterals";
 
 const rd1 = type(({ readonly }) =>
@@ -7,9 +7,11 @@ const rd1 = type(({ readonly }) =>
     readonly: "string",
   }),
 );
-expectTypeOf(rd1).toEqualTypeOf<{
-  readonly readonly: string;
-}>();
+expectTypeOf(rd1).toEqualTypeOf<
+  Sh<{
+    readonly readonly: string;
+  }>
+>();
 
 const rd2 = type(({ readonly, array }) => ({
   readonlyArray: readonly(array("number")),
@@ -54,31 +56,33 @@ const rd4 = type(({ readonly, optional, soa, litterals, any }) =>
     ),
   }),
 );
-expectTypeOf(rd4).toEqualTypeOf<{
-  readonly name: string;
-  readonly tags: SoA<string>;
-  readonly status: "active" | "inactive";
-  readonly metadata: {
-    createdAt: Date;
-    updatedAt: Date;
-  };
-  readonly readonlyData: {
-    readonly createdAt: Date;
-    readonly updatedAt: Date;
-    readonly tags: string | string[] | readonly string[];
-  };
-  readonly maybeReadonlyData1: {
-    createdAt: Date;
-    updatedAt: Date;
-    tags: string | string[] | readonly string[];
-  };
-  readonly maybeReadonlyData2: {
-    createdAt: Date;
-    updatedAt: Date;
-    tags: string | string[] | readonly string[];
-  };
-  readonly nickname?: string | undefined;
-}>();
+expectTypeOf(rd4).toEqualTypeOf<
+  Sh<{
+    readonly name: string;
+    readonly tags: SoA<string>;
+    readonly status: "active" | "inactive";
+    readonly metadata: {
+      createdAt: Date;
+      updatedAt: Date;
+    };
+    readonly readonlyData: {
+      readonly createdAt: Date;
+      readonly updatedAt: Date;
+      readonly tags: string | string[] | readonly string[];
+    };
+    readonly maybeReadonlyData1: {
+      createdAt: Date;
+      updatedAt: Date;
+      tags: string | string[] | readonly string[];
+    };
+    readonly maybeReadonlyData2: {
+      createdAt: Date;
+      updatedAt: Date;
+      tags: string | string[] | readonly string[];
+    };
+    readonly nickname?: string | undefined;
+  }>
+>();
 
 const rd5 = type(({ readonly, union }) =>
   union.discriminated(
@@ -94,17 +98,19 @@ const rd5 = type(({ readonly, union }) =>
   ),
 );
 expectTypeOf(rd5).toEqualTypeOf<
-  | {
-      readonly a: {
-        readonly value: string;
-      };
-      readonly b: {
+  Sh<
+    | {
+        readonly a: {
+          readonly value: string;
+        };
+        readonly b: {
+          readonly value: number;
+        };
+        readonly type: "a";
+      }
+    | {
+        readonly type: "b";
         readonly value: number;
-      };
-      readonly type: "a";
-    }
-  | {
-      readonly type: "b";
-      readonly value: number;
-    }
+      }
+  >
 >();

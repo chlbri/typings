@@ -1,5 +1,5 @@
-import type { inferT, Keys, SoA, StateValue } from "../types";
 import { type } from "../type";
+import type { inferT, Keys, Sh, SoA, StateValue } from "../types";
 
 // Complex nested structure with array, optional, intersection
 const complex1 = type(({ array, optional, intersection }) => ({
@@ -23,14 +23,24 @@ const complex1 = type(({ array, optional, intersection }) => ({
   ),
 }));
 
-expectTypeOf(complex1).toEqualTypeOf<{
-  nodes?: Array<{
-    position: { x: number; y: number };
-    data: { label?: string; content: string };
-    input: boolean;
-    id: string;
-  }>;
-}>();
+expectTypeOf(complex1).toEqualTypeOf<
+  Sh<{
+    nodes?:
+      | {
+          position: {
+            x: number;
+            y: number;
+          };
+          data: {
+            label?: string;
+            content: string;
+          };
+          input: boolean;
+          id: string;
+        }[]
+      | undefined;
+  }>
+>();
 
 // Complex form schema
 const formSchema = type(({ array, optional, union, litterals, custom }) => ({
@@ -49,21 +59,23 @@ const formSchema = type(({ array, optional, union, litterals, custom }) => ({
   method: union("string", litterals("GET", "POST", "PUT", "DELETE")),
 }));
 
-expectTypeOf(formSchema).toEqualTypeOf<{
-  fields: Array<{
-    name: string;
-    type: "text" | "number" | "select" | "checkbox";
-    required: boolean;
-    options?: string[];
-    validation?: {
-      min?: number;
-      max: number;
-      pattern?: RegExp;
-    };
-  }>;
-  submitUrl: string;
-  method: string | "GET" | "POST" | "PUT" | "DELETE";
-}>();
+expectTypeOf(formSchema).toEqualTypeOf<
+  Sh<{
+    fields: Array<{
+      name: string;
+      type: "text" | "number" | "select" | "checkbox";
+      required: boolean;
+      options?: string[];
+      validation?: {
+        min?: number;
+        max: number;
+        pattern?: RegExp;
+      };
+    }>;
+    submitUrl: string;
+    method: string | "GET" | "POST" | "PUT" | "DELETE";
+  }>
+>();
 
 // API response schema
 const apiResponse = type(({ array, optional, union, intersection }) => ({
@@ -95,30 +107,32 @@ const apiResponse = type(({ array, optional, union, intersection }) => ({
   }),
 }));
 
-expectTypeOf(apiResponse).toEqualTypeOf<{
-  data:
-    | {
-        success: boolean;
-        items: Array<{
-          id: string;
-          createdAt: Date;
-          name: string;
-          metadata?: {
-            tags?: string[];
-            priority: number;
-          };
-        }>;
-      }
-    | {
-        success: boolean;
-        error: { code: number; message: string };
-      };
-  pagination?: {
-    page: number;
-    total: number;
-    hasMore: boolean;
-  };
-}>();
+expectTypeOf(apiResponse).toEqualTypeOf<
+  Sh<{
+    data:
+      | {
+          success: boolean;
+          items: Array<{
+            id: string;
+            createdAt: Date;
+            name: string;
+            metadata?: {
+              tags?: string[];
+              priority: number;
+            };
+          }>;
+        }
+      | {
+          success: boolean;
+          error: { code: number; message: string };
+        };
+    pagination?: {
+      page: number;
+      total: number;
+      hasMore: boolean;
+    };
+  }>
+>();
 
 // Nested tuples and arrays
 const nestedTuples = type(({ tuple, array, optional }) => ({
@@ -127,11 +141,13 @@ const nestedTuples = type(({ tuple, array, optional }) => ({
   bounds: optional(tuple({ min: "number" }, { max: "number" })),
 }));
 
-expectTypeOf(nestedTuples).toEqualTypeOf<{
-  coordinates: [number, number, number];
-  path: Array<[number, number]>;
-  bounds?: [{ min: number }, { max: number }];
-}>();
+expectTypeOf(nestedTuples).toEqualTypeOf<
+  Sh<{
+    coordinates: [number, number, number];
+    path: Array<[number, number]>;
+    bounds?: [{ min: number }, { max: number }];
+  }>
+>();
 
 // Record with complex values
 const recordComplex = type(({ record, optional, array }) => ({
@@ -154,23 +170,25 @@ const recordComplex = type(({ record, optional, array }) => ({
   ),
 }));
 
-expectTypeOf(recordComplex).toEqualTypeOf<{
-  users: Record<
-    "admin" | "editor" | "viewer",
-    {
-      profile: {
-        firstName: string;
-        lastName: string;
-        avatar?: string;
-      };
-      posts: Array<{
-        title: string;
-        content: string;
-        published: boolean;
-      }>;
-    }
-  >;
-}>();
+expectTypeOf(recordComplex).toEqualTypeOf<
+  Sh<{
+    users: Record<
+      "admin" | "editor" | "viewer",
+      {
+        profile: {
+          firstName: string;
+          lastName: string;
+          avatar?: string;
+        };
+        posts: Array<{
+          title: string;
+          content: string;
+          published: boolean;
+        }>;
+      }
+    >;
+  }>
+>();
 
 // All helpers combined
 const allHelpers = type(
@@ -198,27 +216,29 @@ const allHelpers = type(
     mapping: record("string", "key1", "key2"),
     mapping2: record("number"),
     single: soa("number"),
-    stateValue: sv,
+    stateValue: sv.type,
     coords: tuple("number", "number"),
     choice: union("string", "number"),
   }),
 );
 
-expectTypeOf(allHelpers).toEqualTypeOf<{
-  anyValue: string;
-  items: Array<{ id: string }>;
-  customData: { foo: string };
-  merged: { a: string; b: number };
-  status: "on" | "off";
-  optional?: boolean;
-  partialObj: Partial<{ x: number; y: number }>;
-  mapping: Record<"key1" | "key2", string>;
-  mapping2: Record<Keys, number>;
-  single: SoA<number>;
-  stateValue: StateValue;
-  coords: [number, number];
-  choice: string | number;
-}>();
+expectTypeOf(allHelpers).toEqualTypeOf<
+  Sh<{
+    anyValue: string;
+    items: Array<{ id: string }>;
+    customData: { foo: string };
+    merged: { a: string; b: number };
+    status: "on" | "off";
+    optional?: boolean;
+    partialObj: Partial<{ x: number; y: number }>;
+    mapping: Record<"key1" | "key2", string>;
+    mapping2: Record<Keys, number>;
+    single: SoA<number>;
+    stateValue: StateValue;
+    coords: [number, number];
+    choice: string | number;
+  }>
+>();
 
 // inferT: flat primitive object schema
 type FlatPrimitiveSchema = inferT<{
@@ -226,11 +246,13 @@ type FlatPrimitiveSchema = inferT<{
   age: "number";
   active: "boolean";
 }>;
-expectTypeOf<FlatPrimitiveSchema>().toEqualTypeOf<{
-  name: string;
-  age: number;
-  active: boolean;
-}>();
+expectTypeOf<FlatPrimitiveSchema>().toEqualTypeOf<
+  Sh<{
+    name: string;
+    age: number;
+    active: boolean;
+  }>
+>();
 
 // inferT: deeply nested schema
 type DeepNestedSchema = inferT<{
@@ -239,30 +261,36 @@ type DeepNestedSchema = inferT<{
     settings: { theme: "string"; notifications: "boolean" };
   };
 }>;
-expectTypeOf<DeepNestedSchema>().toEqualTypeOf<{
-  user: {
-    profile: { firstName: string; lastName: string };
-    settings: { theme: string; notifications: boolean };
-  };
-}>();
+expectTypeOf<DeepNestedSchema>().toEqualTypeOf<
+  Sh<{
+    user: {
+      profile: { firstName: string; lastName: string };
+      settings: { theme: string; notifications: boolean };
+    };
+  }>
+>();
 
 // inferT: primitiveObject combined with optional in type()
 const typeWithPrimObj = type(({ primitiveObject, optional, array }) => ({
   config: primitiveObject({ host: "string", port: "number" }),
   tags: optional(array("string")),
 }));
-expectTypeOf(typeWithPrimObj).toEqualTypeOf<{
-  config: { host: string; port: number };
-  tags?: string[];
-}>();
+expectTypeOf(typeWithPrimObj).toEqualTypeOf<
+  Sh<{
+    config: { host: string; port: number };
+    tags?: string[];
+  }>
+>();
 
 // inferT: primitiveObject inside array in type()
 const typeWithPrimObjArray = type(({ primitiveObject, array }) => ({
   items: array(primitiveObject({ id: "string", value: "number" })),
 }));
-expectTypeOf(typeWithPrimObjArray).branded.toEqualTypeOf<{
-  items: Array<{ id: string; value: number }>;
-}>();
+expectTypeOf(typeWithPrimObjArray).branded.toEqualTypeOf<
+  Sh<{
+    items: Array<{ id: string; value: number }>;
+  }>
+>();
 
 // inferT: primitiveObject inside intersection in type()
 const typeWithPrimObjIntersection = type(({ primitiveObject, intersection }) =>
@@ -271,7 +299,9 @@ const typeWithPrimObjIntersection = type(({ primitiveObject, intersection }) =>
     primitiveObject({ age: "number" }),
   ),
 );
-expectTypeOf(typeWithPrimObjIntersection).toEqualTypeOf<{
-  name: string;
-  age: number;
-}>();
+expectTypeOf(typeWithPrimObjIntersection).toEqualTypeOf<
+  Sh<{
+    name: string;
+    age: number;
+  }>
+>();

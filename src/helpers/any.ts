@@ -1,7 +1,8 @@
+import { standardize2 } from "../standard";
 import type { NotReadonly, ObjectT } from "../types";
+import { expandFn2 } from "../utils";
 
-const any = <const T extends ObjectT = ObjectT>(value?: T) => {
-  return value as ObjectT extends NotReadonly<T> ? "any" : NotReadonly<T>;
-};
-
-export { any };
+export const any = expandFn2(<const T extends ObjectT = ObjectT>(value?: T) => {
+  type TT = ObjectT extends NotReadonly<T> ? "any" : NotReadonly<T>;
+  return standardize2<TT>(value);
+}, "any");

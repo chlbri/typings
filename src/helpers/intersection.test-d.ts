@@ -1,12 +1,15 @@
 import { type } from "../type";
+import type { Sh } from "../types";
 
 // Intersection of two objects
 const intersectionTwo = type(({ intersection }) => ({
   person: intersection({ name: "string" }, { age: "number" }),
 }));
-expectTypeOf(intersectionTwo).toEqualTypeOf<{
-  person: { name: string; age: number };
-}>();
+expectTypeOf(intersectionTwo).toEqualTypeOf<
+  Sh<{
+    person: { name: string; age: number };
+  }>
+>();
 
 // Intersection of three objects
 const intersectionThree = type(({ intersection }) => ({
@@ -16,9 +19,11 @@ const intersectionThree = type(({ intersection }) => ({
     { createdAt: "date" },
   ),
 }));
-expectTypeOf(intersectionThree).toEqualTypeOf<{
-  entity: { id: string; name: string; createdAt: Date };
-}>();
+expectTypeOf(intersectionThree).toEqualTypeOf<
+  Sh<{
+    entity: { id: string; name: string; createdAt: Date };
+  }>
+>();
 
 // Intersection with nested properties
 const intersectionNested = type(({ intersection }) => ({
@@ -27,12 +32,14 @@ const intersectionNested = type(({ intersection }) => ({
     { meta: { timestamp: "number" } },
   ),
 }));
-expectTypeOf(intersectionNested).toEqualTypeOf<{
-  data: {
-    user: { name: string };
-    meta: { timestamp: number };
-  };
-}>();
+expectTypeOf(intersectionNested).toEqualTypeOf<
+  Sh<{
+    data: {
+      user: { name: string };
+      meta: { timestamp: number };
+    };
+  }>
+>();
 
 // Intersection of four objects
 const intersectionFour = type(({ intersection }) => ({
@@ -43,11 +50,13 @@ const intersectionFour = type(({ intersection }) => ({
     { d: "date" },
   ),
 }));
-expectTypeOf(intersectionFour).toEqualTypeOf<{
-  full: { a: string; b: number; c: boolean; d: Date };
-}>();
+expectTypeOf(intersectionFour).toEqualTypeOf<
+  Sh<{
+    full: { a: string; b: number; c: boolean; d: Date };
+  }>
+>();
 
-// Complex intersection with arrays
+// Complex intersection with arrays and any
 const intersectionComplex = type(({ any, intersection, array }) => ({
   item: any(
     intersection(
@@ -56,12 +65,13 @@ const intersectionComplex = type(({ any, intersection, array }) => ({
     ),
   ),
 }));
-
-expectTypeOf(intersectionComplex).toEqualTypeOf<{
-  item: {
-    id: string;
-    tags: string[];
-    createdAt: Date;
-    active: boolean;
-  };
-}>();
+expectTypeOf(intersectionComplex).toEqualTypeOf<
+  Sh<{
+    item: {
+      id: string;
+      tags: string[];
+      createdAt: Date;
+      active: boolean;
+    };
+  }>
+>();

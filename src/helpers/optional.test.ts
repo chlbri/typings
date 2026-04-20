@@ -1,50 +1,76 @@
-import { ARRAY } from '../constants';
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper optional', () => {
-  it('#01 => should transform optional string', () => {
+describe("Helper: optional", () => {
+  describe("#01 => optional string", () => {
     const result = type(({ optional }) => ({
-      nickname: optional('string'),
+      nickname: optional("string"),
     }));
-    expect(result).toEqual({ nickname: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ nickname: "string" }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { nickname: "string" },
+      }));
   });
 
-  it('#02 => should transform optional object', () => {
+  describe("#02 => optional object", () => {
     const result = type(({ optional }) => ({
-      address: optional({ city: 'string', zip: 'number' }),
+      address: optional({ city: "string", zip: "number" }),
     }));
-    expect(result).toEqual({
-      address: { city: undefined, zip: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        address: { city: "string", zip: "number" },
+      }));
   });
 
-  it('#03 => should transform optional array', () => {
+  describe("#03 => optional array", () => {
     const result = type(({ optional, array }) => ({
-      items: optional(array('string')),
+      items: optional(array("string")),
     }));
-    expect(result).toEqual({ items: { [ARRAY]: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ items: ["string"] }));
   });
 
-  it('#04 => should transform optional number', () => {
+  describe("#04 => optional number", () => {
     const result = type(({ optional }) => ({
-      count: optional('number'),
+      count: optional("number"),
     }));
-    expect(result).toEqual({ count: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ count: "number" }));
   });
 
-  it('#05 => should transform optional boolean', () => {
+  describe("#05 => optional boolean", () => {
     const result = type(({ optional }) => ({
-      active: optional('boolean'),
+      active: optional("boolean"),
     }));
-    expect(result).toEqual({ active: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ active: "boolean" }));
   });
 
-  it('#06 => should transform nested optional', () => {
+  describe("#06 => nested optional", () => {
     const result = type(({ optional }) => ({
-      data: optional({
-        inner: optional('string'),
-      }),
+      data: optional({ inner: optional("string") }),
     }));
-    expect(result).toEqual({ data: { inner: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ data: { inner: "string" } }));
+  });
+
+  describe("#07 => optional at root", () => {
+    const result = type(({ optional }) => optional("string"));
+
+    test("#01 => value is string", () => expect(result.value).toBe("string"));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 });

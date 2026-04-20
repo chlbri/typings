@@ -127,7 +127,7 @@ Migration guide:
 #### Documentation
 
 ```
-docs: update valibot integration guide
+docs: update libs integration guide
 
 Ajout de documentation complète pour l'intégration de Valibot
 avec exemples de schémas et patterns de validation.
@@ -258,8 +258,8 @@ feat: add 15 new features and fix 10 bugs
 
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Extension VS Code](https://marketplace.visualstudio.com/items?itemName=adam-bender.commit-message-editor)
-- [Configuration projet](vsix.commit-message-editor.json)
-- [Documentation complète](commit-message-editor.md)
+- [Configuration projet](../vsix.commit-message-editor.json)
+- [Documentation complète](../commit-message-editor.md)
 
 ## Contexte : Gestion améliorée de l'état des dépendances
 

@@ -1,40 +1,38 @@
+import { standardize2 } from "../standard";
 import type { Custom, PrimitiveT } from "../types";
-import { expandFn } from "../utils/expandFn";
+import { _const } from "../utils";
+import { expandFn2 } from "../utils/expandFn";
 
-export const primitive = expandFn(
-  <const T extends PrimitiveT>(value?: T) => value as T,
+export const primitive = expandFn2(
+  <const T extends PrimitiveT>(value?: T) => standardize2<T>(value),
+  _const<PrimitiveT>(),
   {
-    boolean: <const T extends boolean>(value?: T) => {
+    boolean: expandFn2(<const T extends boolean>(value?: T) => {
       type TT = boolean extends T ? "boolean" : Custom<T>;
-      return value as unknown as TT;
-    },
+      return standardize2<TT>(value);
+    }, "boolean"),
 
-    string: <const T extends string = string>(value?: T) => {
+    string: expandFn2(<const T extends string = string>(value?: T) => {
       type TT = string extends T ? "string" : Custom<T>;
-      return value as unknown as TT;
-    },
+      return standardize2<TT>(value);
+    }, "string"),
 
-    number: <const T extends number = number>(value?: T) => {
+    number: expandFn2(<const T extends number = number>(value?: T) => {
       type TT = number extends T ? "number" : Custom<T>;
-      return value as unknown as TT;
-    },
+      return standardize2<TT>(value);
+    }, "number"),
 
-    bigint: <const T extends bigint = bigint>(value?: T) => {
+    bigint: expandFn2(<const T extends bigint = bigint>(value?: T) => {
       type TT = bigint extends T ? "bigint" : Custom<T>;
-      return value as unknown as TT;
-    },
+      return standardize2<TT>(value);
+    }, "bigint"),
 
-    symbol: <const T extends symbol = symbol>(value?: T) => {
+    symbol: expandFn2(<const T extends symbol = symbol>(value?: T) => {
       type TT = symbol extends T ? "symbol" : Custom<T>;
-      return value as unknown as TT;
-    },
+      return standardize2<TT>(value);
+    }, "symbol"),
 
-    never: (): Custom<never> => {
-      return undefined as any;
-    },
-
-    undefined: (): Custom<undefined> => {
-      return undefined as any;
-    },
+    never: standardize2<Custom<never>>(),
+    undefined: standardize2<Custom<undefined>>(),
   },
 );

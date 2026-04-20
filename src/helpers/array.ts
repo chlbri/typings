@@ -1,10 +1,7 @@
-import { ARRAY } from "../constants";
+import { standardize2 } from "../standard";
 import type { ArrayCustom, ObjectT } from "../types";
+import { _const, expandFn2 } from "../utils";
 
-const array = <T extends ObjectT>(value: T) => {
-  type Out = ArrayCustom<T>;
-
-  return { [ARRAY]: value } as Out;
-};
-
-export { array };
+export const array = expandFn2(<T extends ObjectT>(value: T) => {
+  return standardize2<ArrayCustom<T>>([value]);
+}, _const<ArrayCustom>());

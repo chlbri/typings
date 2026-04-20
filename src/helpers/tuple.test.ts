@@ -1,45 +1,68 @@
-import { tuple as _tuple } from '.';
-import { type } from '../type';
+import { tuple as _tuple } from ".";
+import { type } from "../type";
 
-describe('Transform: Helper tuple', () => {
-  it('#01 => should correctly create tuple', () => {
-    expect(_tuple('string', 'boolean')).toEqual(['string', 'boolean']);
+describe("Helper: tuple", () => {
+  describe("#00 => direct call", () => {
+    test('#01 => tuple("string", "boolean") returns array', () =>
+      expect(_tuple("string", "boolean")).toEqual(["string", "boolean"]));
   });
 
-  it('#02 => should transform tuple of primitives', () => {
+  describe("#01 => tuple of two numbers", () => {
     const result = type(({ tuple }) => ({
-      coordinates: tuple('number', 'number'),
+      coordinates: tuple("number", "number"),
     }));
-    expect(result).toEqual({ coordinates: [undefined, undefined] });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ coordinates: ["number", "number"] }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { coordinates: ["number", "number"] },
+      }));
   });
 
-  it('#03 => should transform tuple with mixed types', () => {
+  describe("#02 => tuple with mixed types", () => {
     const result = type(({ tuple }) => ({
-      pair: tuple('string', 'number', 'boolean'),
+      pair: tuple("string", "number", "boolean"),
     }));
-    expect(result).toEqual({ pair: [undefined, undefined, undefined] });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        pair: ["string", "number", "boolean"],
+      }));
   });
 
-  it('#04 => should transform tuple with objects', () => {
+  describe("#03 => tuple with objects", () => {
     const result = type(({ tuple }) => ({
-      data: tuple({ name: 'string' }, { age: 'number' }),
+      data: tuple({ name: "string" }, { age: "number" }),
     }));
-    expect(result).toEqual({
-      data: [{ name: undefined }, { age: undefined }],
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        data: [{ name: "string" }, { age: "number" }],
+      }));
   });
 
-  it('#05 => should transform tuple with three numbers', () => {
+  describe("#04 => tuple with three numbers (RGB)", () => {
     const result = type(({ tuple }) => ({
-      rgb: tuple('number', 'number', 'number'),
+      rgb: tuple("number", "number", "number"),
     }));
-    expect(result).toEqual({ rgb: [undefined, undefined, undefined] });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        rgb: ["number", "number", "number"],
+      }));
   });
 
-  it('#06 => should transform tuple with string and number', () => {
+  describe("#05 => tuple with string and number", () => {
     const result = type(({ tuple }) => ({
-      entry: tuple('string', 'number'),
+      entry: tuple("string", "number"),
     }));
-    expect(result).toEqual({ entry: [undefined, undefined] });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ entry: ["string", "number"] }));
   });
 });

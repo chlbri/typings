@@ -1,41 +1,67 @@
-import { SOA } from '../constants';
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper soa (SingleOrArray)', () => {
-  it('#01 => should handle soa with string', () => {
+describe("Helper: soa (SingleOrArray)", () => {
+  describe("#01 => soa with string", () => {
     const result = type(({ soa }) => ({
-      value: soa('string'),
+      value: soa("string"),
     }));
-    expect(result).toEqual({ value: { [SOA]: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ value: "string" }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { value: "string" },
+      }));
   });
 
-  it('#02 => should handle soa with object', () => {
+  describe("#02 => soa with object", () => {
     const result = type(({ soa }) => ({
-      item: soa({ name: 'string' }),
+      item: soa({ name: "string" }),
     }));
-    expect(result).toEqual({ item: { [SOA]: { name: undefined } } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ item: { name: "string" } }));
   });
 
-  it('#03 => should handle soa with number', () => {
+  describe("#03 => soa with number", () => {
     const result = type(({ soa }) => ({
-      count: soa('number'),
+      count: soa("number"),
     }));
-    expect(result).toEqual({ count: { [SOA]: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ count: "number" }));
   });
 
-  it('#04 => should handle soa with boolean', () => {
+  describe("#04 => soa with boolean", () => {
     const result = type(({ soa }) => ({
-      flag: soa('boolean'),
+      flag: soa("boolean"),
     }));
-    expect(result).toEqual({ flag: { [SOA]: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ flag: "boolean" }));
   });
 
-  it('#05 => should handle soa with complex object', () => {
+  describe("#05 => soa with complex object", () => {
     const result = type(({ soa }) => ({
-      user: soa({ id: 'string', name: 'string', age: 'number' }),
+      user: soa({ id: "string", name: "string", age: "number" }),
     }));
-    expect(result).toEqual({
-      user: { [SOA]: { id: undefined, name: undefined, age: undefined } },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        user: { id: "string", name: "string", age: "number" },
+      }));
+  });
+
+  describe("#06 => soa without argument", () => {
+    const result = type(({ soa }) => ({
+      data: soa(),
+    }));
+
+    test("#01 => value.data is undefined", () =>
+      expect(result.value.data).toBeUndefined());
   });
 });

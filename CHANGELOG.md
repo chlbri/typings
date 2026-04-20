@@ -5,6 +5,34 @@
 <details>
 <summary>
 
+## **[0.4.0] - 20/04/2026** => _11:17_
+
+</summary>
+
+- Add `object` helper for object schema definitions
+  (`src/helpers/object.ts`)
+- Add Standard Schema support with `StandardSchemaV1` interface
+  (`src/standard.types.ts`)
+- Add `standardize` and `standardize2` functions for Standard Schema
+  compatibility (`src/standard.ts`)
+- Add comprehensive test coverage for `object` helper with type utilities
+- Add type test files for `type()` function and standard schema validation
+- Refactor helpers for improved type safety and readability (all helpers in
+  `src/helpers/`)
+- Refactor internal type system infrastructure for better standardization
+  support
+- Update rolldown configuration to ignore additional file patterns
+- Add utilities module with helper functions (`src/utils/index.ts`)
+- Enhance readonly helper with comprehensive test coverage
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.2.2] - 19/04/2026** => _17:28_
 
 </summary>

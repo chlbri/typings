@@ -1,36 +1,57 @@
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper custom', () => {
-  it('#01 => should handle custom type', () => {
+describe("Helper: custom", () => {
+  describe("#01 => custom with no argument", () => {
     const result = type(({ custom }) => ({
       value: custom<number>(),
     }));
-    expect(result).toEqual({ value: {} });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 
-  it('#02 => should handle custom type with value', () => {
+  describe("#02 => custom with string value", () => {
     const result = type(({ custom }) => ({
-      value: custom('test'),
+      value: custom("test"),
     }));
-    expect(result).toEqual({ value: {} });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ value: "test" }));
+
+    test("#02 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { value: "test" },
+      }));
   });
 
-  it('#03 => should return empty object for custom only', () => {
+  describe("#03 => custom as root", () => {
     const result = type(({ custom }) => custom<string>());
-    expect(result).toEqual({});
+
+    test("#01 => value is undefined", () =>
+      expect(result.value).toBeUndefined());
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 
-  it('#04 => should handle custom with complex type', () => {
+  describe("#04 => custom with RegExp type", () => {
     const result = type(({ custom }) => ({
       regex: custom<RegExp>(),
     }));
-    expect(result).toEqual({ regex: {} });
+
+    test("#01 => value.regex is undefined", () =>
+      expect(result.value.regex).toBeUndefined());
   });
 
-  it('#05 => should handle custom with array type', () => {
+  describe("#05 => custom with array type", () => {
     const result = type(({ custom }) => ({
       items: custom<string[]>(),
     }));
-    expect(result).toEqual({ items: {} });
+
+    test("#01 => value.items is undefined", () =>
+      expect(result.value.items).toBeUndefined());
   });
 });

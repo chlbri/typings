@@ -4,6 +4,7 @@ import type {
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
+  StandardHelper,
 } from "../types";
 import { primitiveObject } from "./primitiveObject";
 
@@ -43,18 +44,24 @@ expectTypeOf(mapResult).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // inferT: flat map transformation
 type FlatMapT = inferT<{ name: "string"; age: "number" }>;
-expectTypeOf<FlatMapT>().toEqualTypeOf<{ name: string; age: number }>();
+expectTypeOf<FlatMapT>().toEqualTypeOf<
+  StandardHelper<{ name: string; age: number }>
+>();
 
 // inferT: nested map transformation
 type NestedMapT = inferT<{ user: { name: "string"; active: "boolean" } }>;
-expectTypeOf<NestedMapT>().toEqualTypeOf<{
-  user: { name: string; active: boolean };
-}>();
+expectTypeOf<NestedMapT>().toEqualTypeOf<
+  StandardHelper<{
+    user: { name: string; active: boolean };
+  }>
+>();
 
 // inferT: from primitiveObject schema variable
 const schemaVar = primitiveObject({ id: "string", score: "number" });
 type SchemaVarT = inferT<typeof schemaVar>;
-expectTypeOf<SchemaVarT>().toEqualTypeOf<{ id: string; score: number }>();
+expectTypeOf<SchemaVarT>().toEqualTypeOf<
+  StandardHelper<{ id: string; score: number }>
+>();
 
 // inferT: multi-field primitive schema variable
 const multiFieldSchema = primitiveObject({
@@ -63,50 +70,58 @@ const multiFieldSchema = primitiveObject({
   active: "boolean",
 });
 type MultiFieldT = inferT<typeof multiFieldSchema>;
-expectTypeOf<MultiFieldT>().toEqualTypeOf<{
-  name: string;
-  age: number;
-  active: boolean;
-}>();
+expectTypeOf<MultiFieldT>().toEqualTypeOf<
+  StandardHelper<{
+    name: string;
+    age: number;
+    active: boolean;
+  }>
+>();
 
 // type() with primitiveObject: flat map
 const typeWithFlatMap = type(({ primitiveObject }) =>
   primitiveObject({ name: "string", age: "number" }),
 );
-expectTypeOf(typeWithFlatMap).toEqualTypeOf<{
-  name: string;
-  age: number;
-}>();
+expectTypeOf(typeWithFlatMap).toEqualTypeOf<
+  StandardHelper<{
+    name: string;
+    age: number;
+  }>
+>();
 
 // type() with primitiveObject: primitive string
 const typeWithPrimitiveString = type(({ primitiveObject }) =>
   primitiveObject("string"),
 );
-expectTypeOf(typeWithPrimitiveString).toEqualTypeOf<string>();
+expectTypeOf(typeWithPrimitiveString).toEqualTypeOf<StandardHelper<string>>();
 
 // type() with primitiveObject: primitive number
 const typeWithPrimitiveNumber = type(({ primitiveObject }) =>
   primitiveObject("number"),
 );
-expectTypeOf(typeWithPrimitiveNumber).toEqualTypeOf<number>();
+expectTypeOf(typeWithPrimitiveNumber).toEqualTypeOf<StandardHelper<number>>();
 
 // type() with primitiveObject: nested map
 const typeWithNested = type(({ primitiveObject }) =>
   primitiveObject({ user: { name: "string", active: "boolean" } }),
 );
-expectTypeOf(typeWithNested).toEqualTypeOf<{
-  user: {
-    name: string;
-    active: boolean;
-  };
-}>();
+expectTypeOf(typeWithNested).toEqualTypeOf<
+  StandardHelper<{
+    user: {
+      name: string;
+      active: boolean;
+    };
+  }>
+>();
 
 // type() with primitiveObject: combined with other helpers
 const typeWithCombined = type(({ primitiveObject, optional }) => ({
   schema: primitiveObject({ name: "string", age: "number" }),
   label: optional("string"),
 }));
-expectTypeOf(typeWithCombined).toEqualTypeOf<{
-  schema: { name: string; age: number };
-  label?: string;
-}>();
+expectTypeOf(typeWithCombined).toEqualTypeOf<
+  StandardHelper<{
+    schema: { name: string; age: number };
+    label?: string;
+  }>
+>();

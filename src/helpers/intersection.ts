@@ -1,18 +1,10 @@
+import { standardize2 } from "../standard";
 import type { IntersectionCustom, NotReadonly, ObjectMapS } from "../types";
 
-const intersection = <
+export const intersection = <
   const T extends [ObjectMapS, ObjectMapS, ...ObjectMapS[]],
 >(
   ...values: T
 ) => {
-  const out = values.reduce((acc, curr) => {
-    Object.entries(curr).forEach(([key, value]) => {
-      acc[key] = value;
-    });
-    return acc;
-  }, {} as any);
-
-  return out as IntersectionCustom<NotReadonly<T>>;
+  return standardize2<IntersectionCustom<NotReadonly<T>>>(values);
 };
-
-export { intersection };

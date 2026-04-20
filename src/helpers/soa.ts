@@ -1,8 +1,7 @@
-import { SOA } from "../constants";
+import { standardize2 } from "../standard";
 import type { NotReadonly, ObjectT, SoaCustom } from "../types";
 
-const soa = <const T extends ObjectT>(value: T) => {
-  return { [SOA]: value } as SoaCustom<NotReadonly<T>>;
+export const soa = <const T extends ObjectT>(value?: T) => {
+  type TT = ObjectT extends NotReadonly<T> ? "any" : SoaCustom<NotReadonly<T>>;
+  return standardize2<TT>(value);
 };
-
-export { soa };

@@ -13,3 +13,4 @@ export * from "./soa";
 export * from "./sv";
 export * from "./tuple";
 export * from "./union";
+export * from "./object";

@@ -1,82 +1,137 @@
 import { type } from "../type";
 
 describe("Helper: primitive", () => {
-  it("#00 => primitive()", () => {
+  describe("#00 => primitive()", () => {
     const result = type(({ primitive }) => primitive());
-    expect(result).toBeUndefined();
+
+    test("#01 => value is undefined", () =>
+      expect(result.value).toBeUndefined());
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() returns undefined value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: undefined,
+      }));
   });
-  it("#01 => primitive.string()", () => {
+
+  describe("#01 => primitive.string()", () => {
     const result = type(({ primitive }) => ({
       value: primitive.string(),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 
-  it('#02 => primitive.string("hello")', () => {
+  describe('#02 => primitive.string("hello")', () => {
     const result = type(({ primitive }) => ({
       value: primitive.string("hello"),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ value: "hello" }));
+
+    test("#02 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { value: "hello" },
+      }));
   });
 
-  it("#03 => primitive.number()", () => {
+  describe("#03 => primitive.number()", () => {
     const result = type(({ primitive }) => ({
       value: primitive.number(),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
   });
 
-  it("#04 => primitive.number(42)", () => {
+  describe("#04 => primitive.number(42)", () => {
     const result = type(({ primitive }) => ({
       value: primitive.number(42),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ value: 42 }));
   });
 
-  it("#05 => primitive.boolean()", () => {
+  describe("#05 => primitive.boolean()", () => {
     const result = type(({ primitive }) => ({
       value: primitive.boolean(),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
   });
 
-  it("#06 => primitive.boolean(true)", () => {
+  describe("#06 => primitive.boolean(true)", () => {
     const result = type(({ primitive }) => ({
       flag: primitive.boolean(true),
     }));
-    expect(result).toEqual({ flag: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ flag: true }));
   });
 
-  it("#07 => primitive.symbol()", () => {
+  describe("#07 => primitive.symbol()", () => {
     const result = type(({ primitive }) => ({
       value: primitive.symbol(),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
   });
 
-  it("#08 => primitive.symbol(Symbol.iterator)", () => {
+  describe("#08 => primitive.symbol(Symbol.iterator)", () => {
     const result = type(({ primitive }) => ({
       key: primitive.symbol(Symbol.iterator),
     }));
-    expect(result).toEqual({ key: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ key: Symbol.iterator }));
   });
 
-  it("#09 => primitive.never()", () => {
-    const result = type(({ primitive }) => ({ value: primitive.never() }));
-    expect(result).toEqual({ value: undefined });
-  });
-
-  it("#10 => primitive.undefined()", () => {
+  describe("#09 => primitive.never", () => {
     const result = type(({ primitive }) => ({
-      value: primitive.undefined(),
+      value: primitive.never,
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
   });
 
-  it("#11 => primitive.bigint()", () => {
+  describe("#10 => primitive.undefined", () => {
+    const result = type(({ primitive }) => ({
+      value: primitive.undefined,
+    }));
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
+  });
+
+  describe("#11 => primitive.bigint()", () => {
     const result = type(({ primitive }) => ({
       value: primitive.bigint(),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
+  });
+
+  describe("#12 => primitive in readonly object", () => {
+    const result = type(({ primitive, readonly }) =>
+      readonly({ value: primitive() }),
+    );
+
+    test("#01 => value.value is undefined", () =>
+      expect(result.value.value).toBeUndefined());
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 });

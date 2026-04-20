@@ -1,7 +1,6 @@
-import { CUSTOM, OPTIONAL, PARTIAL } from "./constants";
-import { readonly } from "./helpers/readonly";
 import type { Transform_F } from "./type.types";
-import type { inferT, ObjectT, TransformTypes, Types } from "./types";
+import type { inferT, ObjectT } from "./types";
+import { standardize } from "./standard";
 
 import {
   any,
@@ -9,10 +8,12 @@ import {
   custom,
   intersection,
   litterals,
+  object,
   optional,
   partial,
   primitive,
   primitiveObject,
+  readonly,
   record,
   soa,
   sv,
@@ -20,44 +21,17 @@ import {
   union,
 } from "./helpers";
 
-const transformTypes = <T extends Types>(_: T): TransformTypes<T> => {
-  return undefined as any;
-};
-
 const _transform = <T extends ObjectT>(obj: T): inferT<T> => {
   const _obj = obj as any;
-
-  const checkArray = Array.isArray(obj);
-  if (checkArray) {
-    return obj.map(_transform as any) as any;
-  }
-
-  const checkObject = typeof obj === "object";
-  if (checkObject) {
-    if (OPTIONAL in _obj) {
-      return _transform(_obj[OPTIONAL]) as any;
-    }
-
-    const isCustom = Object.keys(obj).every((key) => key === CUSTOM);
-    const out: any = {};
-    if (isCustom) return out;
-
-    const entries = Object.entries(obj).filter(([key]) => key !== PARTIAL);
-
-    entries.forEach(([key, value]) => {
-      out[key] = _transform(value);
-    });
-
-    return out;
-  }
-
-  return transformTypes(_obj) as any;
+  return _obj;
 };
 
 export const type: Transform_F = (option) => {
-  if (!option) return undefined as any;
+  let out: any;
 
-  if (typeof option === "function") {
+  if (!option) {
+    out = option;
+  } else if (typeof option === "function") {
     const objectS = option({
       any,
       custom,
@@ -74,10 +48,11 @@ export const type: Transform_F = (option) => {
       primitiveObject,
       primitive,
       readonly,
+      object,
     });
 
-    return _transform(objectS);
-  }
+    out = _transform(objectS);
+  } else out = _transform(option);
 
-  return _transform(option);
+  return standardize(out);
 };

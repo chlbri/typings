@@ -1,13 +1,15 @@
+import { UNION } from "../constants";
+import { standardize2 } from "../standard";
 import type { Keys, ObjectMapS, ObjectT } from "../types";
 import { expandFn } from "../utils/expandFn";
 
 const _union = <T extends [ObjectT, ObjectT, ...ObjectT[]]>(...values: T) => {
-  return values[0] as T[number];
+  return standardize2<T[number]>({ [UNION]: values });
 };
 
 type Discriminated<K extends Keys> = ObjectMapS & Record<K, ObjectT>;
 
-const union = expandFn(_union, {
+export const union = expandFn(_union, {
   discriminated: <
     const K extends Keys,
     T extends [Discriminated<K>, Discriminated<K>, ...Discriminated<K>[]],
@@ -16,5 +18,3 @@ const union = expandFn(_union, {
     ...values: T
   ) => _union(...values),
 });
-
-export { union };

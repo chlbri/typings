@@ -1,5 +1,3 @@
-import type { inferT, ObjectT } from "./types";
-
 import type {
   any,
   array,
@@ -16,7 +14,9 @@ import type {
   sv,
   tuple,
   union,
+  object,
 } from "./helpers";
+import type { ObjectT, inferT } from "./types";
 
 export type Helpers = {
   any: typeof any;
@@ -34,6 +34,7 @@ export type Helpers = {
   primitiveObject: typeof primitiveObject;
   primitive: typeof primitive;
   readonly: typeof readonly;
+  object: typeof object;
 };
 
 export type Transform_F = <T extends ObjectT = ObjectT>(

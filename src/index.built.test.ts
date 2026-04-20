@@ -1,8 +1,7 @@
+import { addTarball, cleanup, THIS1 } from "@bemedev/dev-utils/build-tests";
 import { createTests } from "@bemedev/dev-utils/vitest-extended";
 import type { array } from "./helpers/array";
 import type { type } from "./type";
-import { addTarball, cleanup, THIS1 } from "@bemedev/dev-utils/build-tests";
-import { ARRAY } from "./constants";
 
 beforeAll(addTarball);
 afterAll(cleanup);
@@ -28,23 +27,17 @@ describe("built", () => {
         {
           invite: "simple array of strings",
           parameters: "string",
-          expected: {
-            [ARRAY]: "string",
-          },
+          expected: ["string"],
         },
         {
           invite: "simple array of numbers",
           parameters: "number",
-          expected: {
-            [ARRAY]: "number",
-          },
+          expected: ["number"],
         },
         {
           invite: "complex",
           parameters: { a: "string", b: "number" },
-          expected: {
-            [ARRAY]: { a: "string", b: "number" },
-          },
+          expected: [{ a: "string", b: "number" }],
         },
       ),
     );
@@ -69,29 +62,45 @@ describe("built", () => {
         {
           invite: "unknown",
           parameters: "unknown",
-          expected: undefined,
+          expected: expect.objectContaining({ value: "unknown" }),
         },
         {
           invite: "any",
           parameters: "any",
-          expected: undefined,
+          expected: expect.objectContaining({ value: "any" }),
         },
         {
           invite: "string",
           parameters: "string",
-          expected: undefined,
+          expected: expect.objectContaining({ value: "string" }),
         },
         {
           invite: "number",
           parameters: "number",
-          expected: undefined,
+          expected: expect.objectContaining({ value: "number" }),
         },
         {
           invite: "object",
           parameters: { a: "string", b: "number" },
           expected: {
-            a: undefined,
-            b: undefined,
+            value: {
+              a: "string",
+              b: "number",
+            },
+            "~standard": expect.objectContaining({
+              types: {
+                input: {
+                  a: "string",
+                  b: "number",
+                },
+                output: {
+                  a: "string",
+                  b: "number",
+                },
+              },
+              vendor: "@bemedev/typings",
+              version: 1,
+            }),
           },
         },
       ),

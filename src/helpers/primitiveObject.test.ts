@@ -2,74 +2,99 @@ import { type } from "../type";
 import { primitiveObject } from "./primitiveObject";
 
 describe("Helper: primitiveObject", () => {
-  it("#01 => should return empty object when called with no argument", () => {
+  describe("#01 => direct call — no argument", () => {
     const result = primitiveObject();
-    expect(result).toEqual({});
+
+    test("#01 => returns undefined", () => expect(result).toBeUndefined());
   });
 
-  it("#02 => should return the value when called with a primitive string type", () => {
+  describe("#02 => direct call — string literal", () => {
     const result = primitiveObject("string");
-    expect(result).toBe("string");
+
+    test("#01 => returns the string", () => expect(result).toBe("string"));
   });
 
-  it("#03 => should return the value when called with a primitive number type", () => {
+  describe("#03 => direct call — number literal", () => {
     const result = primitiveObject("number");
-    expect(result).toBe("number");
+
+    test("#01 => returns the string", () => expect(result).toBe("number"));
   });
 
-  it("#04 => should return the value when called with a PrimitiveObjectMapS", () => {
+  describe("#04 => direct call — map", () => {
     const result = primitiveObject({ name: "string", age: "number" });
-    expect(result).toEqual({ name: "string", age: "number" });
+
+    test("#01 => returns the map", () =>
+      expect(result).toEqual({ name: "string", age: "number" }));
   });
 
-  it("#05 => should return the value when called with a nested PrimitiveObjectMapS", () => {
+  describe("#05 => direct call — nested map", () => {
     const result = primitiveObject({
       user: { name: "string", active: "boolean" },
     });
-    expect(result).toEqual({
-      user: { name: "string", active: "boolean" },
-    });
+
+    test("#01 => returns the nested map", () =>
+      expect(result).toEqual({
+        user: { name: "string", active: "boolean" },
+      }));
   });
 
-  it("#06 => should return empty object from map()", () => {
+  describe("#06 => .map() — no argument", () => {
     const result = primitiveObject.map();
-    expect(result).toEqual({});
+
+    test("#01 => returns undefined", () => expect(result).toBeUndefined());
   });
 
-  it("#07 => should transform primitiveObject map via type()", () => {
+  describe("#07 => via type() — map", () => {
     const result = type(({ primitiveObject }) =>
       primitiveObject({ name: "string", age: "number" }),
     );
-    expect(result).toEqual({ name: undefined, age: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ name: "string", age: "number" }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { name: "string", age: "number" },
+      }));
   });
 
-  it("#08 => should transform primitiveObject primitive string via type()", () => {
+  describe("#08 => via type() — string literal", () => {
     const result = type(({ primitiveObject }) => primitiveObject("string"));
-    expect(result).toBeUndefined();
+
+    test("#01 => value is string", () => expect(result.value).toBe("string"));
   });
 
-  it("#09 => should transform primitiveObject primitive number via type()", () => {
+  describe("#09 => via type() — number literal", () => {
     const result = type(({ primitiveObject }) => primitiveObject("number"));
-    expect(result).toBeUndefined();
+
+    test("#01 => value is number string", () =>
+      expect(result.value).toBe("number"));
   });
 
-  it("#10 => should transform primitiveObject nested map via type()", () => {
+  describe("#10 => via type() — nested map", () => {
     const result = type(({ primitiveObject }) =>
       primitiveObject({ user: { name: "string", active: "boolean" } }),
     );
-    expect(result).toEqual({
-      user: { name: undefined, active: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        user: { name: "string", active: "boolean" },
+      }));
   });
 
-  it("#11 => should transform primitiveObject combined with other helpers via type()", () => {
+  describe("#11 => via type() — combined with optional", () => {
     const result = type(({ primitiveObject, optional }) => ({
       schema: primitiveObject({ name: "string", age: "number" }),
       label: optional("string"),
     }));
-    expect(result).toEqual({
-      schema: { name: undefined, age: undefined },
-      label: undefined,
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        schema: { name: "string", age: "number" },
+        label: "string",
+      }));
   });
 });

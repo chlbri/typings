@@ -1,54 +1,72 @@
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper intersection', () => {
-  it('#01 => should merge two objects', () => {
+describe("Helper: intersection", () => {
+  describe("#01 => merge two objects", () => {
     const result = type(({ intersection }) => ({
-      person: intersection({ name: 'string' }, { age: 'number' }),
+      person: intersection({ name: "string" }, { age: "number" }),
     }));
-    expect(result).toEqual({
-      person: { name: undefined, age: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        person: [{ name: "string" }, { age: "number" }],
+      }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { person: [{ name: "string" }, { age: "number" }] },
+      }));
   });
 
-  it('#02 => should merge multiple objects', () => {
+  describe("#02 => merge three objects", () => {
     const result = type(({ intersection }) => ({
       entity: intersection(
-        { id: 'string' },
-        { name: 'string' },
-        { createdAt: 'date' },
+        { id: "string" },
+        { name: "string" },
+        { createdAt: "date" },
       ),
     }));
-    expect(result).toEqual({
-      entity: { id: undefined, name: undefined, createdAt: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        entity: [{ id: "string" }, { name: "string" }, { createdAt: "date" }],
+      }));
   });
 
-  it('#03 => should merge objects with nested properties', () => {
+  describe("#03 => merge objects with nested properties", () => {
     const result = type(({ intersection }) => ({
       data: intersection(
-        { user: { name: 'string' } },
-        { meta: { timestamp: 'number' } },
+        { user: { name: "string" } },
+        { meta: { timestamp: "number" } },
       ),
     }));
-    expect(result).toEqual({
-      data: {
-        user: { name: undefined },
-        meta: { timestamp: undefined },
-      },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        data: [{ user: { name: "string" } }, { meta: { timestamp: "number" } }],
+      }));
   });
 
-  it('#04 => should merge four objects', () => {
+  describe("#04 => merge four objects", () => {
     const result = type(({ intersection }) => ({
       full: intersection(
-        { a: 'string' },
-        { b: 'number' },
-        { c: 'boolean' },
-        { d: 'date' },
+        { a: "string" },
+        { b: "number" },
+        { c: "boolean" },
+        { d: "date" },
       ),
     }));
-    expect(result).toEqual({
-      full: { a: undefined, b: undefined, c: undefined, d: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        full: [
+          { a: "string" },
+          { b: "number" },
+          { c: "boolean" },
+          { d: "date" },
+        ],
+      }));
   });
 });

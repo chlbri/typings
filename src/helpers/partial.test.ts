@@ -1,38 +1,64 @@
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper partial', () => {
-  it('#01 => should handle partial object', () => {
+describe("Helper: partial", () => {
+  describe("#01 => partial object", () => {
     const result = type(({ partial }) => ({
-      user: partial({ name: 'string', age: 'number' }),
+      user: partial({ name: "string", age: "number" }),
     }));
-    expect(result).toEqual({
-      user: { name: undefined, age: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        user: { name: "string", age: "number" },
+      }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { user: { name: "string", age: "number" } },
+      }));
   });
 
-  it('#02 => should handle partial with single property', () => {
+  describe("#02 => partial with single property", () => {
     const result = type(({ partial }) => ({
-      config: partial({ enabled: 'boolean' }),
+      config: partial({ enabled: "boolean" }),
     }));
-    expect(result).toEqual({
-      config: { enabled: undefined },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        config: { enabled: "boolean" },
+      }));
   });
 
-  it('#03 => should handle partial with multiple properties', () => {
+  describe("#03 => partial with multiple properties", () => {
     const result = type(({ partial }) => ({
       settings: partial({
-        theme: 'string',
-        fontSize: 'number',
-        darkMode: 'boolean',
+        theme: "string",
+        fontSize: "number",
+        darkMode: "boolean",
       }),
     }));
-    expect(result).toEqual({
-      settings: {
-        theme: undefined,
-        fontSize: undefined,
-        darkMode: undefined,
-      },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        settings: {
+          theme: "string",
+          fontSize: "number",
+          darkMode: "boolean",
+        },
+      }));
+  });
+
+  describe("#04 => partial at root", () => {
+    const result = type(({ partial }) =>
+      partial({ id: "string", name: "string" }),
+    );
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ id: "string", name: "string" }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
   });
 });

@@ -1,50 +1,55 @@
-import { type } from '../type';
+import { type } from "../type";
+import type { Sh } from "../types";
 
 // Array of strings
 const arrayString = type(({ array }) => ({
-  tags: array('string'),
+  tags: array("string"),
 }));
-expectTypeOf(arrayString).toEqualTypeOf<{ tags: string[] }>();
+expectTypeOf(arrayString).toEqualTypeOf<Sh<{ tags: string[] }>>();
 
 // Array of numbers
 const arrayNumber = type(({ array }) => ({
-  scores: array('number'),
+  scores: array("number"),
 }));
-expectTypeOf(arrayNumber).toEqualTypeOf<{ scores: number[] }>();
+expectTypeOf(arrayNumber).toEqualTypeOf<Sh<{ scores: number[] }>>();
 
 // Array of booleans
 const arrayBoolean = type(({ array }) => ({
-  flags: array('boolean'),
+  flags: array("boolean"),
 }));
-expectTypeOf(arrayBoolean).toEqualTypeOf<{ flags: boolean[] }>();
+expectTypeOf(arrayBoolean).toEqualTypeOf<Sh<{ flags: boolean[] }>>();
 
 // Array of objects
 const arrayObject = type(({ array }) => ({
-  users: array({ name: 'string', age: 'number' }),
+  users: array({ name: "string", age: "number" }),
 }));
-expectTypeOf(arrayObject).toEqualTypeOf<{
-  users: Array<{ name: string; age: number }>;
-}>();
+expectTypeOf(arrayObject).toEqualTypeOf<
+  Sh<{
+    users: Array<{ name: string; age: number }>;
+  }>
+>();
 
 // Nested arrays
 const nestedArray = type(({ array }) => ({
-  matrix: array(array('number')),
+  matrix: array(array("number")),
 }));
-expectTypeOf(nestedArray).toEqualTypeOf<{ matrix: number[][] }>();
+expectTypeOf(nestedArray).toEqualTypeOf<Sh<{ matrix: number[][] }>>();
 
 // Array with nested object
 const arrayNestedObject = type(({ array }) => ({
   items: array({
-    id: 'string',
+    id: "string",
     data: {
-      value: 'number',
-      label: 'string',
+      value: "number",
+      label: "string",
     },
   }),
 }));
-expectTypeOf(arrayNestedObject).toEqualTypeOf<{
-  items: Array<{
-    id: string;
-    data: { value: number; label: string };
-  }>;
-}>();
+expectTypeOf(arrayNestedObject).toEqualTypeOf<
+  Sh<{
+    items: Array<{
+      id: string;
+      data: { value: number; label: string };
+    }>;
+  }>
+>();

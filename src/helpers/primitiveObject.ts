@@ -1,32 +1,35 @@
+import { standardize2 } from "../standard";
 import type {
   IntersectionCustom,
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
 } from "../types";
-import { expandFn } from "../utils/expandFn";
+import { _const, expandFn2 } from "../utils";
 
-const primitiveObject = expandFn(
+export const primitiveObject = expandFn2(
   <
     const T extends
       | PrimitiveObjectT
       | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectT,
   >(
     value?: T,
-  ): NotReadonly<T> => {
-    return (value || {}) as any;
+  ) => {
+    return standardize2<NotReadonly<T>>(value);
   },
+  _const<PrimitiveObjectT>(),
   {
-    map: <
-      const T extends
-        | PrimitiveObjectMapS
-        | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectMapS,
-    >(
-      value?: T,
-    ): NotReadonly<T> => {
-      return (value || {}) as any;
-    },
+    map: expandFn2(
+      <
+        const T extends
+          | PrimitiveObjectMapS
+          | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectMapS,
+      >(
+        value?: T,
+      ) => {
+        return standardize2<NotReadonly<T>>(value);
+      },
+      _const<PrimitiveObjectMapS>(),
+    ),
   },
 );
-
-export { primitiveObject };

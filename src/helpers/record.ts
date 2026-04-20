@@ -1,15 +1,18 @@
+import { standardize2 } from "../standard";
 import type { Keys, ObjectT } from "../types";
+import { expandFn2 } from "../utils";
+import { object } from "./object";
 
-const record = <const K extends Keys[], V extends ObjectT>(
-  value: V,
-  ...keys: K
-) => {
-  const object = keys.reduce((acc, key) => {
-    acc[key] = value;
-    return acc;
-  }, {} as any);
+export const record = expandFn2(
+  <const K extends Keys[], V extends ObjectT>(value: V, ...keys: K) => {
+    const object = keys.reduce((acc, key) => {
+      acc[key] = value;
+      return acc;
+    }, {} as any);
 
-  return object as Record<K[number] extends never ? Keys : K[number], V>;
-};
+    type TT = Record<K[number] extends never ? Keys : K[number], V>;
 
-export { record };
+    return standardize2<TT>(object);
+  },
+  object.const,
+);

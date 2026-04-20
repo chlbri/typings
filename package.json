@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/typings",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Typings by variables",
   "author": {
     "email": "bri_lvi@icloud.com",
@@ -76,7 +76,7 @@
     "p-q": "pretty-quick",
     "rinit": "pnpm run rm && pnpm run config",
     "rinit:off": "pnpm run rm && pnpm run config:off",
-    "rimraf": "pnpx rimraf -rf",
+    "rimraf": "pnpm dlx rimraf -rf",
     "rm": "pnpm run rimraf -- node_modules pnpm-lock.yaml",
     "rm:lib": "pnpm run rimraf -- lib",
     "rolldown": "rolldown -c",

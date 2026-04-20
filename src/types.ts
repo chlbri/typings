@@ -7,6 +7,7 @@ import type {
   PRIMITIVE_OBJECTS,
   SOA,
 } from "./constants";
+import type { StandardSchemaV1 } from "./standard.types";
 
 export type Ru = Record<Keys, unknown>;
 
@@ -62,7 +63,7 @@ export type SingleOrRecursiveArrayOf<T> = T | RecursiveArrayOf<T>;
 
 export type SoRa<T> = SingleOrRecursiveArrayOf<T>;
 // #endregion
-export type Primiive =
+export type Primitive =
   | string
   | number
   | boolean
@@ -89,7 +90,7 @@ type TransformPrimitiveS<T extends PrimitiveT> = T extends "string"
               ? symbol
               : T extends "never"
                 ? never
-                : Primiive;
+                : Primitive;
 
 export type Types = PrimitiveT | (typeof PRIMITIVE_OBJECTS)[number];
 
@@ -115,7 +116,14 @@ export type PartialCustom = {
   [PARTIAL]: undefined;
 };
 
-export type __ObjectT = Types | ObjectMapS | Custom | PartialCustom;
+export type __ObjectT =
+  | Types
+  | ObjectMapS
+  | Custom
+  | PartialCustom
+  | PrimitiveObjectT;
+
+export type CanOptional = __ObjectT | ArrayCustom | AnyArray<__ObjectT>;
 
 export type Optional<
   T extends __ObjectT | ArrayCustom | AnyArray<__ObjectT> = __ObjectT,
@@ -162,7 +170,7 @@ export interface PrimitiveObjectMapS {
  *
  * @remark
  */
-export type ObjectT = SoRa<_ObjectT | PrimitiveObjectT>;
+export type ObjectT = SoRa<_ObjectT>;
 export type POS = ObjectT;
 
 // #region tuple helpers
@@ -233,7 +241,13 @@ type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
 // #endregion
 
 type TransformT<T> = Undefiny<__TransformPrimitiveObject<T>>;
+export type StandardHelper<T = any> = { value: T } & StandardSchemaV1<T, T>;
+
+export type Sh<T = any> = StandardHelper<T>;
+
 export type inferT<T extends ObjectT = ObjectT> = ObjectT extends T
-  ? unknown
-  : TransformT<T>;
+  ? Sh<unknown>
+  : Sh<TransformT<T>>;
+
+export type infer<T extends Sh> = T["value"];
 export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;

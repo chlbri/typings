@@ -1,49 +1,67 @@
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper record', () => {
-  it('#01 => should create record with string value', () => {
+describe("Helper: record", () => {
+  describe("#01 => record with string value (no keys)", () => {
     const result = type(({ record }) => ({
-      dict: record('string'),
+      dict: record("string"),
     }));
-    expect(result).toEqual({ dict: {} });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ dict: {} }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { dict: {} },
+      }));
   });
 
-  it('#02 => should create record with specific keys', () => {
+  describe("#02 => record with specific keys", () => {
     const result = type(({ record }) => ({
-      config: record('boolean', 'enabled', 'visible', 'active'),
+      config: record("boolean", "enabled", "visible", "active"),
     }));
-    expect(result).toEqual({
-      config: {
-        enabled: undefined,
-        visible: undefined,
-        active: undefined,
-      },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        config: {
+          enabled: "boolean",
+          visible: "boolean",
+          active: "boolean",
+        },
+      }));
   });
 
-  it('#03 => should create record with object value', () => {
+  describe("#03 => record with object value and keys", () => {
     const result = type(({ record }) => ({
-      users: record({ name: 'string', age: 'number' }, 'user1', 'user2'),
+      users: record({ name: "string", age: "number" }, "user1", "user2"),
     }));
-    expect(result).toEqual({
-      users: {
-        user1: { name: undefined, age: undefined },
-        user2: { name: undefined, age: undefined },
-      },
-    });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        users: {
+          user1: { name: "string", age: "number" },
+          user2: { name: "string", age: "number" },
+        },
+      }));
   });
 
-  it('#04 => should create record with number value', () => {
+  describe("#04 => record with number value (no keys)", () => {
     const result = type(({ record }) => ({
-      scores: record('number'),
+      scores: record("number"),
     }));
-    expect(result).toEqual({ scores: {} });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ scores: {} }));
   });
 
-  it('#05 => should create record with single key', () => {
+  describe("#05 => record with single key", () => {
     const result = type(({ record }) => ({
-      single: record('string', 'onlyKey'),
+      single: record("string", "onlyKey"),
     }));
-    expect(result).toEqual({ single: { onlyKey: undefined } });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ single: { onlyKey: "string" } }));
   });
 });

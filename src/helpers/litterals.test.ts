@@ -1,38 +1,60 @@
-import { type } from '../type';
+import { type } from "../type";
 
-describe('Transform: Helper litterals', () => {
-  it('#01 => should handle string literals', () => {
+describe("Helper: litterals", () => {
+  describe("#01 => string literals", () => {
     const result = type(({ litterals }) => ({
-      status: litterals('active', 'inactive', 'pending'),
+      status: litterals("active", "inactive", "pending"),
     }));
-    expect(result).toEqual({ status: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        status: "active",
+      }));
+
+    test("#02 => ~standard.version is 1", () =>
+      expect(result["~standard"].version).toBe(1));
+
+    test("#03 => validate() captures the value", () =>
+      expect(result["~standard"].validate("any")).toEqual({
+        value: { status: "active" },
+      }));
   });
 
-  it('#02 => should handle number literals', () => {
+  describe("#02 => number literals", () => {
     const result = type(({ litterals }) => ({
       priority: litterals(1, 2, 3),
     }));
-    expect(result).toEqual({ priority: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ priority: 1 }));
   });
 
-  it('#03 => should handle boolean literals', () => {
+  describe("#03 => boolean literals", () => {
     const result = type(({ litterals }) => ({
       flag: litterals(true, false),
     }));
-    expect(result).toEqual({ flag: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ flag: true }));
   });
 
-  it('#04 => should handle mixed literals', () => {
+  describe("#04 => mixed literals", () => {
     const result = type(({ litterals }) => ({
-      value: litterals('yes', 'no', 1, 0, true),
+      value: litterals("yes", "no", 1, 0, true),
     }));
-    expect(result).toEqual({ value: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({
+        value: "yes",
+      }));
   });
 
-  it('#05 => should handle two string literals', () => {
+  describe("#05 => two string literals", () => {
     const result = type(({ litterals }) => ({
-      direction: litterals('left', 'right'),
+      direction: litterals("left", "right"),
     }));
-    expect(result).toEqual({ direction: undefined });
+
+    test("#01 => value matches", () =>
+      expect(result.value).toEqual({ direction: "left" }));
   });
 });
