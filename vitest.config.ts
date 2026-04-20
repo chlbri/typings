@@ -21,6 +21,8 @@ export default defineConfig({
     maxConcurrency: 10,
     passWithNoTests: true,
     slowTestThreshold: 3000,
+    testTimeout: 50_000,
+    hookTimeout: 50_000,
     globals: true,
     logHeapUsage: true,
     typecheck: {

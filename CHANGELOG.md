@@ -5,6 +5,29 @@
 <details>
 <summary>
 
+## **[0.5.0] - 20/04/2026** => _15:45_
+
+</summary>
+
+- Refactor type inference system to use `inferSh` utility for improved type
+  handling and consistency (`src/types.ts`)
+- Enhance type safety and readability across all helpers with better type
+  annotations
+- Improve type transformation support in helper functions
+- Update rolldown configuration to handle additional file patterns correctly
+- Add comprehensive type tests for complex type transformation scenarios
+- Fix naming inconsistencies in core types (`Primiive` → `Primitive`,
+  `PrimitiveS` → `PrimitiveT`)
+- Enhance TypeScript type validation and test coverage
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.4.0] - 20/04/2026** => _11:17_
 
 </summary>
