@@ -16,7 +16,7 @@ import type {
   union,
   object,
 } from "./helpers";
-import type { ObjectT, inferT } from "./types";
+import type { ObjectT, inferSh } from "./types";
 
 export type Helpers = {
   any: typeof any;
@@ -39,4 +39,4 @@ export type Helpers = {
 
 export type Transform_F = <T extends ObjectT = ObjectT>(
   option?: ((helpers: Helpers) => T) | T,
-) => inferT<T>;
+) => inferSh<T>;

@@ -1,6 +1,6 @@
 import { type } from "../type";
 import type {
-  inferT,
+  inferSh,
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
@@ -43,13 +43,13 @@ const mapResult = primitiveObject.map();
 expectTypeOf(mapResult).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // inferT: flat map transformation
-type FlatMapT = inferT<{ name: "string"; age: "number" }>;
+type FlatMapT = inferSh<{ name: "string"; age: "number" }>;
 expectTypeOf<FlatMapT>().toEqualTypeOf<
   StandardHelper<{ name: string; age: number }>
 >();
 
 // inferT: nested map transformation
-type NestedMapT = inferT<{ user: { name: "string"; active: "boolean" } }>;
+type NestedMapT = inferSh<{ user: { name: "string"; active: "boolean" } }>;
 expectTypeOf<NestedMapT>().toEqualTypeOf<
   StandardHelper<{
     user: { name: string; active: boolean };
@@ -58,7 +58,7 @@ expectTypeOf<NestedMapT>().toEqualTypeOf<
 
 // inferT: from primitiveObject schema variable
 const schemaVar = primitiveObject({ id: "string", score: "number" });
-type SchemaVarT = inferT<typeof schemaVar>;
+type SchemaVarT = inferSh<typeof schemaVar>;
 expectTypeOf<SchemaVarT>().toEqualTypeOf<
   StandardHelper<{ id: string; score: number }>
 >();
@@ -69,7 +69,7 @@ const multiFieldSchema = primitiveObject({
   age: "number",
   active: "boolean",
 });
-type MultiFieldT = inferT<typeof multiFieldSchema>;
+type MultiFieldT = inferSh<typeof multiFieldSchema>;
 expectTypeOf<MultiFieldT>().toEqualTypeOf<
   StandardHelper<{
     name: string;

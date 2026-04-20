@@ -1,5 +1,5 @@
 import type { Transform_F } from "./type.types";
-import type { inferT, ObjectT } from "./types";
+import type { inferSh, ObjectT } from "./types";
 import { standardize } from "./standard";
 
 import {
@@ -21,7 +21,7 @@ import {
   union,
 } from "./helpers";
 
-const _transform = <T extends ObjectT>(obj: T): inferT<T> => {
+const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   const _obj = obj as any;
   return _obj;
 };

@@ -1,5 +1,5 @@
 import { type } from "../type";
-import type { inferT, Keys, Sh, SoA, StateValue } from "../types";
+import type { inferSh, Keys, Sh, SoA, StateValue } from "../types";
 
 // Complex nested structure with array, optional, intersection
 const complex1 = type(({ array, optional, intersection }) => ({
@@ -241,7 +241,7 @@ expectTypeOf(allHelpers).toEqualTypeOf<
 >();
 
 // inferT: flat primitive object schema
-type FlatPrimitiveSchema = inferT<{
+type FlatPrimitiveSchema = inferSh<{
   name: "string";
   age: "number";
   active: "boolean";
@@ -255,7 +255,7 @@ expectTypeOf<FlatPrimitiveSchema>().toEqualTypeOf<
 >();
 
 // inferT: deeply nested schema
-type DeepNestedSchema = inferT<{
+type DeepNestedSchema = inferSh<{
   user: {
     profile: { firstName: "string"; lastName: "string" };
     settings: { theme: "string"; notifications: "boolean" };
