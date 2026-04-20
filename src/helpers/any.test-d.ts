@@ -1,11 +1,11 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Any with string
 const anyString = type(({ any }) => ({
-  value: any("string"),
+  value: any('string'),
 }));
-expectTypeOf(anyString["~standard"].types?.input).toEqualTypeOf<
+expectTypeOf(anyString['~standard'].types?.input).toEqualTypeOf<
   | {
       value: string;
     }
@@ -14,13 +14,13 @@ expectTypeOf(anyString["~standard"].types?.input).toEqualTypeOf<
 
 // Any with number
 const anyNumber = type(({ any }) => ({
-  count: any("number"),
+  count: any('number'),
 }));
 expectTypeOf(anyNumber).toEqualTypeOf<Sh<{ count: number }>>();
 
 // Any with object
 const anyObject = type(({ any }) => ({
-  data: any({ name: "string", age: "number" }),
+  data: any({ name: 'string', age: 'number' }),
 }));
 expectTypeOf(anyObject).toEqualTypeOf<
   Sh<{

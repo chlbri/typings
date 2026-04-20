@@ -1,5 +1,5 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Custom with number type
 const customNumber = type(({ custom }) => ({

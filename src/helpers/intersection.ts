@@ -1,5 +1,9 @@
-import { standardize2 } from "../standard";
-import type { IntersectionCustom, NotReadonly, ObjectMapS } from "../types";
+import { standardize2 } from '../standard';
+import type {
+  IntersectionCustom,
+  NotReadonly,
+  ObjectMapS,
+} from '../types';
 
 export const intersection = <
   const T extends [ObjectMapS, ObjectMapS, ...ObjectMapS[]],

@@ -1,9 +1,9 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Tuple of two numbers
 const tupleNumbers = type(({ tuple }) => ({
-  coordinates: tuple("number", "number"),
+  coordinates: tuple('number', 'number'),
 }));
 expectTypeOf(tupleNumbers).toEqualTypeOf<
   Sh<{
@@ -13,7 +13,7 @@ expectTypeOf(tupleNumbers).toEqualTypeOf<
 
 // Tuple with mixed types
 const tupleMixed = type(({ tuple }) => ({
-  pair: tuple("string", "number", "boolean"),
+  pair: tuple('string', 'number', 'boolean'),
 }));
 expectTypeOf(tupleMixed).toEqualTypeOf<
   Sh<{
@@ -23,7 +23,7 @@ expectTypeOf(tupleMixed).toEqualTypeOf<
 
 // Tuple with objects
 const tupleObjects = type(({ tuple }) => ({
-  data: tuple({ name: "string" }, { age: "number" }),
+  data: tuple({ name: 'string' }, { age: 'number' }),
 }));
 expectTypeOf(tupleObjects).toEqualTypeOf<
   Sh<{
@@ -33,7 +33,7 @@ expectTypeOf(tupleObjects).toEqualTypeOf<
 
 // Tuple with three numbers (RGB)
 const tupleRgb = type(({ tuple }) => ({
-  rgb: tuple("number", "number", "number"),
+  rgb: tuple('number', 'number', 'number'),
 }));
 expectTypeOf(tupleRgb).toEqualTypeOf<
   Sh<{
@@ -43,7 +43,7 @@ expectTypeOf(tupleRgb).toEqualTypeOf<
 
 // Tuple with string and number
 const tupleEntry = type(({ tuple }) => ({
-  entry: tuple("string", "number"),
+  entry: tuple('string', 'number'),
 }));
 expectTypeOf(tupleEntry).toEqualTypeOf<
   Sh<{
@@ -53,7 +53,7 @@ expectTypeOf(tupleEntry).toEqualTypeOf<
 
 // Tuple with complex objects
 const tupleComplex1 = type(({ tuple }) => ({
-  bounds: tuple({ min: "number" }, { max: "number" }),
+  bounds: tuple({ min: 'number' }, { max: 'number' }),
 }));
 expectTypeOf(tupleComplex1).toEqualTypeOf<
   Sh<{
@@ -63,22 +63,22 @@ expectTypeOf(tupleComplex1).toEqualTypeOf<
 
 const tupleComplex2 = type(({ tuple, litterals, array, union }) => ({
   bounds: tuple(
-    { min: "number" },
-    { max: "number" },
-    tuple("string", "boolean"),
-    litterals("start", "end"),
-    array("number"),
-    array(union("number", "string")),
-    array(tuple("string", "number")),
-    array(tuple("string", array(tuple("number", "boolean")))),
-    tuple(tuple("string", "number"), array(tuple("number", "boolean"))),
+    { min: 'number' },
+    { max: 'number' },
+    tuple('string', 'boolean'),
+    litterals('start', 'end'),
+    array('number'),
+    array(union('number', 'string')),
+    array(tuple('string', 'number')),
+    array(tuple('string', array(tuple('number', 'boolean')))),
+    tuple(tuple('string', 'number'), array(tuple('number', 'boolean'))),
   ),
-  simple: tuple("string", "number"),
+  simple: tuple('string', 'number'),
   literals: tuple(
-    litterals("up"),
-    litterals("down"),
-    litterals("left"),
-    litterals("right"),
+    litterals('up'),
+    litterals('down'),
+    litterals('left'),
+    litterals('right'),
   ),
 }));
 
@@ -88,7 +88,7 @@ expectTypeOf(tupleComplex2).toEqualTypeOf<
       { min: number },
       { max: number },
       [string, boolean],
-      "start" | "end",
+      'start' | 'end',
       number[],
       (number | string)[],
       [string, number][],
@@ -96,6 +96,6 @@ expectTypeOf(tupleComplex2).toEqualTypeOf<
       [[string, number], [number, boolean][]],
     ];
     simple: [string, number];
-    literals: ["up", "down", "left", "right"];
+    literals: ['up', 'down', 'left', 'right'];
   }>
 >();

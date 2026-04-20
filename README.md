@@ -5,7 +5,7 @@ Typings by variables
 ## Usage
 
 ```ts
-import { type } from "@bemedev/typings";
+import { type } from '@bemedev/typings';
 
 const result = type(({ array, optional, intersection }) => ({
   nodes: optional(
@@ -13,16 +13,16 @@ const result = type(({ array, optional, intersection }) => ({
       intersection(
         {
           position: {
-            x: "number",
-            y: "number",
+            x: 'number',
+            y: 'number',
           },
           data: {
-            label: optional("string"),
-            content: "string",
+            label: optional('string'),
+            content: 'string',
           },
-          input: "boolean",
+          input: 'boolean',
         },
-        { id: "string" },
+        { id: 'string' },
       ),
     ),
   ),

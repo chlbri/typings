@@ -5,6 +5,22 @@
 <details>
 <summary>
 
+## **[0.5.2] - 20/04/2026** => _13:46_
+
+</summary>
+
+- Improve `inferT` type definition for better StandardSchema compatibility
+- Normalize additional quote style inconsistencies across type definitions
+- Enhance type inference consistency in core types
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.1] - 20/04/2026** => _15:52_
 
 </summary>
@@ -29,7 +45,8 @@
 - Enhance type safety and readability across all helpers with better type
   annotations
 - Improve type transformation support in helper functions
-- Update rolldown configuration to handle additional file patterns correctly
+- Update rolldown configuration to handle additional file patterns
+  correctly
 - Add comprehensive type tests for complex type transformation scenarios
 - Fix naming inconsistencies in core types (`Primiive` → `Primitive`,
   `PrimitiveS` → `PrimitiveT`)

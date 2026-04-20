@@ -256,7 +256,11 @@ export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
   : TransformT<T>;
 
 export type inferSh<T extends ObjectT = ObjectT> = Sh<inferO<T>>;
-export type inferT<T extends Sh> = T['value'];
+export type inferT<T extends StandardOutput = StandardOutput> = Exclude<
+  T['~standard']['types'],
+  undefined
+>['output'];
+
 export type ProduceObject<T extends ObjectT = ObjectT> = T;
 
 export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;

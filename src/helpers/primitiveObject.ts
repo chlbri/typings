@@ -1,11 +1,11 @@
-import { standardize2 } from "../standard";
+import { standardize2 } from '../standard';
 import type {
   IntersectionCustom,
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
-} from "../types";
-import { _const, expandFn2 } from "../utils";
+} from '../types';
+import { _const, expandFn2 } from '../utils';
 
 export const primitiveObject = expandFn2(
   <
@@ -23,7 +23,8 @@ export const primitiveObject = expandFn2(
       <
         const T extends
           | PrimitiveObjectMapS
-          | IntersectionCustom<PrimitiveObjectMapS[]> = PrimitiveObjectMapS,
+          | IntersectionCustom<PrimitiveObjectMapS[]> =
+          PrimitiveObjectMapS,
       >(
         value?: T,
       ) => {

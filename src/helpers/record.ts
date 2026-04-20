@@ -1,7 +1,7 @@
-import { standardize2 } from "../standard";
-import type { Keys, ObjectT } from "../types";
-import { expandFn2 } from "../utils";
-import { object } from "./object";
+import { standardize2 } from '../standard';
+import type { Keys, ObjectT } from '../types';
+import { expandFn2 } from '../utils';
+import { object } from './object';
 
 export const record = expandFn2(
   <const K extends Keys[], V extends ObjectT>(value: V, ...keys: K) => {

@@ -1,9 +1,11 @@
-import { UNION } from "../constants";
-import { standardize2 } from "../standard";
-import type { Keys, ObjectMapS, ObjectT } from "../types";
-import { expandFn } from "../utils/expandFn";
+import { UNION } from '../constants';
+import { standardize2 } from '../standard';
+import type { Keys, ObjectMapS, ObjectT } from '../types';
+import { expandFn } from '../utils/expandFn';
 
-const _union = <T extends [ObjectT, ObjectT, ...ObjectT[]]>(...values: T) => {
+const _union = <T extends [ObjectT, ObjectT, ...ObjectT[]]>(
+  ...values: T
+) => {
   return standardize2<T[number]>({ [UNION]: values });
 };
 

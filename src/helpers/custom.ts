@@ -1,11 +1,11 @@
-import { standardize2 } from "../standard";
+import { standardize2 } from '../standard';
 // oxlint-disable-next-line no-unused-vars
-import type { Custom, ObjectT } from "../types";
+import type { Custom, ObjectT } from '../types';
 // oxlint-disable-next-line no-unused-vars
-import type { type } from "../type";
-import { _const, expandFn2 } from "../utils";
+import type { type } from '../type';
+import { _const, expandFn2 } from '../utils';
 
-const _type = _const("any");
+const _type = _const('any');
 
 /**
  *  Create a custom value that can be used in the state value or as a literal.
@@ -23,6 +23,6 @@ const _type = _const("any");
  * @see {@link Custom} for more information about custom values.
  */
 export const custom = expandFn2(<const T = any>(value?: T) => {
-  type TT = ObjectT extends T ? "any" : Custom<T>;
+  type TT = ObjectT extends T ? 'any' : Custom<T>;
   return standardize2<TT>(value);
-}, "any");
+}, 'any');

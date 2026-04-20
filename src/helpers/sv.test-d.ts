@@ -1,5 +1,5 @@
-import type { Sh, StateValue } from "../types";
-import { type } from "../type";
+import type { Sh, StateValue } from '../types';
+import { type } from '../type';
 
 // SV basic usage
 const svBasic = type(({ sv }) => ({
@@ -38,8 +38,8 @@ expectTypeOf(svMultiple).toEqualTypeOf<
 // SV with other types
 const svWithOthers = type(({ sv, optional }) => ({
   state: sv(),
-  name: "string",
-  count: optional("number"),
+  name: 'string',
+  count: optional('number'),
 }));
 expectTypeOf(svWithOthers).toEqualTypeOf<
   Sh<{
@@ -50,26 +50,26 @@ expectTypeOf(svWithOthers).toEqualTypeOf<
 >();
 
 const svWithOthers2 = type(({ sv, optional }) => ({
-  state: sv(""),
-  name: "string",
-  count: optional("number"),
+  state: sv(''),
+  name: 'string',
+  count: optional('number'),
 }));
 expectTypeOf(svWithOthers2).toEqualTypeOf<
   Sh<{
-    state: "";
+    state: '';
     name: string;
     count?: number;
   }>
 >();
 
 const svWithOthers3 = type(({ sv, optional }) => ({
-  state: sv("state1"),
-  name: "string",
-  count: optional("number"),
+  state: sv('state1'),
+  name: 'string',
+  count: optional('number'),
 }));
 expectTypeOf(svWithOthers3).toEqualTypeOf<
   Sh<{
-    state: "state1";
+    state: 'state1';
     name: string;
     count?: number;
   }>
@@ -78,19 +78,19 @@ expectTypeOf(svWithOthers3).toEqualTypeOf<
 const svWithOthers4 = type(({ sv, optional }) => ({
   state: sv({
     parallel: {
-      state1: "state11",
-      state2: "state22",
+      state1: 'state11',
+      state2: 'state22',
     },
   }),
-  name: "string",
-  count: optional("number"),
+  name: 'string',
+  count: optional('number'),
 }));
 expectTypeOf(svWithOthers4).toEqualTypeOf<
   Sh<{
     state: {
       readonly parallel: {
-        readonly state1: "state11";
-        readonly state2: "state22";
+        readonly state1: 'state11';
+        readonly state2: 'state22';
       };
     };
     name: string;

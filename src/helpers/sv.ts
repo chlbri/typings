@@ -1,6 +1,6 @@
-import { standardize2 } from "../standard";
-import type { Custom, StateValue } from "../types";
-import { _const, expandFn2 } from "../utils";
+import { standardize2 } from '../standard';
+import type { Custom, StateValue } from '../types';
+import { _const, expandFn2 } from '../utils';
 
 export const sv = expandFn2(
   <const T extends StateValue = StateValue>(value?: T) => {

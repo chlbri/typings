@@ -1,5 +1,5 @@
-import { type } from "../type";
-import type { Primitive, Sh } from "../types";
+import { type } from '../type';
+import type { Primitive, Sh } from '../types';
 
 const _default = type(({ primitive }) => primitive());
 expectTypeOf(_default).branded.toEqualTypeOf<Sh<Primitive>>();
@@ -27,8 +27,8 @@ expectTypeOf(_default3).toEqualTypeOf<
 const str1 = type(({ primitive }) => primitive.string());
 expectTypeOf(str1).toEqualTypeOf<Sh<string>>();
 
-const str2 = type(({ primitive }) => primitive.string("Hello World"));
-expectTypeOf(str2).toEqualTypeOf<Sh<"Hello World">>();
+const str2 = type(({ primitive }) => primitive.string('Hello World'));
+expectTypeOf(str2).toEqualTypeOf<Sh<'Hello World'>>();
 
 // primitive.string() → { value: string }
 const strDefault = type(({ primitive }) => ({
@@ -38,9 +38,9 @@ expectTypeOf(strDefault).toEqualTypeOf<Sh<{ value: string }>>();
 
 // primitive.string('hello') → { value: 'hello' }
 const strLiteral = type(({ primitive }) => ({
-  value: primitive.string("hello"),
+  value: primitive.string('hello'),
 }));
-expectTypeOf(strLiteral).toEqualTypeOf<Sh<{ value: "hello" }>>();
+expectTypeOf(strLiteral).toEqualTypeOf<Sh<{ value: 'hello' }>>();
 
 // primitive.number() → { value: number }
 const numDefault = type(({ primitive }) => ({

@@ -1,9 +1,9 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Partial object
 const partialObject = type(({ partial }) => ({
-  user: partial({ name: "string", age: "number" }),
+  user: partial({ name: 'string', age: 'number' }),
 }));
 expectTypeOf(partialObject).toEqualTypeOf<
   Sh<{
@@ -13,7 +13,7 @@ expectTypeOf(partialObject).toEqualTypeOf<
 
 // Partial with single property
 const partialSingle = type(({ partial }) => ({
-  config: partial({ enabled: "boolean" }),
+  config: partial({ enabled: 'boolean' }),
 }));
 expectTypeOf(partialSingle).toEqualTypeOf<
   Sh<{
@@ -24,9 +24,9 @@ expectTypeOf(partialSingle).toEqualTypeOf<
 // Partial with multiple properties
 const partialMultiple = type(({ partial }) => ({
   settings: partial({
-    theme: "string",
-    fontSize: "number",
-    darkMode: "boolean",
+    theme: 'string',
+    fontSize: 'number',
+    darkMode: 'boolean',
   }),
 }));
 expectTypeOf(partialMultiple).toEqualTypeOf<
@@ -42,8 +42,8 @@ expectTypeOf(partialMultiple).toEqualTypeOf<
 // Partial with nested object
 const partialNested = type(({ partial }) => ({
   data: partial({
-    user: { name: "string" },
-    meta: { count: "number" },
+    user: { name: 'string' },
+    meta: { count: 'number' },
   }),
 }));
 expectTypeOf(partialNested).toEqualTypeOf<

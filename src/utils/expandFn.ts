@@ -1,6 +1,9 @@
-import type { Fn, FnBasic, ObjectT } from "../types";
+import type { Fn, FnBasic, ObjectT } from '../types';
 
-export const expandFn = <Main extends Fn, const Tr extends object = object>(
+export const expandFn = <
+  Main extends Fn,
+  const Tr extends object = object,
+>(
   main: Main,
   extensions?: Tr,
 ): FnBasic<Main, Tr> => {

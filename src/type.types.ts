@@ -15,8 +15,8 @@ import type {
   tuple,
   union,
   object,
-} from "./helpers";
-import type { ObjectT, inferSh } from "./types";
+} from './helpers';
+import type { ObjectT, inferSh } from './types';
 
 export type Helpers = {
   any: typeof any;

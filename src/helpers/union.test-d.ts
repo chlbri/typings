@@ -1,9 +1,9 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Union of primitives
 const unionPrimitives = type(({ union }) => ({
-  value: union("string", "number"),
+  value: union('string', 'number'),
 }));
 expectTypeOf(unionPrimitives).toEqualTypeOf<
   Sh<{
@@ -13,7 +13,7 @@ expectTypeOf(unionPrimitives).toEqualTypeOf<
 
 // Union of three primitives
 const unionThree = type(({ union }) => ({
-  value: union("string", "number", "boolean"),
+  value: union('string', 'number', 'boolean'),
 }));
 expectTypeOf(unionThree).toEqualTypeOf<
   Sh<{
@@ -23,7 +23,7 @@ expectTypeOf(unionThree).toEqualTypeOf<
 
 // Union with null
 const unionNullable = type(({ union }) => ({
-  nullable: union("string", "null"),
+  nullable: union('string', 'null'),
 }));
 expectTypeOf(unionNullable).toEqualTypeOf<
   Sh<{
@@ -33,7 +33,7 @@ expectTypeOf(unionNullable).toEqualTypeOf<
 
 // Union of objects
 const unionObjects = type(({ union }) => ({
-  item: union({ type: "string" }, { value: "number" }),
+  item: union({ type: 'string' }, { value: 'number' }),
 }));
 expectTypeOf(unionObjects).toEqualTypeOf<
   Sh<{
@@ -44,23 +44,25 @@ expectTypeOf(unionObjects).toEqualTypeOf<
 // Discriminated union
 const discriminatedUnion = type(({ union }) => ({
   event: union.discriminated(
-    "type",
-    { type: "string", name: "string" },
-    { type: "string", count: "number" },
+    'type',
+    { type: 'string', name: 'string' },
+    { type: 'string', count: 'number' },
   ),
 }));
 expectTypeOf(discriminatedUnion).toEqualTypeOf<
   Sh<{
-    event: { type: string; name: string } | { type: string; count: number };
+    event:
+      | { type: string; name: string }
+      | { type: string; count: number };
   }>
 >();
 
 // Complex discriminated union
 const complexDiscriminated = type(({ union }) => ({
   response: union.discriminated(
-    "status",
-    { status: "string", data: "string" },
-    { status: "string", error: "string" },
+    'status',
+    { status: 'string', data: 'string' },
+    { status: 'string', error: 'string' },
   ),
 }));
 expectTypeOf(complexDiscriminated).toEqualTypeOf<

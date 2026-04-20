@@ -1,9 +1,9 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
 // Intersection of two objects
 const intersectionTwo = type(({ intersection }) => ({
-  person: intersection({ name: "string" }, { age: "number" }),
+  person: intersection({ name: 'string' }, { age: 'number' }),
 }));
 expectTypeOf(intersectionTwo).toEqualTypeOf<
   Sh<{
@@ -14,9 +14,9 @@ expectTypeOf(intersectionTwo).toEqualTypeOf<
 // Intersection of three objects
 const intersectionThree = type(({ intersection }) => ({
   entity: intersection(
-    { id: "string" },
-    { name: "string" },
-    { createdAt: "date" },
+    { id: 'string' },
+    { name: 'string' },
+    { createdAt: 'date' },
   ),
 }));
 expectTypeOf(intersectionThree).toEqualTypeOf<
@@ -28,8 +28,8 @@ expectTypeOf(intersectionThree).toEqualTypeOf<
 // Intersection with nested properties
 const intersectionNested = type(({ intersection }) => ({
   data: intersection(
-    { user: { name: "string" } },
-    { meta: { timestamp: "number" } },
+    { user: { name: 'string' } },
+    { meta: { timestamp: 'number' } },
   ),
 }));
 expectTypeOf(intersectionNested).toEqualTypeOf<
@@ -44,10 +44,10 @@ expectTypeOf(intersectionNested).toEqualTypeOf<
 // Intersection of four objects
 const intersectionFour = type(({ intersection }) => ({
   full: intersection(
-    { a: "string" },
-    { b: "number" },
-    { c: "boolean" },
-    { d: "date" },
+    { a: 'string' },
+    { b: 'number' },
+    { c: 'boolean' },
+    { d: 'date' },
   ),
 }));
 expectTypeOf(intersectionFour).toEqualTypeOf<
@@ -60,8 +60,8 @@ expectTypeOf(intersectionFour).toEqualTypeOf<
 const intersectionComplex = type(({ any, intersection, array }) => ({
   item: any(
     intersection(
-      { id: "string", tags: array("string") },
-      { createdAt: "date", active: "boolean" },
+      { id: 'string', tags: array('string') },
+      { createdAt: 'date', active: 'boolean' },
     ),
   ),
 }));

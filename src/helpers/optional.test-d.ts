@@ -1,12 +1,12 @@
-import { type } from "../type";
-import type { Sh } from "../types";
+import { type } from '../type';
+import type { Sh } from '../types';
 
-const _defaultString = type(({ optional }) => optional("string"));
+const _defaultString = type(({ optional }) => optional('string'));
 expectTypeOf(_defaultString).toEqualTypeOf<Sh<string>>();
 
 // optional string
 const optionalString = type(({ optional }) => ({
-  nickname: optional("string"),
+  nickname: optional('string'),
 }));
 expectTypeOf(optionalString).toEqualTypeOf<
   Sh<{
@@ -16,13 +16,13 @@ expectTypeOf(optionalString).toEqualTypeOf<
 
 // optional number
 const optionalNumber = type(({ optional }) => ({
-  count: optional("number"),
+  count: optional('number'),
 }));
 expectTypeOf(optionalNumber).toEqualTypeOf<Sh<{ count?: number }>>();
 
 // optional boolean
 const optionalBoolean = type(({ optional }) => ({
-  active: optional("boolean"),
+  active: optional('boolean'),
 }));
 expectTypeOf(optionalBoolean).toEqualTypeOf<
   Sh<{
@@ -32,7 +32,7 @@ expectTypeOf(optionalBoolean).toEqualTypeOf<
 
 // optional object
 const optionalObject = type(({ optional }) => ({
-  address: optional({ city: "string", zip: "number" }),
+  address: optional({ city: 'string', zip: 'number' }),
 }));
 expectTypeOf(optionalObject).toEqualTypeOf<
   Sh<{
@@ -42,14 +42,14 @@ expectTypeOf(optionalObject).toEqualTypeOf<
 
 // optional array
 const optionalArray = type(({ optional, array }) => ({
-  items: optional(array("string")),
+  items: optional(array('string')),
 }));
 expectTypeOf(optionalArray).toEqualTypeOf<Sh<{ items?: string[] }>>();
 
 // Nested optional
 const nestedoptional = type(({ optional }) => ({
   data: optional({
-    inner: optional("string"),
+    inner: optional('string'),
   }),
 }));
 expectTypeOf(nestedoptional).toEqualTypeOf<
@@ -61,10 +61,10 @@ expectTypeOf(nestedoptional).toEqualTypeOf<
 // optional with complex object
 const optionalComplex = type(({ optional, array }) => ({
   user: optional({
-    name: "string",
-    tags: array("string"),
+    name: 'string',
+    tags: array('string'),
     profile: optional({
-      bio: "string",
+      bio: 'string',
     }),
   }),
 }));
