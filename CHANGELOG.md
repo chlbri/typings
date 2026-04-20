@@ -5,6 +5,21 @@
 <details>
 <summary>
 
+## **[0.5.1] - 20/04/2026** => _15:52_
+
+</summary>
+
+- Normalize quote style across type definitions (double → single quotes)
+- Improve code consistency in `src/types.ts`
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.0] - 20/04/2026** => _15:45_
 
 </summary>
