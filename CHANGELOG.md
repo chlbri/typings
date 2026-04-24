@@ -5,6 +5,23 @@
 <details>
 <summary>
 
+## **[0.5.4] - 24/04/2026** => _01:21_
+
+</summary>
+
+- Improve built package test imports and implementation typing in
+  `src/index.built.test.ts`
+- Normalize quote style across standard and type test files
+- Adjust `StandardSchemaV1` typings and `~standard` assertions in
+  `src/standard.types.ts`
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.3] - 24/04/2026** => _00:20_
 
 </summary>
