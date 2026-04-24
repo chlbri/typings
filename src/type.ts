@@ -1,5 +1,5 @@
-import { standardize } from "./standard";
-import type { inferSh, ObjectT } from "./types";
+import { standardize } from './standard';
+import type { inferSh, ObjectT } from './types';
 
 import {
   any,
@@ -18,7 +18,7 @@ import {
   sv,
   tuple,
   union,
-} from "./helpers";
+} from './helpers';
 
 type Helpers = {
   any: typeof any;
@@ -48,12 +48,12 @@ const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   return _obj;
 };
 
-export const type: Transform_F = (option) => {
+export const type: Transform_F = option => {
   let out: any;
 
   if (!option) {
     out = option;
-  } else if (typeof option === "function") {
+  } else if (typeof option === 'function') {
     const objectS = option({
       any,
       custom,
