@@ -5,6 +5,26 @@
 <details>
 <summary>
 
+## **[0.5.3] - 24/04/2026** => _00:20_
+
+</summary>
+
+- Enhance `union` support for `primitiveObject` schema combinations and
+  `UnionCustom` typing
+- Centralize `type()` transform helper typings in `src/type.ts` with the
+  new `Helpers` / `Transform_F` model
+- Remove legacy `src/type.types.ts` and simplify transform type exports
+- Add `primitiveObject` + `union` coverage in type tests
+- Upgrade dev tooling dependencies for TypeScript, Vitest, oxfmt, oxlint,
+  and rolldown
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.2] - 20/04/2026** => _13:46_
 
 </summary>

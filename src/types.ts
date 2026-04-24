@@ -6,8 +6,9 @@ import type {
   PRIMITIVES,
   PRIMITIVE_OBJECTS,
   SOA,
-} from './constants';
-import type { StandardSchemaV1 } from './standard.types';
+  UNION,
+} from "./constants";
+import type { StandardSchemaV1 } from "./standard.types";
 
 export type Ru = Record<Keys, unknown>;
 
@@ -74,21 +75,21 @@ export type Primitive =
   | never;
 
 export type PrimitiveT = (typeof PRIMITIVES)[number];
-type TransformPrimitiveS<T extends PrimitiveT> = T extends 'string'
+type TransformPrimitiveS<T extends PrimitiveT> = T extends "string"
   ? string
-  : T extends 'number'
+  : T extends "number"
     ? number
-    : T extends 'boolean'
+    : T extends "boolean"
       ? boolean
-      : T extends 'bigint'
+      : T extends "bigint"
         ? bigint
-        : T extends 'null'
+        : T extends "null"
           ? null
-          : T extends 'undefined'
+          : T extends "undefined"
             ? undefined
-            : T extends 'symbol'
+            : T extends "symbol"
               ? symbol
-              : T extends 'never'
+              : T extends "never"
                 ? never
                 : Primitive;
 
@@ -96,11 +97,11 @@ export type Types = PrimitiveT | (typeof PRIMITIVE_OBJECTS)[number];
 
 export type TransformTypes<T extends Types> = T extends PrimitiveT
   ? TransformPrimitiveS<T>
-  : T extends 'date'
+  : T extends "date"
     ? Date
-    : T extends 'any'
+    : T extends "any"
       ? any
-      : T extends 'unknown'
+      : T extends "unknown"
         ? unknown
         : object;
 
@@ -108,8 +109,12 @@ export type Custom<T = any> = {
   [CUSTOM]: T;
 };
 
-export type SoaCustom<T extends ObjectT = any> = {
+export type SoaCustom<T extends ObjectT = ObjectT> = {
   [SOA]: T;
+};
+
+export type UnionCustom<T extends ObjectT[] = ObjectT[]> = {
+  [UNION]: T;
 };
 
 export type PartialCustom = {
@@ -140,7 +145,7 @@ export type ObjectMapS = {
 };
 
 class OptionalHelperClass {
-  readonly __NO_TYPE__ = '@bemedev/addons/NO_TYPE';
+  readonly __NO_TYPE__ = "@bemedev/addons/NO_TYPE";
   private constructor() {}
 }
 
@@ -155,9 +160,10 @@ type _ObjectT = __ObjectT | Optional | ArrayCustom;
 
 export type PrimitiveObjectT = SoRa<
   | Types
-  | ArrayCustom<Types>
-  | Optional<Types>
   | PrimitiveObjectMapS
+  | ArrayCustom<Types | PrimitiveObjectMapS>
+  | Optional<Types | PrimitiveObjectMapS>
+  | UnionCustom<Types[] | PrimitiveObjectMapS[]>
   | (PrimitiveObjectMapS & PartialCustom)
 >;
 
@@ -190,9 +196,9 @@ type ReduceTupleU<T extends AnyArray> = T extends [
   ? [Undefiny<First>, ...ReduceTupleU<Rest>]
   : T[number] extends never
     ? []
-    : T['length'] extends 0
+    : T["length"] extends 0
       ? []
-      : number extends T['length']
+      : number extends T["length"]
         ? T
         : Undefiny<T[number]>[];
 // #endregion
@@ -201,19 +207,21 @@ type __TransformPrimitiveObject<T> = T extends Types
   ? TransformTypes<T>
   : T extends ArrayCustom<infer A>
     ? TransformT<A>[]
-    : T extends SoaCustom<infer TSoA>
-      ? SoA<__TransformPrimitiveObject<TSoA>>
-      : T extends Custom<infer TCustom>
-        ? TCustom
-        : T extends AnyArray<ObjectT>
-          ? ReduceTuple2<T>
-          : T extends PartialCustom
-            ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
-            : T extends Optional<infer TOptional>
-              ? __TransformPrimitiveObject<TOptional> | OptionalHelperClass
-              : {
-                  [K in keyof T]: __TransformPrimitiveObject<T[K]>;
-                };
+    : T extends UnionCustom<infer TCustom>
+      ? TransformT<TCustom[number]>
+      : T extends SoaCustom<infer TSoA>
+        ? SoA<__TransformPrimitiveObject<TSoA>>
+        : T extends Custom<infer TCustom>
+          ? TCustom
+          : T extends AnyArray<ObjectT>
+            ? ReduceTuple2<T>
+            : T extends PartialCustom
+              ? Partial<__TransformPrimitiveObject<NOmit<T, typeof PARTIAL>>>
+              : T extends Optional<infer TOptional>
+                ? __TransformPrimitiveObject<TOptional> | OptionalHelperClass
+                : {
+                    [K in keyof T]: __TransformPrimitiveObject<T[K]>;
+                  };
 
 // #region type Undefiny
 type HasUndefined<T> = unknown extends T
@@ -222,9 +230,7 @@ type HasUndefined<T> = unknown extends T
     ? true
     : false;
 type UndefinyObject<T extends object> = {
-  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
-    T[K]
-  >;
+  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<T[K]>;
 } & {
   [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
     T[K]
@@ -243,10 +249,7 @@ type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
 // #endregion
 
 type TransformT<T> = Undefiny<__TransformPrimitiveObject<T>>;
-export type StandardHelper<T = any> = { value: T } & StandardSchemaV1<
-  T,
-  T
->;
+export type StandardHelper<T = any> = { value: T } & StandardSchemaV1<T, T>;
 
 export type Sh<T = any> = StandardHelper<T>;
 export type StandardOutput<T = any> = StandardSchemaV1<any, T>;
@@ -257,9 +260,9 @@ export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
 
 export type inferSh<T extends ObjectT = ObjectT> = Sh<inferO<T>>;
 export type inferT<T extends StandardOutput = StandardOutput> = Exclude<
-  T['~standard']['types'],
+  T["~standard"]["types"],
   undefined
->['output'];
+>["output"];
 
 export type ProduceObject<T extends ObjectT = ObjectT> = T;
 
