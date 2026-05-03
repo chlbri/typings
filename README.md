@@ -52,6 +52,7 @@ expectTypeOf(result).toEqualTypeOf<{
 - `primitiveObject`: Primitive object schema
 - `record`: Record types
 - `soa`: Single or Array types
+- `sora`: Single or Array types, with recursive support, (soa with recursion)
 - `sv`: State Value
 - `tuple`: Tuple types
 - `union`: Union types

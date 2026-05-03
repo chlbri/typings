@@ -1,7 +1,11 @@
+import type { STANDARD_KEY } from "./constants";
+
+export type StandardKey = typeof STANDARD_KEY;
+
 /** The Standard Schema interface. */
 export interface StandardSchemaV1<Input = unknown, Output = Input> {
   /** The Standard Schema properties. */
-  readonly "~standard": StandardSchemaV1.Props<Input, Output>;
+  readonly [STANDARD_KEY]: StandardSchemaV1.Props<Input, Output>;
 }
 
 // oxlint-disable-next-line typescript/no-namespace
@@ -67,11 +71,11 @@ export declare namespace StandardSchemaV1 {
 
   /** Infers the input type of a Standard Schema. */
   export type InferInput<Schema extends StandardSchemaV1> = NonNullable<
-    Schema["~standard"]["types"]
+    Schema[StandardKey]["types"]
   >["input"];
 
   /** Infers the output type of a Standard Schema. */
   export type InferOutput<Schema extends StandardSchemaV1> = NonNullable<
-    Schema["~standard"]["types"]
+    Schema[StandardKey]["types"]
   >["output"];
 }

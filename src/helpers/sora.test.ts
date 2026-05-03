@@ -1,10 +1,10 @@
 import { type } from "../type";
 import { STANDARD_KEY } from "../constants";
 
-describe("Helper: soa (SingleOrArray)", () => {
-  describe("#01 => soa with string", () => {
-    const result = type(({ soa }) => ({
-      value: soa("string"),
+describe("Helper: sora (SingleOrArray)", () => {
+  describe("#01 => sora with string", () => {
+    const result = type(({ sora }) => ({
+      value: sora("string"),
     }));
 
     test("#01 => value matches", () =>
@@ -19,36 +19,36 @@ describe("Helper: soa (SingleOrArray)", () => {
       }));
   });
 
-  describe("#02 => soa with object", () => {
-    const result = type(({ soa }) => ({
-      item: soa({ name: "string" }),
+  describe("#02 => sora with object", () => {
+    const result = type(({ sora }) => ({
+      item: sora({ name: "string" }),
     }));
 
     test("#01 => value matches", () =>
       expect(result.value).toEqual({ item: { name: "string" } }));
   });
 
-  describe("#03 => soa with number", () => {
-    const result = type(({ soa }) => ({
-      count: soa("number"),
+  describe("#03 => sora with number", () => {
+    const result = type(({ sora }) => ({
+      count: sora("number"),
     }));
 
     test("#01 => value matches", () =>
       expect(result.value).toEqual({ count: "number" }));
   });
 
-  describe("#04 => soa with boolean", () => {
-    const result = type(({ soa }) => ({
-      flag: soa("boolean"),
+  describe("#04 => sora with boolean", () => {
+    const result = type(({ sora }) => ({
+      flag: sora("boolean"),
     }));
 
     test("#01 => value matches", () =>
       expect(result.value).toEqual({ flag: "boolean" }));
   });
 
-  describe("#05 => soa with complex object", () => {
-    const result = type(({ soa }) => ({
-      user: soa({ id: "string", name: "string", age: "number" }),
+  describe("#05 => sora with complex object", () => {
+    const result = type(({ sora }) => ({
+      user: sora({ id: "string", name: "string", age: "number" }),
     }));
 
     test("#01 => value matches", () =>
@@ -57,9 +57,9 @@ describe("Helper: soa (SingleOrArray)", () => {
       }));
   });
 
-  describe("#06 => soa without argument", () => {
-    const result = type(({ soa }) => ({
-      data: soa(),
+  describe("#06 => sora without argument", () => {
+    const result = type(({ sora }) => ({
+      data: sora(),
     }));
 
     test("#01 => value.data is undefined", () =>

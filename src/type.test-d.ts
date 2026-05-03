@@ -1,6 +1,7 @@
 import type { StandardSchemaV1 } from "./standard.types";
 import type { inferT, Sh } from "./types";
 import { type } from "./type";
+import { STANDARD_KEY } from "./constants";
 
 describe("type", () => {
   test("type — no option", () => {
@@ -8,9 +9,9 @@ describe("type", () => {
 
     expectTypeOf(result).toEqualTypeOf<Sh<unknown>>();
     expectTypeOf(result.value).toEqualTypeOf<unknown>();
-    expectTypeOf(result["~standard"].version).toEqualTypeOf<1>();
+    expectTypeOf(result[STANDARD_KEY].version).toEqualTypeOf<1>();
 
-    expectTypeOf(result["~standard"].vendor).toEqualTypeOf<string>();
+    expectTypeOf(result[STANDARD_KEY].vendor).toEqualTypeOf<string>();
   });
 
   test("type — direct string primitive", () => {
@@ -59,10 +60,10 @@ describe("type", () => {
     expectTypeOf(type({})).toEqualTypeOf<Sh<unknown>>();
   });
 
-  test("type — ~standard.validate return type", () => {
+  test(`type — ${STANDARD_KEY}.validate return type`, () => {
     const result = type({ flag: "boolean" });
 
-    expectTypeOf(result["~standard"].validate).toExtend<
+    expectTypeOf(result[STANDARD_KEY].validate).toExtend<
       (
         value: unknown,
       ) =>
@@ -71,14 +72,14 @@ describe("type", () => {
     >();
   });
 
-  test("type — ~standard.types", () => {
+  test(`type — ${STANDARD_KEY}.types`, () => {
     const result = type({ x: "string" });
 
-    expectTypeOf(result["~standard"].types?.input).toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.input).toEqualTypeOf<
       { x: string } | undefined
     >();
 
-    expectTypeOf(result["~standard"].types?.output).toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.output).toEqualTypeOf<
       { x: string } | undefined
     >();
   });

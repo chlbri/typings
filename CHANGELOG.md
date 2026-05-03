@@ -5,6 +5,21 @@
 <details>
 <summary>
 
+## **[0.5.5] - 03/05/2026** => _13:45_
+
+</summary>
+
+- Add `sora` helper for single-or-array schema support and Standard Schema metadata
+- Introduce shared `STANDARD_KEY` constant and normalize `~standard` metadata access
+- Upgrade dev tooling dependencies: `@bemedev/dev-utils`, `globals`, `oxfmt`, `oxlint`, `rolldown`
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.4] - 24/04/2026** => _01:21_
 
 </summary>

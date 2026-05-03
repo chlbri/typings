@@ -1,5 +1,6 @@
 import { addTarball, cleanup, THIS1 } from "@bemedev/dev-utils/build-tests";
 import { createTests } from "@bemedev/dev-utils/vitest-extended";
+import { STANDARD_KEY } from "./constants";
 
 beforeAll(addTarball);
 afterAll(cleanup);
@@ -85,7 +86,7 @@ describe("built", () => {
               a: "string",
               b: "number",
             },
-            "~standard": expect.objectContaining({
+            [STANDARD_KEY]: expect.objectContaining({
               types: {
                 input: {
                   a: "string",
