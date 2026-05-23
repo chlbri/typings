@@ -5,6 +5,24 @@
 <details>
 <summary>
 
+## **[0.5.6] - 23/05/2026** => _14:30_
+
+</summary>
+
+- Add `object`, `omit`, and `readonly` helpers for enhanced object type
+  manipulation
+- Refactor standard key usage across the codebase for improved consistency
+- Enhance test organization with comprehensive type-definition coverage
+- Improve code consistency across helper types and utilities
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[0.5.5] - 03/05/2026** => _13:45_
 
 </summary>

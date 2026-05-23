@@ -47,9 +47,12 @@ expectTypeOf(result).toEqualTypeOf<{
 - `custom`: Custom type
 - `intersection`: Intersection of types
 - `litterals`: Literal types
+- `object`: Object schema helper
+- `omit`: Omit specific keys from an object
 - `optional`: Optional types
 - `partial`: Partial types
 - `primitiveObject`: Primitive object schema
+- `readonly`: Readonly object types
 - `record`: Record types
 - `soa`: Single or Array types
 - `sora`: Single or Array types, with recursive support, (soa with
