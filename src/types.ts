@@ -9,8 +9,8 @@ import type {
   SORA,
   STANDARD_KEY,
   UNION,
-} from './constants';
-import type { StandardSchemaV1 } from './standard.types';
+} from "./constants";
+import type { StandardSchemaV1 } from "./standard.types";
 
 export type Ru = Record<Keys, unknown>;
 
@@ -79,21 +79,21 @@ export type Primitive =
   | never;
 
 export type PrimitiveT = (typeof PRIMITIVES)[number];
-type TransformPrimitiveS<T extends PrimitiveT> = T extends 'string'
+type TransformPrimitiveS<T extends PrimitiveT> = T extends "string"
   ? string
-  : T extends 'number'
+  : T extends "number"
     ? number
-    : T extends 'boolean'
+    : T extends "boolean"
       ? boolean
-      : T extends 'bigint'
+      : T extends "bigint"
         ? bigint
-        : T extends 'null'
+        : T extends "null"
           ? null
-          : T extends 'undefined'
+          : T extends "undefined"
             ? undefined
-            : T extends 'symbol'
+            : T extends "symbol"
               ? symbol
-              : T extends 'never'
+              : T extends "never"
                 ? never
                 : Primitive;
 
@@ -101,11 +101,11 @@ export type Types = PrimitiveT | (typeof PRIMITIVE_OBJECTS)[number];
 
 export type TransformTypes<T extends Types> = T extends PrimitiveT
   ? TransformPrimitiveS<T>
-  : T extends 'date'
+  : T extends "date"
     ? Date
-    : T extends 'any'
+    : T extends "any"
       ? any
-      : T extends 'unknown'
+      : T extends "unknown"
         ? unknown
         : object;
 
@@ -153,7 +153,7 @@ export type ObjectMapS = {
 };
 
 class OptionalHelperClass {
-  readonly __NO_TYPE__ = '@bemedev/addons/NO_TYPE';
+  readonly __NO_TYPE__ = "@bemedev/addons/NO_TYPE";
   private constructor() {}
 }
 
@@ -202,9 +202,9 @@ type ReduceTupleU<T extends AnyArray> = T extends [
   ? [Undefiny<First>, ...ReduceTupleU<Rest>]
   : T[number] extends never
     ? []
-    : T['length'] extends 0
+    : T["length"] extends 0
       ? []
-      : number extends T['length']
+      : number extends T["length"]
         ? T
         : Undefiny<T[number]>[];
 // #endregion
@@ -220,6 +220,31 @@ type __TransformUnion<T extends UnionCustom> =
         : TransformT<TCustom[number]> & TransformT<Ot>
       : never
     : never;
+
+// #region type Undefiny
+type HasUndefined<T> = unknown extends T
+  ? false
+  : OptionalHelperClass extends T
+    ? true
+    : false;
+type UndefinyObject<T extends object> = {
+  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<T[K]>;
+} & {
+  [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
+    T[K]
+  >;
+} extends infer F
+  ? {
+      [K in keyof F]: F[K];
+    }
+  : never;
+
+type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
+  ? ReduceTupleU<U>
+  : U extends Ru
+    ? UndefinyObject<U>
+    : U;
+// #endregion
 
 type __TransformPrimitiveObject<T> =
   Equals<ObjectMapS, T> extends true
@@ -244,38 +269,11 @@ type __TransformPrimitiveObject<T> =
                       ?
                           | __TransformPrimitiveObject<TOptional>
                           | OptionalHelperClass
-                      : {
+                      : Undefiny<{
                           [K in keyof T]: __TransformPrimitiveObject<T[K]>;
-                        };
+                        }>;
 
-// #region type Undefiny
-type HasUndefined<T> = unknown extends T
-  ? false
-  : OptionalHelperClass extends T
-    ? true
-    : false;
-type UndefinyObject<T extends object> = {
-  [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
-    T[K]
-  >;
-} & {
-  [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
-    T[K]
-  >;
-} extends infer F
-  ? {
-      [K in keyof F]: F[K];
-    }
-  : never;
-
-type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
-  ? ReduceTupleU<U>
-  : U extends Ru
-    ? UndefinyObject<U>
-    : U;
-// #endregion
-
-type TransformT<T> = Undefiny<__TransformPrimitiveObject<T>>;
+type TransformT<T> = __TransformPrimitiveObject<T>;
 export type StandardHelper<T1 = any, T2 = any> = {
   __type: T1;
   type: T2;
@@ -293,16 +291,18 @@ export type StandardOutput<T = any> = {
 
 export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
   ? unknown
-  : TransformT<T>;
+  : T extends Optional<infer U>
+    ? TransformT<U> | undefined
+    : TransformT<T>;
 
 export type inferSh<T extends ObjectT = ObjectT> = _Sh<T, inferO<T>>;
 export type inferT<T extends StandardOutput = StandardOutput> = Exclude<
-  T[typeof STANDARD_KEY]['types'],
+  T[typeof STANDARD_KEY]["types"],
   undefined
->['output'];
+>["output"];
 
 export type ProduceObject<T extends ObjectT = ObjectT> = T;
 
 export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;
 
-export * from './standard.types';
+export * from "./standard.types";
