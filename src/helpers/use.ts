@@ -1,3 +1,3 @@
-import type { Sh } from "../types";
+import type { Sh } from '../types';
 
-export const use = <T extends Sh>({ __type }: T): T["__type"] => __type;
+export const use = <T extends Sh>({ __type }: T): T['__type'] => __type;
