@@ -4,7 +4,36 @@
 
 <details>
 <summary>
+## **[1.0.0] - 23/05/2026** => _15:58_
 
+</summary>
+
+- **Breaking:** Refactor type system and helper exports for improved
+  clarity and consistency
+- Add `primitive` helper for primitive type definitions
+- Add `primitiveObject` helper for primitive object type support
+- Add `sora` helper for single-or-array schema with recursive support
+- Add `object` helper for object schema definitions
+- Add `omit` helper for omitting specific keys from objects
+- Add `readonly` helper for readonly type definitions
+- Refactor type inference system with enhanced `type()` and improved
+  `inferT` support
+- Enhance `union` support for complex type combinations
+- Refactor helper typings with centralized `Helpers` and `Transform_F`
+  model
+- Improve code consistency and standardize quote style across the codebase
+- Expand test coverage for all helpers and type definitions
+- Update project structure and move configuration to `.agents` directory
+- Upgrade development dependencies: TypeScript, Vitest, oxfmt, oxlint,
+  rolldown
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[0.5.6] - 23/05/2026** => _14:30_
 
 </summary>

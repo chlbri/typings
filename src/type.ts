@@ -1,5 +1,5 @@
-import { standardize } from './standard';
-import type { inferSh, ObjectT } from './types';
+import { standardize } from "./standard";
+import type { inferSh, ObjectT } from "./types";
 
 import {
   any,
@@ -20,7 +20,8 @@ import {
   tuple,
   union,
   sora,
-} from './helpers';
+  use,
+} from "./helpers";
 
 type Helpers = {
   any: typeof any;
@@ -31,6 +32,7 @@ type Helpers = {
   partial: typeof partial;
   record: typeof record;
   soa: typeof soa;
+  use: typeof use;
   sv: typeof sv;
   union: typeof union;
   array: typeof array;
@@ -56,12 +58,12 @@ const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   return _obj;
 };
 
-export const type: Transform_F = option => {
+export const type: Transform_F = (option) => {
   let out: any;
 
   if (!option) {
     out = option;
-  } else if (typeof option === 'function') {
+  } else if (typeof option === "function") {
     const objectS = option({
       any,
       custom,
@@ -81,6 +83,7 @@ export const type: Transform_F = option => {
       readonly,
       object,
       sora,
+      use: use,
     });
 
     out = _transform(objectS);

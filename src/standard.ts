@@ -1,5 +1,5 @@
-import { STANDARD_KEY } from './constants';
-import type { StandardSchemaV1 } from './standard.types';
+import { STANDARD_KEY, vendor } from "./constants";
+import type { StandardSchemaV1 } from "./standard.types";
 
 type Standardize_F = <T>(value: T) => {
   __type: T;
@@ -12,7 +12,7 @@ const _standardize = (__type: any) => {
     type: __type,
     [STANDARD_KEY]: {
       version: 1,
-      vendor: '@bemedev/typings',
+      vendor,
       types: {
         input: __type,
         output: __type,

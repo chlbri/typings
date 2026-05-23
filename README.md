@@ -51,6 +51,7 @@ expectTypeOf(result).toEqualTypeOf<{
 - `omit`: Omit specific keys from an object
 - `optional`: Optional types
 - `partial`: Partial types
+- `primitive`: Primitive type definitions
 - `primitiveObject`: Primitive object schema
 - `readonly`: Readonly object types
 - `record`: Record types

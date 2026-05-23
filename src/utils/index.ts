@@ -1,5 +1,3 @@
-import type { ObjectT } from '../types';
-
-export * from './expandFn';
-
-export const _const = <T extends ObjectT>(value?: T) => value as T;
+export * from "./_const";
+export * from "./expandFn";
+export * from "./isSh";
