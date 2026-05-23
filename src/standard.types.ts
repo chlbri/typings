@@ -1,4 +1,4 @@
-import type { STANDARD_KEY } from "./constants";
+import type { STANDARD_KEY } from './constants';
 
 export type StandardKey = typeof STANDARD_KEY;
 
@@ -71,11 +71,11 @@ export declare namespace StandardSchemaV1 {
 
   /** Infers the input type of a Standard Schema. */
   export type InferInput<Schema extends StandardSchemaV1> = NonNullable<
-    Schema[StandardKey]["types"]
-  >["input"];
+    Schema[StandardKey]['types']
+  >['input'];
 
   /** Infers the output type of a Standard Schema. */
   export type InferOutput<Schema extends StandardSchemaV1> = NonNullable<
-    Schema[StandardKey]["types"]
-  >["output"];
+    Schema[StandardKey]['types']
+  >['output'];
 }

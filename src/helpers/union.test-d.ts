@@ -1,10 +1,12 @@
 import { type } from '../type';
-import type { Sh } from '../types';
+import type { inferT, Sh } from '../types';
 
 // Union of primitives
 const unionPrimitives = type(({ union }) => ({
   value: union('string', 'number'),
 }));
+
+type TT = inferT<typeof unionPrimitives>;
 expectTypeOf(unionPrimitives).toEqualTypeOf<
   Sh<{
     value: string | number;
@@ -25,6 +27,7 @@ expectTypeOf(unionThree).toEqualTypeOf<
 const unionNullable = type(({ union }) => ({
   nullable: union('string', 'null'),
 }));
+
 expectTypeOf(unionNullable).toEqualTypeOf<
   Sh<{
     nullable: string | null;

@@ -1,5 +1,5 @@
-import { standardize } from "./standard";
-import type { inferSh, ObjectT } from "./types";
+import { standardize } from './standard';
+import type { inferSh, ObjectT } from './types';
 
 import {
   any,
@@ -8,6 +8,7 @@ import {
   intersection,
   litterals,
   object,
+  omit,
   optional,
   partial,
   primitive,
@@ -19,7 +20,7 @@ import {
   tuple,
   union,
   sora,
-} from "./helpers";
+} from './helpers';
 
 type Helpers = {
   any: typeof any;
@@ -38,10 +39,15 @@ type Helpers = {
   primitive: typeof primitive;
   readonly: typeof readonly;
   object: typeof object;
+  omit: typeof omit;
   sora: typeof sora;
 };
 
 export type Transform_F = <T extends ObjectT = ObjectT>(
+  option?: ((helpers: Helpers) => T) | T,
+) => inferSh<T>;
+
+export type PreTransform = <U extends ObjectT>() => <T extends U = U>(
   option?: ((helpers: Helpers) => T) | T,
 ) => inferSh<T>;
 
@@ -50,18 +56,19 @@ const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   return _obj;
 };
 
-export const type: Transform_F = (option) => {
+export const type: Transform_F = option => {
   let out: any;
 
   if (!option) {
     out = option;
-  } else if (typeof option === "function") {
+  } else if (typeof option === 'function') {
     const objectS = option({
       any,
       custom,
       intersection,
       litterals,
       optional,
+      omit,
       partial,
       record,
       soa,
@@ -81,3 +88,5 @@ export const type: Transform_F = (option) => {
 
   return standardize(out);
 };
+
+export const pretype: PreTransform = () => type as any;

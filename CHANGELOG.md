@@ -9,9 +9,12 @@
 
 </summary>
 
-- Add `sora` helper for single-or-array schema support and Standard Schema metadata
-- Introduce shared `STANDARD_KEY` constant and normalize `~standard` metadata access
-- Upgrade dev tooling dependencies: `@bemedev/dev-utils`, `globals`, `oxfmt`, `oxlint`, `rolldown`
+- Add `sora` helper for single-or-array schema support and Standard Schema
+  metadata
+- Introduce shared `STANDARD_KEY` constant and normalize `~standard`
+  metadata access
+- Upgrade dev tooling dependencies: `@bemedev/dev-utils`, `globals`,
+  `oxfmt`, `oxlint`, `rolldown`
 
 </details>
 

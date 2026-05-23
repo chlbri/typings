@@ -1,4 +1,4 @@
-import { type } from '../type';
+import { pretype, type } from '../type';
 import type {
   inferSh,
   inferT,
@@ -7,6 +7,8 @@ import type {
   PrimitiveObjectT,
   StandardHelper,
 } from '../types';
+import { object } from './object';
+import { optional } from './optional';
 import { primitiveObject } from './primitiveObject';
 
 // No argument — defaults to PrimitiveObjectS
@@ -119,6 +121,25 @@ expectTypeOf(typeWithNested).toEqualTypeOf<
   }>
 >();
 
+const typeWithNested2 = type(({ primitiveObject, partial }) =>
+  primitiveObject({
+    user: { name: 'string', active: 'boolean' },
+    data: partial({ info: 'string' }),
+  }),
+);
+
+expectTypeOf(typeWithNested2).toEqualTypeOf<
+  StandardHelper<{
+    user: {
+      name: string;
+      active: boolean;
+    };
+    data: {
+      info?: string;
+    };
+  }>
+>();
+
 // type() with primitiveObject: combined with other helpers
 const typeWithCombined = type(({ primitiveObject, optional }) => ({
   schema: primitiveObject({ name: 'string', age: 'number' }),
@@ -148,3 +169,126 @@ expectTypeOf<TU1>().toEqualTypeOf<
       age: number;
     }
 >();
+
+export const allView = object({
+  id: 'string',
+  classe: optional('string'),
+  staticClasse: optional('string'),
+  parent: 'string',
+  content: optional('string'),
+  name: optional('string'),
+  label: optional('string'),
+  value: optional('string'),
+  component: 'string',
+});
+
+const context = pretype<PrimitiveObjectT>()(
+  ({ array, optional, partial }) => ({
+    canvas: array('string'),
+    views: array(allView),
+    dragging: optional(allView),
+    creating: optional({ ...allView, parent: optional('string') }),
+    string: 'string',
+    selectedID: optional(allView.id),
+    strings: optional(array('string')),
+    currentVersion: optional('string'),
+    canvasZoom: 'number',
+
+    user: {
+      name: 'string',
+      prefs: 'any',
+    },
+
+    utilities: partial({
+      rawUtility: 'string',
+      currents: array({
+        utility: 'string',
+        active: 'boolean',
+      }),
+    }),
+
+    history: array({
+      views: array(allView),
+      id: 'string',
+      timestamps: 'number',
+    }),
+  }),
+);
+
+expectTypeOf(context).branded.toEqualTypeOf<
+  StandardHelper<{
+    canvas: string[];
+    views: {
+      id: string;
+      parent: string;
+      component: string;
+      classe?: string | undefined;
+      staticClasse?: string | undefined;
+      content?: string | undefined;
+      name?: string | undefined;
+      label?: string | undefined;
+      value?: string | undefined;
+    }[];
+    string: string;
+    canvasZoom: number;
+    user: {
+      name: string;
+      prefs: any;
+    };
+    utilities: {
+      rawUtility?: string | undefined;
+      currents?:
+        | {
+            utility: string;
+            active: boolean;
+          }[]
+        | undefined;
+    };
+    history: {
+      views: {
+        id: string;
+        parent: string;
+        component: string;
+        classe?: string | undefined;
+        staticClasse?: string | undefined;
+        content?: string | undefined;
+        name?: string | undefined;
+        label?: string | undefined;
+        value?: string | undefined;
+      }[];
+      id: string;
+      timestamps: number;
+    }[];
+    dragging?:
+      | {
+          id: string;
+          parent: string;
+          component: string;
+          classe?: string | undefined;
+          staticClasse?: string | undefined;
+          content?: string | undefined;
+          name?: string | undefined;
+          label?: string | undefined;
+          value?: string | undefined;
+        }
+      | undefined;
+    creating?:
+      | {
+          id: string;
+          component: string;
+          parent?: string | undefined;
+          classe?: string | undefined;
+          staticClasse?: string | undefined;
+          content?: string | undefined;
+          name?: string | undefined;
+          label?: string | undefined;
+          value?: string | undefined;
+        }
+      | undefined;
+    selectedID?: string | undefined;
+    strings?: string[] | undefined;
+    currentVersion?: string | undefined;
+  }>
+>();
+
+type TT = inferT<typeof context>['creating'];

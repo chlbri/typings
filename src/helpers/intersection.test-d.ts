@@ -1,5 +1,7 @@
 import { type } from '../type';
 import type { Sh } from '../types';
+import { any } from './any';
+import { optional } from './optional';
 
 // Intersection of two objects
 const intersectionTwo = type(({ intersection }) => ({
@@ -74,4 +76,87 @@ expectTypeOf(intersectionComplex).toEqualTypeOf<
       active: boolean;
     };
   }>
+>();
+
+const pphoneNumber = any({
+  countryCode: 'number',
+  number: 'string',
+  network: optional('string'),
+});
+
+const social = any({
+  platform: 'string',
+  url: 'string',
+});
+
+const intermediary = type(
+  ({ intersection, optional, any, array, union, litterals }) =>
+    intersection(
+      {
+        id: 'string',
+        wallet: 'string',
+        sacrifice: optional('number'),
+        contacts: any({
+          phoneNumbers: array(pphoneNumber),
+          emails: optional(array('string')),
+          socials: optional(array(social)),
+          websites: optional(array('string')),
+        }),
+      },
+      union.discriminated(
+        'personality',
+        {
+          personality: litterals('individual'),
+          nationalID: 'string',
+          name: any({
+            firstName: optional('string'),
+            lastName: optional('string'),
+          }),
+        },
+        {
+          personality: litterals('company'),
+          companyName: 'string',
+          registrationNumber: 'string',
+        },
+      ),
+    ),
+);
+
+expectTypeOf(intermediary).branded.toEqualTypeOf<
+  Sh<
+    {
+      id: string;
+      wallet: string;
+      sacrifice?: number | undefined;
+      contacts: {
+        phoneNumbers: {
+          countryCode: number;
+          number: string;
+          network?: string | undefined;
+        }[];
+        emails?: string[] | undefined;
+        socials?:
+          | {
+              platform: string;
+              url: string;
+            }[]
+          | undefined;
+        websites?: string[] | undefined;
+      };
+    } & (
+      | {
+          personality: 'individual';
+          nationalID: string;
+          name: {
+            firstName?: string | undefined;
+            lastName?: string | undefined;
+          };
+        }
+      | {
+          personality: 'company';
+          companyName: string;
+          registrationNumber: string;
+        }
+    )
+  >
 >();

@@ -9,7 +9,7 @@ describe('object — with a flat map', () => {
   expectTypeOf(result).toEqualTypeOf<
     Sh<{ v: { name: string; age: number } }>
   >();
-  expectTypeOf(result.value.v).toEqualTypeOf<{
+  expectTypeOf(result.type.v).toEqualTypeOf<{
     name: string;
     age: number;
   }>();

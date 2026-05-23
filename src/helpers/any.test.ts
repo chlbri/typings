@@ -1,75 +1,75 @@
-import { STANDARD_KEY } from "../constants";
-import { type } from "../type";
+import { STANDARD_KEY } from '../constants';
+import { type } from '../type';
 
-describe("Helper: any", () => {
-  describe("#01 => with string type", () => {
+describe('Helper: any', () => {
+  describe('#01 => with string type', () => {
     const result = type(({ any }) => ({
-      value: any("string"),
+      value: any('string'),
     }));
 
-    test("#01 => value matches", () =>
-      expect(result.value).toEqual({ value: "string" }));
+    test('#01 => value matches', () =>
+      expect(result.type).toEqual({ value: 'string' }));
 
     test(`#02 => ${STANDARD_KEY}.version is 1`, () =>
       expect(result[STANDARD_KEY].version).toBe(1));
 
-    test("#03 => validate() captures the value", () =>
-      expect(result[STANDARD_KEY].validate("any")).toEqual({
-        value: { value: "string" },
+    test('#03 => validate() captures the value', () =>
+      expect(result[STANDARD_KEY].validate('any')).toEqual({
+        value: { value: 'string' },
       }));
   });
 
-  describe("#02 => with nested object", () => {
+  describe('#02 => with nested object', () => {
     const result = type(({ any, readonly }) => ({
-      data: readonly(any({ name: "string", age: "number" })),
+      data: readonly(any({ name: 'string', age: 'number' })),
     }));
 
-    test("#01 => value matches", () =>
-      expect(result.value).toEqual({
-        data: { name: "string", age: "number" },
+    test('#01 => value matches', () =>
+      expect(result.type).toEqual({
+        data: { name: 'string', age: 'number' },
       }));
 
-    test("#02 => validate() captures the value", () =>
+    test('#02 => validate() captures the value', () =>
       expect(result[STANDARD_KEY].validate(false)).toEqual({
-        value: { data: { name: "string", age: "number" } },
+        value: { data: { name: 'string', age: 'number' } },
       }));
   });
 
-  describe("#03 => with number type", () => {
+  describe('#03 => with number type', () => {
     const result = type(({ any }) => ({
-      count: any("number"),
+      count: any('number'),
     }));
 
-    test("#01 => value matches", () =>
-      expect(result.value).toEqual({ count: "number" }));
+    test('#01 => value matches', () =>
+      expect(result.type).toEqual({ count: 'number' }));
 
     test(`#02 => ${STANDARD_KEY}.version is 1`, () =>
       expect(result[STANDARD_KEY].version).toBe(1));
   });
 
-  describe("#04 => without argument", () => {
+  describe('#04 => without argument', () => {
     const result = type(({ any }) => ({
       unknown: any(),
     }));
 
-    test("#01 => value.unknown is undefined", () =>
-      expect(result.value.unknown).toBeUndefined());
+    test('#01 => value.unknown is undefined', () =>
+      expect(result.type.unknown).toBeUndefined());
 
     test(`#02 => ${STANDARD_KEY}.version is 1`, () =>
       expect(result[STANDARD_KEY].version).toBe(1));
 
-    test("#03 => validate() captures the value", () =>
-      expect(result[STANDARD_KEY].validate("any")).toEqual({
+    test('#03 => validate() captures the value', () =>
+      expect(result[STANDARD_KEY].validate('any')).toEqual({
         value: { unknown: undefined },
       }));
   });
 
-  describe("#05 => with boolean type", () => {
+  describe('#05 => with boolean type', () => {
     const result = type(({ any }) => ({
-      flag: any("boolean"),
+      flag: any('boolean'),
     }));
 
-    test("#01 => value matches", () =>
-      expect(result.value).toEqual({ flag: "boolean" }));
+    test('#01 => value matches', () =>
+      expect(result.type).toEqual({ flag: 'boolean' }));
   });
 });
