@@ -1,11 +1,11 @@
-import { type } from "../type";
+import { type } from '../type';
 
 // String literals
 const litteralsString = type(({ litterals }) => ({
-  status: litterals("active", "inactive", "pending"),
+  status: litterals('active', 'inactive', 'pending'),
 }));
 expectTypeOf(litteralsString.type).toEqualTypeOf<{
-  status: "active" | "inactive" | "pending";
+  status: 'active' | 'inactive' | 'pending';
 }>();
 
 // Number literals
@@ -26,24 +26,24 @@ expectTypeOf(litteralsBoolean.type).toEqualTypeOf<{
 
 // Mixed literals
 const litteralsMixed = type(({ litterals }) => ({
-  value: litterals("yes", "no", 1, 0, true),
+  value: litterals('yes', 'no', 1, 0, true),
 }));
 expectTypeOf(litteralsMixed.type).toEqualTypeOf<{
-  value: "yes" | "no" | 1 | 0 | true;
+  value: 'yes' | 'no' | 1 | 0 | true;
 }>();
 
 // Two string literals
 const litteralsTwo = type(({ litterals }) => ({
-  direction: litterals("left", "right"),
+  direction: litterals('left', 'right'),
 }));
 expectTypeOf(litteralsTwo.type).toEqualTypeOf<{
-  direction: "left" | "right";
+  direction: 'left' | 'right';
 }>();
 
 // HTTP methods
 const litteralsHttp = type(({ litterals }) => ({
-  method: litterals("GET", "POST", "PUT", "DELETE"),
+  method: litterals('GET', 'POST', 'PUT', 'DELETE'),
 }));
 expectTypeOf(litteralsHttp.type).toEqualTypeOf<{
-  method: "GET" | "POST" | "PUT" | "DELETE";
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }>();

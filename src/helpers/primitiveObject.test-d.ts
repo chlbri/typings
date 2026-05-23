@@ -1,12 +1,12 @@
-import { pretype, type } from "../type";
+import { pretype, type } from '../type';
 import type {
   inferSh,
   inferT,
   NotReadonly,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
-} from "../types";
-import { primitiveObject } from "./primitiveObject";
+} from '../types';
+import { primitiveObject } from './primitiveObject';
 
 // No argument — defaults to PrimitiveObjectS
 const noArg = primitiveObject();
@@ -16,25 +16,25 @@ const noMapArg = primitiveObject.map();
 expectTypeOf(noMapArg).branded.toEqualTypeOf<PrimitiveObjectMapS>();
 
 // Primitive type string literal
-const withString = primitiveObject("string");
-expectTypeOf(withString).toEqualTypeOf<"string">();
+const withString = primitiveObject('string');
+expectTypeOf(withString).toEqualTypeOf<'string'>();
 
 // Primitive type number literal
-const withNumber = primitiveObject("number");
-expectTypeOf(withNumber).toEqualTypeOf<"number">();
+const withNumber = primitiveObject('number');
+expectTypeOf(withNumber).toEqualTypeOf<'number'>();
 
 // PrimitiveObjectMapS
-const withMap = primitiveObject({ name: "string", age: "number" });
-expectTypeOf(withMap).toEqualTypeOf<{ name: "string"; age: "number" }>();
+const withMap = primitiveObject({ name: 'string', age: 'number' });
+expectTypeOf(withMap).toEqualTypeOf<{ name: 'string'; age: 'number' }>();
 
 // Nested PrimitiveObjectMapS
 const withNested = primitiveObject({
-  user: { name: "string", active: "boolean" },
+  user: { name: 'string', active: 'boolean' },
 });
 expectTypeOf(withNested).toEqualTypeOf<{
   user: {
-    name: "string";
-    active: "boolean";
+    name: 'string';
+    active: 'boolean';
   };
 }>();
 
@@ -43,34 +43,34 @@ const mapResult = primitiveObject.map();
 expectTypeOf(mapResult).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // inferT: flat map transformation
-type FlatMapT = inferSh<{ name: "string"; age: "number" }>;
-expectTypeOf<FlatMapT["type"]>().toEqualTypeOf<{
+type FlatMapT = inferSh<{ name: 'string'; age: 'number' }>;
+expectTypeOf<FlatMapT['type']>().toEqualTypeOf<{
   name: string;
   age: number;
 }>();
 
 // inferT: nested map transformation
-type NestedMapT = inferSh<{ user: { name: "string"; active: "boolean" } }>;
-expectTypeOf<NestedMapT["type"]>().toEqualTypeOf<{
+type NestedMapT = inferSh<{ user: { name: 'string'; active: 'boolean' } }>;
+expectTypeOf<NestedMapT['type']>().toEqualTypeOf<{
   user: { name: string; active: boolean };
 }>();
 
 // inferT: from primitiveObject schema variable
-const schemaVar = primitiveObject({ id: "string", score: "number" });
+const schemaVar = primitiveObject({ id: 'string', score: 'number' });
 type SchemaVarT = inferSh<typeof schemaVar>;
-expectTypeOf<SchemaVarT["type"]>().toEqualTypeOf<{
+expectTypeOf<SchemaVarT['type']>().toEqualTypeOf<{
   id: string;
   score: number;
 }>();
 
 // inferT: multi-field primitive schema variable
 const multiFieldSchema = primitiveObject({
-  name: "string",
-  age: "number",
-  active: "boolean",
+  name: 'string',
+  age: 'number',
+  active: 'boolean',
 });
 type MultiFieldT = inferSh<typeof multiFieldSchema>;
-expectTypeOf<MultiFieldT["type"]>().toEqualTypeOf<{
+expectTypeOf<MultiFieldT['type']>().toEqualTypeOf<{
   name: string;
   age: number;
   active: boolean;
@@ -78,7 +78,7 @@ expectTypeOf<MultiFieldT["type"]>().toEqualTypeOf<{
 
 // type() with primitiveObject: flat map
 const typeWithFlatMap = type(({ primitiveObject }) =>
-  primitiveObject({ name: "string", age: "number" }),
+  primitiveObject({ name: 'string', age: 'number' }),
 );
 expectTypeOf(typeWithFlatMap.type).toEqualTypeOf<{
   name: string;
@@ -87,19 +87,19 @@ expectTypeOf(typeWithFlatMap.type).toEqualTypeOf<{
 
 // type() with primitiveObject: primitive string
 const typeWithPrimitiveString = type(({ primitiveObject }) =>
-  primitiveObject("string"),
+  primitiveObject('string'),
 );
 expectTypeOf(typeWithPrimitiveString.type).toEqualTypeOf<string>();
 
 // type() with primitiveObject: primitive number
 const typeWithPrimitiveNumber = type(({ primitiveObject }) =>
-  primitiveObject("number"),
+  primitiveObject('number'),
 );
 expectTypeOf(typeWithPrimitiveNumber.type).toEqualTypeOf<number>();
 
 // type() with primitiveObject: nested map
 const typeWithNested = type(({ primitiveObject }) =>
-  primitiveObject({ user: { name: "string", active: "boolean" } }),
+  primitiveObject({ user: { name: 'string', active: 'boolean' } }),
 );
 expectTypeOf(typeWithNested.type).toEqualTypeOf<{
   user: {
@@ -110,8 +110,8 @@ expectTypeOf(typeWithNested.type).toEqualTypeOf<{
 
 const typeWithNested2 = type(({ primitiveObject, partial }) =>
   primitiveObject({
-    user: { name: "string", active: "boolean" },
-    data: partial({ info: "string" }),
+    user: { name: 'string', active: 'boolean' },
+    data: partial({ info: 'string' }),
   }),
 );
 
@@ -127,8 +127,8 @@ expectTypeOf(typeWithNested2.type).toEqualTypeOf<{
 
 // type() with primitiveObject: combined with other helpers
 const typeWithCombined = type(({ primitiveObject, optional }) => ({
-  schema: primitiveObject({ name: "string", age: "number" }),
-  label: optional("string"),
+  schema: primitiveObject({ name: 'string', age: 'number' }),
+  label: optional('string'),
 }));
 expectTypeOf(typeWithCombined.type).toEqualTypeOf<{
   schema: { name: string; age: number };
@@ -138,8 +138,8 @@ expectTypeOf(typeWithCombined.type).toEqualTypeOf<{
 //union
 const unionWithPrimitiveObject = type(({ primitiveObject, union }) =>
   union(
-    primitiveObject(union({ name: "string" }, "boolean")),
-    primitiveObject({ age: "number" }),
+    primitiveObject(union({ name: 'string' }, 'boolean')),
+    primitiveObject({ age: 'number' }),
   ),
 );
 type TU1 = inferT<typeof unionWithPrimitiveObject>;
@@ -154,51 +154,51 @@ expectTypeOf<TU1>().toEqualTypeOf<
 >();
 
 const allView = type(({ optional }) => ({
-  id: "string",
-  classe: optional("string"),
-  staticClasse: optional("string"),
-  parent: "string",
-  content: optional("string"),
-  name: optional("string"),
-  label: optional("string"),
-  value: optional("string"),
-  component: "string",
+  id: 'string',
+  classe: optional('string'),
+  staticClasse: optional('string'),
+  parent: 'string',
+  content: optional('string'),
+  name: optional('string'),
+  label: optional('string'),
+  value: optional('string'),
+  component: 'string',
 }));
 
 const context = pretype<PrimitiveObjectT>()(
   ({ array, optional, partial, omit, intersection }) => ({
-    canvas: array("string"),
+    canvas: array('string'),
     views: array(allView.__type),
     dragging: optional(allView.__type),
-    string: "string",
+    string: 'string',
     selectedID: optional(allView.__type.id),
-    strings: optional(array("string")),
-    currentVersion: optional("string"),
-    canvasZoom: "number",
+    strings: optional(array('string')),
+    currentVersion: optional('string'),
+    canvasZoom: 'number',
 
     creating: optional(
-      intersection(omit(allView.__type, "parent"), {
-        parent: optional("string"),
+      intersection(omit(allView.__type, 'parent'), {
+        parent: optional('string'),
       }),
     ),
 
     user: {
-      name: "string",
-      prefs: "any",
+      name: 'string',
+      prefs: 'any',
     },
 
     utilities: partial({
-      rawUtility: "string",
+      rawUtility: 'string',
       currents: array({
-        utility: "string",
-        active: "boolean",
+        utility: 'string',
+        active: 'boolean',
       }),
     }),
 
     history: array({
       views: array(allView.__type),
-      id: "string",
-      timestamps: "number",
+      id: 'string',
+      timestamps: 'number',
     }),
   }),
 );

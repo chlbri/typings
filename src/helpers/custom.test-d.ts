@@ -1,4 +1,4 @@
-import { type } from "../type";
+import { type } from '../type';
 
 // Custom with number type
 const customNumber = type(({ custom }) => ({
