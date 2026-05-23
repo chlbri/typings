@@ -165,7 +165,7 @@ const allView = type(({ optional }) => ({
   component: 'string',
 }));
 
-const context = pretype<PrimitiveObjectT>()(
+const context = pretype(type(({ primitiveObject }) => primitiveObject()))(
   ({ array, optional, partial, omit, intersection }) => ({
     canvas: array('string'),
     views: array(allView.__type),
@@ -276,3 +276,22 @@ expectTypeOf(context.type).branded.toEqualTypeOf<{
   strings?: string[] | undefined;
   currentVersion?: string | undefined;
 }>();
+
+const _stringContext = pretype(
+  type(({ litterals }) => litterals('string', 'number')),
+);
+
+const stringContext1 = _stringContext.type(({ litterals }) =>
+  litterals('string'),
+);
+expectTypeOf(stringContext1.type).toEqualTypeOf<'string'>();
+
+const stringContext2 = _stringContext.type(({ litterals }) => litterals());
+expectTypeOf(stringContext2.type).toEqualTypeOf<never>();
+
+const stringContext3 = _stringContext.type();
+expectTypeOf(stringContext3.type).toEqualTypeOf<'string' | 'number'>();
+
+// @ts-expect-error - 'string' is not assignable to constant type '"string" | "number"'
+const stringContext4 = _stringContext.type('string');
+expectTypeOf(stringContext4.type).toEqualTypeOf<'string' | 'number'>();

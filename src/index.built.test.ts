@@ -2,6 +2,7 @@ import {
   addTarball,
   cleanup,
   THIS1,
+  createImportFnTests,
 } from '@bemedev/dev-utils/build-tests';
 import { createTests } from '@bemedev/dev-utils/vitest-extended';
 import { STANDARD_KEY } from './constants';
@@ -113,4 +114,8 @@ describe('built', () => {
       ),
     );
   });
+
+  const [text, fn] = createImportFnTests({ SUCCESS: ['type', 'pretype'] });
+
+  describe(`#03 => ${text}`, fn);
 });

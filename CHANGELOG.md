@@ -4,6 +4,22 @@
 
 <details>
 <summary>
+## **[1.1.2] - 23/05/2026** => _21:30_
+
+</summary>
+
+- Enhance: Improve `pretype` API with better type inference support
+- Fix: Update `PreTransform` type signature for enhanced context chaining
+- Expand: Add comprehensive type-checking tests for `pretype` with
+  `litterals` helper
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.1] - 23/05/2026** => _21:17_
 
 </summary>
