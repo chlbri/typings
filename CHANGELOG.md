@@ -4,6 +4,20 @@
 
 <details>
 <summary>
+## **[1.1.1] - 23/05/2026** => _21:17_
+
+</summary>
+
+- Refactor: Standardize single quotes across the codebase
+- Refactor: Improve type naming consistency
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.0] - 23/05/2026** => _21:01_
 
 </summary>
