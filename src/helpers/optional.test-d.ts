@@ -7,7 +7,7 @@ expectTypeOf(_defaultString.type).toEqualTypeOf<string | undefined>();
 const optionalString = type(({ optional }) => ({
   nickname: optional('string'),
 }));
-expectTypeOf(optionalString.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalString.type).toEqualTypeOf<{
   nickname?: string;
 }>();
 
@@ -15,7 +15,7 @@ expectTypeOf(optionalString.type).branded.toEqualTypeOf<{
 const optionalNumber = type(({ optional }) => ({
   count: optional('number'),
 }));
-expectTypeOf(optionalNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalNumber.type).toEqualTypeOf<{
   count?: number;
 }>();
 
@@ -23,7 +23,7 @@ expectTypeOf(optionalNumber.type).branded.toEqualTypeOf<{
 const optionalBoolean = type(({ optional }) => ({
   active: optional('boolean'),
 }));
-expectTypeOf(optionalBoolean.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalBoolean.type).toEqualTypeOf<{
   active?: boolean;
 }>();
 
@@ -31,7 +31,7 @@ expectTypeOf(optionalBoolean.type).branded.toEqualTypeOf<{
 const optionalObject = type(({ optional }) => ({
   address: optional({ city: 'string', zip: 'number' }),
 }));
-expectTypeOf(optionalObject.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalObject.type).toEqualTypeOf<{
   address?: { city: string; zip: number };
 }>();
 
@@ -39,7 +39,7 @@ expectTypeOf(optionalObject.type).branded.toEqualTypeOf<{
 const optionalArray = type(({ optional, array }) => ({
   items: optional(array('string')),
 }));
-expectTypeOf(optionalArray.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalArray.type).toEqualTypeOf<{
   items?: string[];
 }>();
 
@@ -49,7 +49,7 @@ const nestedoptional = type(({ optional }) => ({
     inner: optional('string'),
   }),
 }));
-expectTypeOf(nestedoptional.type).branded.toEqualTypeOf<{
+expectTypeOf(nestedoptional.type).toEqualTypeOf<{
   data?: { inner?: string };
 }>();
 
@@ -63,7 +63,7 @@ const optionalComplex = type(({ optional, array }) => ({
     }),
   }),
 }));
-expectTypeOf(optionalComplex.type).branded.toEqualTypeOf<{
+expectTypeOf(optionalComplex.type).toEqualTypeOf<{
   user?: {
     name: string;
     tags: string[];

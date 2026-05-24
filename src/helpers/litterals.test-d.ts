@@ -4,7 +4,7 @@ import { type } from '../type';
 const litteralsString = type(({ litterals }) => ({
   status: litterals('active', 'inactive', 'pending'),
 }));
-expectTypeOf(litteralsString.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsString.type).toEqualTypeOf<{
   status: 'active' | 'inactive' | 'pending';
 }>();
 
@@ -12,7 +12,7 @@ expectTypeOf(litteralsString.type).branded.toEqualTypeOf<{
 const litteralsNumber = type(({ litterals }) => ({
   priority: litterals(1, 2, 3),
 }));
-expectTypeOf(litteralsNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsNumber.type).toEqualTypeOf<{
   priority: 1 | 2 | 3;
 }>();
 
@@ -20,7 +20,7 @@ expectTypeOf(litteralsNumber.type).branded.toEqualTypeOf<{
 const litteralsBoolean = type(({ litterals }) => ({
   flag: litterals(true, false),
 }));
-expectTypeOf(litteralsBoolean.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsBoolean.type).toEqualTypeOf<{
   flag: true | false;
 }>();
 
@@ -28,7 +28,7 @@ expectTypeOf(litteralsBoolean.type).branded.toEqualTypeOf<{
 const litteralsMixed = type(({ litterals }) => ({
   value: litterals('yes', 'no', 1, 0, true),
 }));
-expectTypeOf(litteralsMixed.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsMixed.type).toEqualTypeOf<{
   value: 'yes' | 'no' | 1 | 0 | true;
 }>();
 
@@ -36,7 +36,7 @@ expectTypeOf(litteralsMixed.type).branded.toEqualTypeOf<{
 const litteralsTwo = type(({ litterals }) => ({
   direction: litterals('left', 'right'),
 }));
-expectTypeOf(litteralsTwo.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsTwo.type).toEqualTypeOf<{
   direction: 'left' | 'right';
 }>();
 
@@ -44,6 +44,6 @@ expectTypeOf(litteralsTwo.type).branded.toEqualTypeOf<{
 const litteralsHttp = type(({ litterals }) => ({
   method: litterals('GET', 'POST', 'PUT', 'DELETE'),
 }));
-expectTypeOf(litteralsHttp.type).branded.toEqualTypeOf<{
+expectTypeOf(litteralsHttp.type).toEqualTypeOf<{
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }>();

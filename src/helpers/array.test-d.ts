@@ -4,13 +4,13 @@ import { type } from '../type';
 const arrayString = type(({ array }) => ({
   tags: array('string'),
 }));
-expectTypeOf(arrayString.type).branded.toEqualTypeOf<{ tags: string[] }>();
+expectTypeOf(arrayString.type).toEqualTypeOf<{ tags: string[] }>();
 
 // Array of numbers
 const arrayNumber = type(({ array }) => ({
   scores: array('number'),
 }));
-expectTypeOf(arrayNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(arrayNumber.type).toEqualTypeOf<{
   scores: number[];
 }>();
 
@@ -18,7 +18,7 @@ expectTypeOf(arrayNumber.type).branded.toEqualTypeOf<{
 const arrayBoolean = type(({ array }) => ({
   flags: array('boolean'),
 }));
-expectTypeOf(arrayBoolean.type).branded.toEqualTypeOf<{
+expectTypeOf(arrayBoolean.type).toEqualTypeOf<{
   flags: boolean[];
 }>();
 
@@ -26,7 +26,7 @@ expectTypeOf(arrayBoolean.type).branded.toEqualTypeOf<{
 const arrayObject = type(({ array }) => ({
   users: array({ name: 'string', age: 'number' }),
 }));
-expectTypeOf(arrayObject.type).branded.toEqualTypeOf<{
+expectTypeOf(arrayObject.type).toEqualTypeOf<{
   users: Array<{ name: string; age: number }>;
 }>();
 
@@ -34,7 +34,7 @@ expectTypeOf(arrayObject.type).branded.toEqualTypeOf<{
 const nestedArray = type(({ array }) => ({
   matrix: array(array('number')),
 }));
-expectTypeOf(nestedArray.type).branded.toEqualTypeOf<{
+expectTypeOf(nestedArray.type).toEqualTypeOf<{
   matrix: number[][];
 }>();
 
@@ -48,7 +48,7 @@ const arrayNestedObject = type(({ array }) => ({
     },
   }),
 }));
-expectTypeOf(arrayNestedObject.type).branded.toEqualTypeOf<{
+expectTypeOf(arrayNestedObject.type).toEqualTypeOf<{
   items: Array<{
     id: string;
     data: { value: number; label: string };

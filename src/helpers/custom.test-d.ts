@@ -4,19 +4,19 @@ import { type } from '../type';
 const customNumber = type(({ custom }) => ({
   value: custom<number>(),
 }));
-expectTypeOf(customNumber.type).branded.toEqualTypeOf<{ value: number }>();
+expectTypeOf(customNumber.type).toEqualTypeOf<{ value: number }>();
 
 // Custom with string type
 const customString = type(({ custom }) => ({
   text: custom<string>(),
 }));
-expectTypeOf(customString.type).branded.toEqualTypeOf<{ text: string }>();
+expectTypeOf(customString.type).toEqualTypeOf<{ text: string }>();
 
 // Custom with RegExp type
 const customRegex = type(({ custom }) => ({
   pattern: custom<RegExp>(),
 }));
-expectTypeOf(customRegex.type).branded.toEqualTypeOf<{
+expectTypeOf(customRegex.type).toEqualTypeOf<{
   pattern: RegExp;
 }>();
 
@@ -24,7 +24,7 @@ expectTypeOf(customRegex.type).branded.toEqualTypeOf<{
 const customObject = type(({ custom }) => ({
   data: custom<{ id: number; tags: string[] }>(),
 }));
-expectTypeOf(customObject.type).branded.toEqualTypeOf<{
+expectTypeOf(customObject.type).toEqualTypeOf<{
   data: { id: number; tags: string[] };
 }>();
 
@@ -32,7 +32,7 @@ expectTypeOf(customObject.type).branded.toEqualTypeOf<{
 const customArray = type(({ custom }) => ({
   items: custom<string[]>(),
 }));
-expectTypeOf(customArray.type).branded.toEqualTypeOf<{
+expectTypeOf(customArray.type).toEqualTypeOf<{
   items: string[];
 }>();
 

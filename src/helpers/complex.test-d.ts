@@ -106,7 +106,7 @@ const apiResponse = type(({ array, optional, union, intersection }) => ({
   }),
 }));
 
-expectTypeOf(apiResponse.type).branded.toEqualTypeOf<{
+expectTypeOf(apiResponse.type).toEqualTypeOf<{
   data:
     | {
         success: boolean;
@@ -138,7 +138,7 @@ const nestedTuples = type(({ tuple, array, optional }) => ({
   bounds: optional(tuple({ min: 'number' }, { max: 'number' })),
 }));
 
-expectTypeOf(nestedTuples.type).branded.toEqualTypeOf<{
+expectTypeOf(nestedTuples.type).toEqualTypeOf<{
   coordinates: [number, number, number];
   path: Array<[number, number]>;
   bounds?: [{ min: number }, { max: number }];
@@ -165,7 +165,7 @@ const recordComplex = type(({ record, optional, array }) => ({
   ),
 }));
 
-expectTypeOf(recordComplex.type).branded.toEqualTypeOf<{
+expectTypeOf(recordComplex.type).toEqualTypeOf<{
   users: Record<
     'admin' | 'editor' | 'viewer',
     {
@@ -215,7 +215,7 @@ const allHelpers = type(
   }),
 );
 
-expectTypeOf(allHelpers.type).branded.toEqualTypeOf<{
+expectTypeOf(allHelpers.type).toEqualTypeOf<{
   anyValue: string;
   items: Array<{ id: string }>;
   customData: { foo: string };
@@ -237,7 +237,7 @@ type FlatPrimitiveSchema = inferSh<{
   age: 'number';
   active: 'boolean';
 }>;
-expectTypeOf<FlatPrimitiveSchema['type']>().branded.toEqualTypeOf<{
+expectTypeOf<FlatPrimitiveSchema['type']>().toEqualTypeOf<{
   name: string;
   age: number;
   active: boolean;
@@ -250,7 +250,7 @@ type DeepNestedSchema = inferSh<{
     settings: { theme: 'string'; notifications: 'boolean' };
   };
 }>;
-expectTypeOf<DeepNestedSchema['type']>().branded.toEqualTypeOf<{
+expectTypeOf<DeepNestedSchema['type']>().toEqualTypeOf<{
   user: {
     profile: { firstName: string; lastName: string };
     settings: { theme: string; notifications: boolean };
@@ -262,7 +262,7 @@ const typeWithPrimObj = type(({ primitiveObject, optional, array }) => ({
   config: primitiveObject({ host: 'string', port: 'number' }),
   tags: optional(array('string')),
 }));
-expectTypeOf(typeWithPrimObj.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithPrimObj.type).toEqualTypeOf<{
   config: { host: string; port: number };
   tags?: string[];
 }>();
@@ -271,7 +271,7 @@ expectTypeOf(typeWithPrimObj.type).branded.toEqualTypeOf<{
 const typeWithPrimObjArray = type(({ primitiveObject, array }) => ({
   items: array(primitiveObject({ id: 'string', value: 'number' })),
 }));
-expectTypeOf(typeWithPrimObjArray.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithPrimObjArray.type).toEqualTypeOf<{
   items: Array<{ id: string; value: number }>;
 }>();
 
@@ -283,7 +283,7 @@ const typeWithPrimObjIntersection = type(
       primitiveObject({ age: 'number' }),
     ),
 );
-expectTypeOf(typeWithPrimObjIntersection.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithPrimObjIntersection.type).toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -309,7 +309,7 @@ const pretype1 = _pretype({
   },
 });
 
-expectTypeOf(pretype1.type).branded.toEqualTypeOf<{
+expectTypeOf(pretype1.type).toEqualTypeOf<{
   emitters: {
     data: {
       next: string;

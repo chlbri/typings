@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/typings",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Typings by variables",
   "author": {
     "email": "bri_lvi@icloud.com",
@@ -68,10 +68,11 @@
     "node": ">=24"
   },
   "scripts": {
+    "prune": "pnpm store prune",
     "build": "pnpm rm:lib && pnpm run rolldown",
     "_ci": "pnpm clean --lockfile && pnpm run config:off && pnpm run lint && pnpm run test",
     "ci": "CI_START=$(date +%s) && pnpm run _ci && pnpm run p-q && echo \"\n✅ CI takes $(($(date +%s) - CI_START))s\n\"",
-    "ci:admin": "CI_START=$(date +%s) && pnpm run rm && pnpm run upgrade:fast && pnpm run _ci && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_START))s\n\"",
+    "ci:admin": "CI_START=$(date +%s) && pnpm run prune && pnpm run rm && pnpm run upgrade:fast && pnpm run _ci && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_START))s\n\"",
     "clean": "pnpm run rm && pnpm run config",
     "config": "pnpm install",
     "config:off": "pnpm run config --offline",

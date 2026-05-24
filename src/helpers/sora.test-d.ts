@@ -5,7 +5,7 @@ import type { SoRa } from '../types';
 const soraString = type(({ sora }) => ({
   value: sora('string'),
 }));
-expectTypeOf(soraString.type).branded.toEqualTypeOf<{
+expectTypeOf(soraString.type).toEqualTypeOf<{
   value: SoRa<string>;
 }>();
 
@@ -13,7 +13,7 @@ expectTypeOf(soraString.type).branded.toEqualTypeOf<{
 const soraNumber = type(({ sora }) => ({
   count: sora('number'),
 }));
-expectTypeOf(soraNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(soraNumber.type).toEqualTypeOf<{
   count: SoRa<number>;
 }>();
 
@@ -21,7 +21,7 @@ expectTypeOf(soraNumber.type).branded.toEqualTypeOf<{
 const soraBoolean = type(({ sora }) => ({
   flag: sora('boolean'),
 }));
-expectTypeOf(soraBoolean.type).branded.toEqualTypeOf<{
+expectTypeOf(soraBoolean.type).toEqualTypeOf<{
   flag: SoRa<boolean>;
 }>();
 

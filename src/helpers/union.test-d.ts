@@ -4,7 +4,7 @@ import { type } from '../type';
 const unionPrimitives = type(({ union }) => ({
   value: union('string', 'number'),
 }));
-expectTypeOf(unionPrimitives.type).branded.toEqualTypeOf<{
+expectTypeOf(unionPrimitives.type).toEqualTypeOf<{
   value: string | number;
 }>();
 
@@ -12,7 +12,7 @@ expectTypeOf(unionPrimitives.type).branded.toEqualTypeOf<{
 const unionThree = type(({ union }) => ({
   value: union('string', 'number', 'boolean'),
 }));
-expectTypeOf(unionThree.type).branded.toEqualTypeOf<{
+expectTypeOf(unionThree.type).toEqualTypeOf<{
   value: string | number | boolean;
 }>();
 
@@ -20,7 +20,7 @@ expectTypeOf(unionThree.type).branded.toEqualTypeOf<{
 const unionNullable = type(({ union }) => ({
   nullable: union('string', 'null'),
 }));
-expectTypeOf(unionNullable.type).branded.toEqualTypeOf<{
+expectTypeOf(unionNullable.type).toEqualTypeOf<{
   nullable: string | null;
 }>();
 
@@ -28,7 +28,7 @@ expectTypeOf(unionNullable.type).branded.toEqualTypeOf<{
 const unionObjects = type(({ union }) => ({
   item: union({ type: 'string' }, { value: 'number' }),
 }));
-expectTypeOf(unionObjects.type).branded.toEqualTypeOf<{
+expectTypeOf(unionObjects.type).toEqualTypeOf<{
   item: { type: string } | { value: number };
 }>();
 
@@ -40,7 +40,7 @@ const discriminatedUnion = type(({ union }) => ({
     { type: 'string', count: 'number' },
   ),
 }));
-expectTypeOf(discriminatedUnion.type).branded.toEqualTypeOf<{
+expectTypeOf(discriminatedUnion.type).toEqualTypeOf<{
   event: { type: string; name: string } | { type: string; count: number };
 }>();
 
@@ -52,7 +52,7 @@ const complexDiscriminated = type(({ union }) => ({
     { status: 'string', error: 'string' },
   ),
 }));
-expectTypeOf(complexDiscriminated.type).branded.toEqualTypeOf<{
+expectTypeOf(complexDiscriminated.type).toEqualTypeOf<{
   response:
     | { status: string; data: string }
     | { status: string; error: string };

@@ -4,7 +4,7 @@ import { type } from '../type';
 const tupleNumbers = type(({ tuple }) => ({
   coordinates: tuple('number', 'number'),
 }));
-expectTypeOf(tupleNumbers.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleNumbers.type).toEqualTypeOf<{
   coordinates: [number, number];
 }>();
 
@@ -12,7 +12,7 @@ expectTypeOf(tupleNumbers.type).branded.toEqualTypeOf<{
 const tupleMixed = type(({ tuple }) => ({
   pair: tuple('string', 'number', 'boolean'),
 }));
-expectTypeOf(tupleMixed.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleMixed.type).toEqualTypeOf<{
   pair: [string, number, boolean];
 }>();
 
@@ -20,7 +20,7 @@ expectTypeOf(tupleMixed.type).branded.toEqualTypeOf<{
 const tupleObjects = type(({ tuple }) => ({
   data: tuple({ name: 'string' }, { age: 'number' }),
 }));
-expectTypeOf(tupleObjects.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleObjects.type).toEqualTypeOf<{
   data: [{ name: string }, { age: number }];
 }>();
 
@@ -28,7 +28,7 @@ expectTypeOf(tupleObjects.type).branded.toEqualTypeOf<{
 const tupleRgb = type(({ tuple }) => ({
   rgb: tuple('number', 'number', 'number'),
 }));
-expectTypeOf(tupleRgb.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleRgb.type).toEqualTypeOf<{
   rgb: [number, number, number];
 }>();
 
@@ -36,7 +36,7 @@ expectTypeOf(tupleRgb.type).branded.toEqualTypeOf<{
 const tupleEntry = type(({ tuple }) => ({
   entry: tuple('string', 'number'),
 }));
-expectTypeOf(tupleEntry.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleEntry.type).toEqualTypeOf<{
   entry: [string, number];
 }>();
 
@@ -44,7 +44,7 @@ expectTypeOf(tupleEntry.type).branded.toEqualTypeOf<{
 const tupleComplex1 = type(({ tuple }) => ({
   bounds: tuple({ min: 'number' }, { max: 'number' }),
 }));
-expectTypeOf(tupleComplex1.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleComplex1.type).toEqualTypeOf<{
   bounds: [{ min: number }, { max: number }];
 }>();
 
@@ -69,7 +69,7 @@ const tupleComplex2 = type(({ tuple, litterals, array, union }) => ({
   ),
 }));
 
-expectTypeOf(tupleComplex2.type).branded.toEqualTypeOf<{
+expectTypeOf(tupleComplex2.type).toEqualTypeOf<{
   bounds: [
     { min: number },
     { max: number },

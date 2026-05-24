@@ -11,10 +11,10 @@ import { primitiveObject } from './primitiveObject';
 
 // No argument — defaults to PrimitiveObjectS
 const noArg = primitiveObject();
-expectTypeOf(noArg).branded.toEqualTypeOf<NotReadonly<PrimitiveObjectT>>();
+expectTypeOf(noArg).toEqualTypeOf<NotReadonly<PrimitiveObjectT>>();
 
 const noMapArg = primitiveObject.map();
-expectTypeOf(noMapArg).branded.toEqualTypeOf<PrimitiveObjectMapS>();
+expectTypeOf(noMapArg).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // Primitive type string literal
 const withString = primitiveObject('string');
@@ -45,21 +45,21 @@ expectTypeOf(mapResult).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // inferT: flat map transformation
 type FlatMapT = inferSh<{ name: 'string'; age: 'number' }>;
-expectTypeOf<FlatMapT['type']>().branded.toEqualTypeOf<{
+expectTypeOf<FlatMapT['type']>().toEqualTypeOf<{
   name: string;
   age: number;
 }>();
 
 // inferT: nested map transformation
 type NestedMapT = inferSh<{ user: { name: 'string'; active: 'boolean' } }>;
-expectTypeOf<NestedMapT['type']>().branded.toEqualTypeOf<{
+expectTypeOf<NestedMapT['type']>().toEqualTypeOf<{
   user: { name: string; active: boolean };
 }>();
 
 // inferT: from primitiveObject schema variable
 const schemaVar = primitiveObject({ id: 'string', score: 'number' });
 type SchemaVarT = inferSh<typeof schemaVar>;
-expectTypeOf<SchemaVarT['type']>().branded.toEqualTypeOf<{
+expectTypeOf<SchemaVarT['type']>().toEqualTypeOf<{
   id: string;
   score: number;
 }>();
@@ -71,7 +71,7 @@ const multiFieldSchema = primitiveObject({
   active: 'boolean',
 });
 type MultiFieldT = inferSh<typeof multiFieldSchema>;
-expectTypeOf<MultiFieldT['type']>().branded.toEqualTypeOf<{
+expectTypeOf<MultiFieldT['type']>().toEqualTypeOf<{
   name: string;
   age: number;
   active: boolean;
@@ -81,7 +81,7 @@ expectTypeOf<MultiFieldT['type']>().branded.toEqualTypeOf<{
 const typeWithFlatMap = type(({ primitiveObject }) =>
   primitiveObject({ name: 'string', age: 'number' }),
 );
-expectTypeOf(typeWithFlatMap.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithFlatMap.type).toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -90,7 +90,7 @@ expectTypeOf(typeWithFlatMap.type).branded.toEqualTypeOf<{
 const typeWithPrimitiveString = type(({ primitiveObject }) =>
   primitiveObject('string'),
 );
-expectTypeOf(typeWithPrimitiveString.type).branded.toEqualTypeOf<string>();
+expectTypeOf(typeWithPrimitiveString.type).toEqualTypeOf<string>();
 
 // type() with primitiveObject: primitive number
 const typeWithPrimitiveNumber = type(({ primitiveObject }) =>
@@ -102,7 +102,7 @@ expectTypeOf(typeWithPrimitiveNumber.type).toEqualTypeOf<number>();
 const typeWithNested = type(({ primitiveObject }) =>
   primitiveObject({ user: { name: 'string', active: 'boolean' } }),
 );
-expectTypeOf(typeWithNested.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithNested.type).toEqualTypeOf<{
   user: {
     name: string;
     active: boolean;
@@ -116,7 +116,7 @@ const typeWithNested2 = type(({ primitiveObject, partial }) =>
   }),
 );
 
-expectTypeOf(typeWithNested2.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithNested2.type).toEqualTypeOf<{
   user: {
     name: string;
     active: boolean;
@@ -131,7 +131,7 @@ const typeWithCombined = type(({ primitiveObject, optional }) => ({
   schema: primitiveObject({ name: 'string', age: 'number' }),
   label: optional('string'),
 }));
-expectTypeOf(typeWithCombined.type).branded.toEqualTypeOf<{
+expectTypeOf(typeWithCombined.type).toEqualTypeOf<{
   schema: { name: string; age: number };
   label?: string;
 }>();
@@ -144,7 +144,7 @@ const unionWithPrimitiveObject = type(({ primitiveObject, union }) =>
   ),
 );
 type TU1 = inferT<typeof unionWithPrimitiveObject>;
-expectTypeOf<TU1>().branded.toEqualTypeOf<
+expectTypeOf<TU1>().toEqualTypeOf<
   | boolean
   | {
       name: string;

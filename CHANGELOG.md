@@ -4,6 +4,22 @@
 
 <details>
 <summary>
+## **[1.1.6] - 24/05/2026** => _12:28_
+
+</summary>
+
+- Refactor: Update type tests to use branded type assertions
+  (`branded.toEqualTypeOf`) for improved type safety and consistency
+- Refactor: Modify `EmptyObject` type definition to use
+  `Record<string, never>` for better clarity and type inference
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.5] - 24/05/2026** => _04:23_
 
 </summary>

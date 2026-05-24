@@ -4,7 +4,7 @@ import { type } from '../type';
 const intersectionTwo = type(({ intersection }) => ({
   person: intersection({ name: 'string' }, { age: 'number' }),
 }));
-expectTypeOf(intersectionTwo.type).branded.toEqualTypeOf<{
+expectTypeOf(intersectionTwo.type).toEqualTypeOf<{
   person: { name: string; age: number };
 }>();
 
@@ -16,7 +16,7 @@ const intersectionThree = type(({ intersection }) => ({
     { createdAt: 'date' },
   ),
 }));
-expectTypeOf(intersectionThree.type).branded.toEqualTypeOf<{
+expectTypeOf(intersectionThree.type).toEqualTypeOf<{
   entity: { id: string; name: string; createdAt: Date };
 }>();
 
@@ -27,7 +27,7 @@ const intersectionNested = type(({ intersection }) => ({
     { meta: { timestamp: 'number' } },
   ),
 }));
-expectTypeOf(intersectionNested.type).branded.toEqualTypeOf<{
+expectTypeOf(intersectionNested.type).toEqualTypeOf<{
   data: {
     user: { name: string };
     meta: { timestamp: number };
@@ -43,7 +43,7 @@ const intersectionFour = type(({ intersection }) => ({
     { d: 'date' },
   ),
 }));
-expectTypeOf(intersectionFour.type).branded.toEqualTypeOf<{
+expectTypeOf(intersectionFour.type).toEqualTypeOf<{
   full: { a: string; b: number; c: boolean; d: Date };
 }>();
 
@@ -56,7 +56,7 @@ const intersectionComplex = type(({ any, intersection, array }) => ({
     ),
   ),
 }));
-expectTypeOf(intersectionComplex.type).branded.toEqualTypeOf<{
+expectTypeOf(intersectionComplex.type).toEqualTypeOf<{
   item: {
     id: string;
     tags: string[];
@@ -109,39 +109,37 @@ const intermediary = type(
     ),
 );
 
-expectTypeOf(intermediary.type).branded.toEqualTypeOf<
-  {
-    id: string;
-    wallet: string;
-    sacrifice?: number | undefined;
-    contacts: {
-      phoneNumbers: {
-        countryCode: number;
-        number: string;
-        network?: string | undefined;
-      }[];
-      emails?: string[] | undefined;
-      socials?:
-        | {
-            platform: string;
-            url: string;
-          }[]
-        | undefined;
-      websites?: string[] | undefined;
-    };
-  } & (
-    | {
-        personality: 'individual';
-        nationalID: string;
-        name: {
-          firstName?: string | undefined;
-          lastName?: string | undefined;
-        };
-      }
-    | {
-        personality: 'company';
-        companyName: string;
-        registrationNumber: string;
-      }
-  )
->();
+type TIntermediary = {
+  id: string;
+  wallet: string;
+  sacrifice?: number;
+  contacts: {
+    phoneNumbers: {
+      countryCode: number;
+      number: string;
+      network?: string;
+    }[];
+    emails?: string[];
+    socials?: {
+      platform: string;
+      url: string;
+    }[];
+    websites?: string[];
+  };
+} & (
+  | {
+      personality: 'individual';
+      nationalID: string;
+      name?: {
+        firstName?: string;
+        lastName?: string;
+      };
+    }
+  | {
+      personality: 'company';
+      companyName: string;
+      registrationNumber: string;
+    }
+);
+
+expectTypeOf(intermediary.type).branded.toEqualTypeOf<TIntermediary>();

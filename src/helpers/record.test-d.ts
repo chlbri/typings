@@ -5,7 +5,7 @@ import { type } from '../type';
 const recordString = type(({ record }) => ({
   dict: record('string'),
 }));
-expectTypeOf(recordString.type).branded.toEqualTypeOf<{
+expectTypeOf(recordString.type).toEqualTypeOf<{
   dict: Record<Keys, string>;
 }>();
 
@@ -13,7 +13,7 @@ expectTypeOf(recordString.type).branded.toEqualTypeOf<{
 const recordSpecific = type(({ record }) => ({
   config: record('boolean', 'enabled', 'visible', 'active'),
 }));
-expectTypeOf(recordSpecific.type).branded.toEqualTypeOf<{
+expectTypeOf(recordSpecific.type).toEqualTypeOf<{
   config: Record<'enabled' | 'visible' | 'active', boolean>;
 }>();
 
@@ -21,7 +21,7 @@ expectTypeOf(recordSpecific.type).branded.toEqualTypeOf<{
 const recordObject = type(({ record }) => ({
   users: record({ name: 'string', age: 'number' }, 'user1', 'user2'),
 }));
-expectTypeOf(recordObject.type).branded.toEqualTypeOf<{
+expectTypeOf(recordObject.type).toEqualTypeOf<{
   users: Record<'user1' | 'user2', { name: string; age: number }>;
 }>();
 
@@ -29,7 +29,7 @@ expectTypeOf(recordObject.type).branded.toEqualTypeOf<{
 const recordNumber = type(({ record }) => ({
   scores: record('number'),
 }));
-expectTypeOf(recordNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(recordNumber.type).toEqualTypeOf<{
   scores: Record<Keys, number>;
 }>();
 
@@ -37,7 +37,7 @@ expectTypeOf(recordNumber.type).branded.toEqualTypeOf<{
 const recordSingle = type(({ record }) => ({
   single: record('string', 'onlyKey'),
 }));
-expectTypeOf(recordSingle.type).branded.toEqualTypeOf<{
+expectTypeOf(recordSingle.type).toEqualTypeOf<{
   single: Record<'onlyKey', string>;
 }>();
 
@@ -49,7 +49,7 @@ const recordComplex = type(({ record, array }) => ({
     'second',
   ),
 }));
-expectTypeOf(recordComplex.type).branded.toEqualTypeOf<{
+expectTypeOf(recordComplex.type).toEqualTypeOf<{
   entities: Record<
     'first' | 'second',
     { id: string; tags: string[]; active: boolean }

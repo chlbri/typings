@@ -8,7 +8,7 @@ const rd1 = type(({ readonly }) =>
   }),
 );
 
-expectTypeOf(rd1.type).branded.toEqualTypeOf<{
+expectTypeOf(rd1.type).toEqualTypeOf<{
   readonly readonly: string;
 }>();
 
@@ -57,7 +57,7 @@ const rd4 = type(({ readonly, optional, soa, litterals, any }) =>
     ),
   }),
 );
-expectTypeOf(rd4.type).branded.toEqualTypeOf<{
+expectTypeOf(rd4.type).toEqualTypeOf<{
   readonly name: string;
   readonly tags: SoA<string>;
   readonly status: 'active' | 'inactive';
@@ -96,7 +96,7 @@ const rd5 = type(({ readonly, union }) =>
     readonly({ type: litterals('b'), value: 'number' }),
   ),
 );
-expectTypeOf(rd5.type).branded.toEqualTypeOf<
+expectTypeOf(rd5.type).toEqualTypeOf<
   | {
       readonly a: {
         readonly value: string;

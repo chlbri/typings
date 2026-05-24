@@ -11,7 +11,7 @@ expectTypeOf(_any2.type).toEqualTypeOf<any>();
 
 // Plain object
 const _obj = type({ name: 'string', age: 'number' });
-expectTypeOf(_obj.type).branded.toEqualTypeOf<{
+expectTypeOf(_obj.type).toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -33,7 +33,7 @@ const _funcObj = type(({ primitive }) => ({
   name: primitive.string(),
   age: primitive.number(),
 }));
-expectTypeOf(_funcObj.type).branded.toEqualTypeOf<{
+expectTypeOf(_funcObj.type).toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -42,19 +42,19 @@ expectTypeOf(_funcObj.type).branded.toEqualTypeOf<{
 const _funcOpt = type(({ optional }) => ({
   nick: optional('string'),
 }));
-expectTypeOf(_funcOpt.type).branded.toEqualTypeOf<{ nick?: string }>();
+expectTypeOf(_funcOpt.type).toEqualTypeOf<{ nick?: string }>();
 
 // Via function — array field
 const _funcArr = type(({ array }) => ({
   tags: array('string'),
 }));
-expectTypeOf(_funcArr.type).branded.toEqualTypeOf<{ tags: string[] }>();
+expectTypeOf(_funcArr.type).toEqualTypeOf<{ tags: string[] }>();
 
 // Via function — union field
 const _funcUnion = type(({ union }) => ({
   value: union('string', 'number'),
 }));
-expectTypeOf(_funcUnion.type).branded.toEqualTypeOf<{
+expectTypeOf(_funcUnion.type).toEqualTypeOf<{
   value: string | number;
 }>();
 
@@ -62,6 +62,6 @@ expectTypeOf(_funcUnion.type).branded.toEqualTypeOf<{
 const _funcPartial = type(({ partial }) => ({
   user: partial({ name: 'string', active: 'boolean' }),
 }));
-expectTypeOf(_funcPartial.type).branded.toEqualTypeOf<{
+expectTypeOf(_funcPartial.type).toEqualTypeOf<{
   user: Partial<{ name: string; active: boolean }>;
 }>();

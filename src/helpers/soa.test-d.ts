@@ -5,7 +5,7 @@ import { type } from '../type';
 const soaString = type(({ soa }) => ({
   value: soa('string'),
 }));
-expectTypeOf(soaString.type).branded.toEqualTypeOf<{
+expectTypeOf(soaString.type).toEqualTypeOf<{
   value: SoA<string>;
 }>();
 
@@ -13,7 +13,7 @@ expectTypeOf(soaString.type).branded.toEqualTypeOf<{
 const soaNumber = type(({ soa }) => ({
   count: soa('number'),
 }));
-expectTypeOf(soaNumber.type).branded.toEqualTypeOf<{
+expectTypeOf(soaNumber.type).toEqualTypeOf<{
   count: SoA<number>;
 }>();
 
@@ -21,7 +21,7 @@ expectTypeOf(soaNumber.type).branded.toEqualTypeOf<{
 const soaBoolean = type(({ soa }) => ({
   flag: soa('boolean'),
 }));
-expectTypeOf(soaBoolean.type).branded.toEqualTypeOf<{
+expectTypeOf(soaBoolean.type).toEqualTypeOf<{
   flag: SoA<boolean>;
 }>();
 

@@ -239,9 +239,7 @@ type _UndefinyObject<T extends object> = {
   >;
 };
 
-type UndefinyObject<T extends object> =
-  _UndefinyObject<T> extends infer O ? { [K in keyof O]: O[K] } : never;
-
+type UndefinyObject<T extends object> = _UndefinyObject<T>;
 type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
   ? ReduceTupleU<U>
   : U extends TrueObject
@@ -250,29 +248,33 @@ type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
 // #endregion
 
 type TransformT<T> =
-  Equals<ObjectMapS, T> extends true
-    ? object
-    : T extends Types
-      ? TransformTypes<T>
-      : T extends ArrayCustom<infer A>
-        ? TransformT<A>[]
-        : T extends UnionCustom
-          ? __TransformUnion<T>
-          : T extends SoRaCustom<infer TSoA>
-            ? SoRa<TransformT<TSoA>>
-            : T extends SoaCustom<infer TSoA>
-              ? SoA<TransformT<TSoA>>
-              : T extends Custom<infer TCustom>
-                ? TCustom
-                : T extends AnyArray<ObjectT>
-                  ? ReduceTuple2<T>
-                  : T extends PartialCustom<infer TPartial>
-                    ? Partial<TransformT<TPartial>>
-                    : T extends Optional<infer TOptional>
-                      ? TransformT<TOptional> | OptionalHelperClass
-                      : Undefiny<{
-                          [K in keyof T]: TransformT<T[K]>;
-                        }>;
+  Equals<EmptyObject, T> extends true
+    ? EmptyObject
+    : Equals<ObjectMapS, T> extends true
+      ? object
+      : PrimitiveObjectT extends T
+        ? PrimitiveObject
+        : T extends Types
+          ? TransformTypes<T>
+          : T extends ArrayCustom<infer A>
+            ? TransformT<A>[]
+            : T extends UnionCustom
+              ? __TransformUnion<T>
+              : T extends SoRaCustom<infer TSoA>
+                ? SoRa<TransformT<TSoA>>
+                : T extends SoaCustom<infer TSoA>
+                  ? SoA<TransformT<TSoA>>
+                  : T extends Custom<infer TCustom>
+                    ? TCustom
+                    : T extends AnyArray<ObjectT>
+                      ? ReduceTuple2<T>
+                      : T extends PartialCustom<infer TPartial>
+                        ? Partial<TransformT<TPartial>>
+                        : T extends Optional<infer TOptional>
+                          ? TransformT<TOptional> | OptionalHelperClass
+                          : Undefiny<{
+                              [K in keyof T]: TransformT<T[K]>;
+                            }>;
 
 export type StandardHelper<T1 = any, T2 = any> = {
   __type: T1;
@@ -294,19 +296,41 @@ export interface PrimitiveObjectMap {
   [key: Keys]: PrimitiveObject;
 }
 
-export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
+type _inferO<T extends ObjectT = ObjectT> = ObjectT extends T
   ? unknown
-  : PrimitiveObjectT extends T
-    ? PrimitiveObject
-    : T extends Optional<infer U>
-      ? TransformT<U> | undefined
-      : TransformT<T>;
+  : T extends Optional<infer U>
+    ? TransformT<U> | undefined
+    : TransformT<T>;
+
+type ReduceArraySimple<T extends any[]> = T extends [
+  infer First,
+  ...infer Rest extends any[],
+]
+  ? [Simplify<First>, ...ReduceArraySimple<Rest>]
+  : number extends T['length']
+    ? Simplify<T[number]>[]
+    : T;
+
+export type Simplify<T> = unknown extends T
+  ? T
+  : T extends Primitive
+    ? T
+    : T extends any[]
+      ? ReduceArraySimple<T>
+      : T extends TrueObject
+        ? { [K in keyof T]: Simplify<T[K]> }
+        : T & {};
+
+export type inferO<T extends POS> = Simplify<_inferO<T>>;
 
 export type inferSh<T extends ObjectT = ObjectT> = _Sh<T, inferO<T>>;
-export type inferT<T extends StandardOutput = StandardOutput> = Exclude<
+
+type _inferT<T extends StandardOutput = StandardOutput> = Exclude<
   T[typeof STANDARD_KEY]['types'],
   undefined
 >['output'];
+
+export type inferT<T extends StandardOutput = StandardOutput> = _inferT<T>;
 
 export type ProduceObject<T extends ObjectT = ObjectT> = T;
 
@@ -327,15 +351,15 @@ type _SafePre<T extends ObjectT> = PrimitiveObjectT extends T
     : T extends Types
       ? T
       : T extends PartialCustom<infer TPartial>
-        ? Partial<SafePre<TPartial>>
+        ? Partial<_SafePre<TPartial>>
         : T extends ArrayCustom<infer A>
-          ? SafePre<A>[]
+          ? _SafePre<A>[]
           : T extends Optional<infer TOptional>
-            ? SafePre<TOptional> | undefined
+            ? _SafePre<TOptional> | undefined
             : T extends SoRaCustom<infer TSoRa>
-              ? SoRa<SafePre<TSoRa>>
+              ? SoRa<_SafePre<TSoRa>>
               : T extends SoaCustom<infer TSoA>
-                ? SoA<SafePre<TSoA>>
+                ? SoA<_SafePre<TSoA>>
                 : T extends Custom
                   ? T
                   : T extends AnyArray<ObjectT>
@@ -344,9 +368,12 @@ type _SafePre<T extends ObjectT> = PrimitiveObjectT extends T
                       ? PrimitiveObjectMapS
                       : ObjectMapS extends T
                         ? ObjectMapS
-                        : T extends ObjectMapS
-                          ? { [K in keyof T]: SafePre<T[K]> }
-                          : T;
+                        : {
+                            [K in keyof T]: T[K] extends infer Tk extends
+                              ObjectT
+                              ? _SafePre<Tk>
+                              : T[K];
+                          };
 export type SafePre<T extends ObjectT> = Extract<_SafePre<T>, ObjectT>;
 
 export * from './standard.types';

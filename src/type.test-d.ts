@@ -45,7 +45,7 @@ describe('type', () => {
   test('type — direct object option', () => {
     const result = type({ name: 'string', age: 'number' });
 
-    expectTypeOf(result.type).branded.toEqualTypeOf<{
+    expectTypeOf(result.type).toEqualTypeOf<{
       name: string;
       age: number;
     }>();
@@ -70,11 +70,11 @@ describe('type', () => {
   test(`type — ${STANDARD_KEY}.types`, () => {
     const result = type({ x: 'string' });
 
-    expectTypeOf(result[STANDARD_KEY].types?.input).branded.toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.input).toEqualTypeOf<
       { x: string } | undefined
     >();
 
-    expectTypeOf(result[STANDARD_KEY].types?.output).branded.toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.output).toEqualTypeOf<
       { x: string } | undefined
     >();
   });
