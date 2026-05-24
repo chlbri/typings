@@ -9,9 +9,11 @@
 </summary>
 
 - Add: `SafePre<T>` type for safe type pre-processing
-- Enhance: Improve `pretype` function with better type inference using `expandFn`
+- Enhance: Improve `pretype` function with better type inference using
+  `expandFn`
 - Refactor: Reorganize imports for improved code clarity
-- Enhance: Improve type definitions and configuration in `rolldown.config.ts` and `tsconfig.json`
+- Enhance: Improve type definitions and configuration in
+  `rolldown.config.ts` and `tsconfig.json`
 - Expand: Add comprehensive test coverage for `pretype` functionality
 - <u>Test coverage **_100%_**</u>
 
