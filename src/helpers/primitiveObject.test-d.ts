@@ -165,43 +165,43 @@ const allView = type(({ optional }) => ({
   component: 'string',
 }));
 
-const context = pretype(type(({ primitiveObject }) => primitiveObject()))(
-  ({ array, optional, partial, omit, intersection }) => ({
-    canvas: array('string'),
-    views: array(allView.__type),
-    dragging: optional(allView.__type),
-    string: 'string',
-    selectedID: optional(allView.__type.id),
-    strings: optional(array('string')),
-    currentVersion: optional('string'),
-    canvasZoom: 'number',
+const context = pretype(
+  type(({ primitiveObject }) => primitiveObject.const),
+)(({ array, optional, partial, omit, intersection }) => ({
+  canvas: array('string'),
+  views: array(allView.__type),
+  dragging: optional(allView.__type),
+  string: 'string',
+  selectedID: optional(allView.__type.id),
+  strings: optional(array('string')),
+  currentVersion: optional('string'),
+  canvasZoom: 'number',
 
-    creating: optional(
-      intersection(omit(allView.__type, 'parent'), {
-        parent: optional('string'),
-      }),
-    ),
-
-    user: {
-      name: 'string',
-      prefs: 'any',
-    },
-
-    utilities: partial({
-      rawUtility: 'string',
-      currents: array({
-        utility: 'string',
-        active: 'boolean',
-      }),
+  creating: optional(
+    intersection(omit(allView.__type, 'parent'), {
+      parent: optional('string'),
     }),
+  ),
 
-    history: array({
-      views: array(allView.__type),
-      id: 'string',
-      timestamps: 'number',
+  user: {
+    name: 'string',
+    prefs: 'any',
+  },
+
+  utilities: partial({
+    rawUtility: 'string',
+    currents: array({
+      utility: 'string',
+      active: 'boolean',
     }),
   }),
-);
+
+  history: array({
+    views: array(allView.__type),
+    id: 'string',
+    timestamps: 'number',
+  }),
+}));
 
 expectTypeOf(context.type).branded.toEqualTypeOf<{
   canvas: string[];

@@ -7,4 +7,10 @@ export default defineConfig({
     '**/*.test-d.ts',
     '**/*.test.ts',
   ],
+  excludesTS: [
+    '**/fixtures.ts',
+    '**/*.types.ts',
+    '**/*.test-d.ts',
+    '**/*.test.ts',
+  ],
 });

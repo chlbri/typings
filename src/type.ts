@@ -1,5 +1,5 @@
 import { standardize } from './standard';
-import type { inferSh, ObjectT } from './types';
+import type { FnBasic, inferSh, ObjectT, SafePre } from './types';
 
 import {
   any,
@@ -16,12 +16,13 @@ import {
   readonly,
   record,
   soa,
+  sora,
   sv,
   tuple,
   union,
-  sora,
   use,
 } from './helpers';
+import { expandFn } from './utils';
 
 type Helpers = {
   any: typeof any;
@@ -49,14 +50,15 @@ export type Transform_F = <T extends ObjectT = ObjectT>(
   option?: ((helpers: Helpers) => T) | T,
 ) => inferSh<T>;
 
-export type PreTransform = <U extends ObjectT>(
+type _PreTransform_F<U extends ObjectT> = <
+  T extends SafePre<U> = SafePre<U>,
+>(
+  option?: ((helpers: Helpers) => T) | T,
+) => inferSh<T>;
+
+export type PreTransform_F = <U extends ObjectT>(
   _?: inferSh<U>,
-) => {
-  <T extends U = U>(option?: ((helpers: Helpers) => T) | T): inferSh<T>;
-  type: <T extends U = U>(
-    option?: ((helpers: Helpers) => T) | T,
-  ) => inferSh<T>;
-};
+) => FnBasic<_PreTransform_F<U>, { type: _PreTransform_F<U> }>;
 
 const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   const _obj = obj as any;
@@ -97,4 +99,5 @@ export const type: Transform_F = option => {
   return standardize(out);
 };
 
-export const pretype: PreTransform = _ => type as any;
+export const pretype: PreTransform_F = _ =>
+  expandFn(type, { type }) as any;

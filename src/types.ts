@@ -304,4 +304,39 @@ export type ProduceObject<T extends ObjectT = ObjectT> = T;
 
 export type FnBasic<Main extends Fn, Tr extends object> = Tr & Main;
 
+type ReduceTupleSafePre<T extends ReadonlyArray<ObjectT>> =
+  T extends readonly [
+    infer First extends ObjectT,
+    ...infer Rest extends ReadonlyArray<ObjectT>,
+  ]
+    ? readonly [SafePre<First>, ...ReduceTupleSafePre<Rest>]
+    : [];
+export type SafePre<T extends ObjectT> = PrimitiveObjectT extends T
+  ? PrimitiveObjectT
+  : PrimitiveT extends T
+    ? PrimitiveT
+    : T extends Types
+      ? T
+      : T extends PartialCustom<infer TPartial>
+        ? Partial<SafePre<TPartial>>
+        : T extends ArrayCustom<infer A>
+          ? SafePre<A>[]
+          : T extends Optional<infer TOptional>
+            ? SafePre<TOptional> | undefined
+            : T extends SoRaCustom<infer TSoRa>
+              ? SoRa<SafePre<TSoRa>>
+              : T extends SoaCustom<infer TSoA>
+                ? SoA<SafePre<TSoA>>
+                : T extends Custom
+                  ? T
+                  : T extends AnyArray<ObjectT>
+                    ? ReduceTupleSafePre<T>
+                    : PrimitiveObjectMapS extends T
+                      ? PrimitiveObjectMapS
+                      : ObjectMapS extends T
+                        ? ObjectMapS
+                        : T extends ObjectMapS
+                          ? { [K in keyof T]: SafePre<T[K]> }
+                          : T;
+
 export * from './standard.types';

@@ -1,4 +1,4 @@
-import { type } from '../type';
+import { pretype, type } from '../type';
 import type { inferSh, Keys, SoA, StateValue } from '../types';
 
 const label = type(({ optional }) => optional('string'));
@@ -285,4 +285,40 @@ const typeWithPrimObjIntersection = type(
 expectTypeOf(typeWithPrimObjIntersection.type).toEqualTypeOf<{
   name: string;
   age: number;
+}>();
+
+const _pretype = pretype(
+  type(({ partial, record, primitiveObject }) =>
+    partial({
+      emitters: record({
+        next: primitiveObject.const,
+        error: primitiveObject.const,
+      }),
+      children: record(primitiveObject.map.const),
+    }),
+  ),
+);
+
+const pretype1 = _pretype({
+  emitters: {
+    data: { next: 'string', error: 'string' },
+  },
+  children: {
+    child1: { NEXT: 'never', PREVIOUS: 'never' },
+  },
+});
+
+expectTypeOf(pretype1.type).toEqualTypeOf<{
+  emitters: {
+    data: {
+      next: string;
+      error: string;
+    };
+  };
+  children: {
+    child1: {
+      NEXT: never;
+      PREVIOUS: never;
+    };
+  };
 }>();
