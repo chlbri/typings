@@ -5,7 +5,7 @@ import type { SoRa } from '../types';
 const soraString = type(({ sora }) => ({
   value: sora('string'),
 }));
-expectTypeOf(soraString.type).toEqualTypeOf<{
+expectTypeOf(soraString.type).branded.toEqualTypeOf<{
   value: SoRa<string>;
 }>();
 
@@ -13,7 +13,7 @@ expectTypeOf(soraString.type).toEqualTypeOf<{
 const soraNumber = type(({ sora }) => ({
   count: sora('number'),
 }));
-expectTypeOf(soraNumber.type).toEqualTypeOf<{
+expectTypeOf(soraNumber.type).branded.toEqualTypeOf<{
   count: SoRa<number>;
 }>();
 
@@ -21,7 +21,7 @@ expectTypeOf(soraNumber.type).toEqualTypeOf<{
 const soraBoolean = type(({ sora }) => ({
   flag: sora('boolean'),
 }));
-expectTypeOf(soraBoolean.type).toEqualTypeOf<{
+expectTypeOf(soraBoolean.type).branded.toEqualTypeOf<{
   flag: SoRa<boolean>;
 }>();
 
@@ -29,7 +29,7 @@ expectTypeOf(soraBoolean.type).toEqualTypeOf<{
 const soraObject = type(({ sora }) => ({
   item: sora({ name: 'string' }),
 }));
-expectTypeOf(soraObject.type).toEqualTypeOf<{
+expectTypeOf(soraObject.type).branded.toEqualTypeOf<{
   item: SoRa<{ name: string }>;
 }>();
 
@@ -37,6 +37,6 @@ expectTypeOf(soraObject.type).toEqualTypeOf<{
 const soraComplex = type(({ sora }) => ({
   user: sora({ id: 'string', name: 'string', age: 'number' }),
 }));
-expectTypeOf(soraComplex.type).toEqualTypeOf<{
+expectTypeOf(soraComplex.type).branded.toEqualTypeOf<{
   user: SoRa<{ id: string; name: string; age: number }>;
 }>();

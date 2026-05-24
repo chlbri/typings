@@ -8,13 +8,13 @@
 
 </summary>
 
-- Enhance: Refactor `PrimitiveObjectT` type to use `PrimitiveT` for improved
-  type consistency
+- Enhance: Refactor `PrimitiveObjectT` type to use `PrimitiveT` for
+  improved type consistency
 - Enhance: Improve `UndefinyObject` type inference with better empty object
   handling
 - Enhance: Update `TransformT` type with enhanced empty object detection
-- Enhance: Add `PrimitiveObject` and `PrimitiveObjectMap` exports for better
-  type composition
+- Enhance: Add `PrimitiveObject` and `PrimitiveObjectMap` exports for
+  better type composition
 - Enhance: Improve `inferO` type with `PrimitiveObjectT` detection
 - Enhance: Add branded type checks to `primitiveObject` test suite
 - <u>Test coverage **_100%_**</u>

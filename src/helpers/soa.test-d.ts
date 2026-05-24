@@ -5,7 +5,7 @@ import { type } from '../type';
 const soaString = type(({ soa }) => ({
   value: soa('string'),
 }));
-expectTypeOf(soaString.type).toEqualTypeOf<{
+expectTypeOf(soaString.type).branded.toEqualTypeOf<{
   value: SoA<string>;
 }>();
 
@@ -13,7 +13,7 @@ expectTypeOf(soaString.type).toEqualTypeOf<{
 const soaNumber = type(({ soa }) => ({
   count: soa('number'),
 }));
-expectTypeOf(soaNumber.type).toEqualTypeOf<{
+expectTypeOf(soaNumber.type).branded.toEqualTypeOf<{
   count: SoA<number>;
 }>();
 
@@ -21,7 +21,7 @@ expectTypeOf(soaNumber.type).toEqualTypeOf<{
 const soaBoolean = type(({ soa }) => ({
   flag: soa('boolean'),
 }));
-expectTypeOf(soaBoolean.type).toEqualTypeOf<{
+expectTypeOf(soaBoolean.type).branded.toEqualTypeOf<{
   flag: SoA<boolean>;
 }>();
 
@@ -29,7 +29,7 @@ expectTypeOf(soaBoolean.type).toEqualTypeOf<{
 const soaObject = type(({ soa }) => ({
   item: soa({ name: 'string' }),
 }));
-expectTypeOf(soaObject.type).toEqualTypeOf<{
+expectTypeOf(soaObject.type).branded.toEqualTypeOf<{
   item: SoA<{ name: string }>;
 }>();
 
@@ -37,6 +37,6 @@ expectTypeOf(soaObject.type).toEqualTypeOf<{
 const soaComplex = type(({ soa }) => ({
   user: soa({ id: 'string', name: 'string', age: 'number' }),
 }));
-expectTypeOf(soaComplex.type).toEqualTypeOf<{
+expectTypeOf(soaComplex.type).branded.toEqualTypeOf<{
   user: SoA<{ id: string; name: string; age: number }>;
 }>();

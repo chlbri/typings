@@ -7,7 +7,7 @@ expectTypeOf(_defaultString.type).toEqualTypeOf<string | undefined>();
 const optionalString = type(({ optional }) => ({
   nickname: optional('string'),
 }));
-expectTypeOf(optionalString.type).toEqualTypeOf<{
+expectTypeOf(optionalString.type).branded.toEqualTypeOf<{
   nickname?: string;
 }>();
 
@@ -15,13 +15,15 @@ expectTypeOf(optionalString.type).toEqualTypeOf<{
 const optionalNumber = type(({ optional }) => ({
   count: optional('number'),
 }));
-expectTypeOf(optionalNumber.type).toEqualTypeOf<{ count?: number }>();
+expectTypeOf(optionalNumber.type).branded.toEqualTypeOf<{
+  count?: number;
+}>();
 
 // optional boolean
 const optionalBoolean = type(({ optional }) => ({
   active: optional('boolean'),
 }));
-expectTypeOf(optionalBoolean.type).toEqualTypeOf<{
+expectTypeOf(optionalBoolean.type).branded.toEqualTypeOf<{
   active?: boolean;
 }>();
 
@@ -29,7 +31,7 @@ expectTypeOf(optionalBoolean.type).toEqualTypeOf<{
 const optionalObject = type(({ optional }) => ({
   address: optional({ city: 'string', zip: 'number' }),
 }));
-expectTypeOf(optionalObject.type).toEqualTypeOf<{
+expectTypeOf(optionalObject.type).branded.toEqualTypeOf<{
   address?: { city: string; zip: number };
 }>();
 
@@ -37,7 +39,9 @@ expectTypeOf(optionalObject.type).toEqualTypeOf<{
 const optionalArray = type(({ optional, array }) => ({
   items: optional(array('string')),
 }));
-expectTypeOf(optionalArray.type).toEqualTypeOf<{ items?: string[] }>();
+expectTypeOf(optionalArray.type).branded.toEqualTypeOf<{
+  items?: string[];
+}>();
 
 // Nested optional
 const nestedoptional = type(({ optional }) => ({
@@ -45,7 +49,7 @@ const nestedoptional = type(({ optional }) => ({
     inner: optional('string'),
   }),
 }));
-expectTypeOf(nestedoptional.type).toEqualTypeOf<{
+expectTypeOf(nestedoptional.type).branded.toEqualTypeOf<{
   data?: { inner?: string };
 }>();
 
@@ -59,7 +63,7 @@ const optionalComplex = type(({ optional, array }) => ({
     }),
   }),
 }));
-expectTypeOf(optionalComplex.type).toEqualTypeOf<{
+expectTypeOf(optionalComplex.type).branded.toEqualTypeOf<{
   user?: {
     name: string;
     tags: string[];

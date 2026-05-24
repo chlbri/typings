@@ -5,7 +5,7 @@ import { type } from '../type';
 const anyString = type(({ any }) => ({
   value: any('string'),
 }));
-expectTypeOf(anyString[STANDARD_KEY].types?.input).toEqualTypeOf<
+expectTypeOf(anyString[STANDARD_KEY].types?.input).branded.toEqualTypeOf<
   | {
       value: string;
     }
@@ -16,13 +16,13 @@ expectTypeOf(anyString[STANDARD_KEY].types?.input).toEqualTypeOf<
 const anyNumber = type(({ any }) => ({
   count: any('number'),
 }));
-expectTypeOf(anyNumber.type).toEqualTypeOf<{ count: number }>();
+expectTypeOf(anyNumber.type).branded.toEqualTypeOf<{ count: number }>();
 
 // Any with object
 const anyObject = type(({ any }) => ({
   data: any({ name: 'string', age: 'number' }),
 }));
-expectTypeOf(anyObject.type).toEqualTypeOf<{
+expectTypeOf(anyObject.type).branded.toEqualTypeOf<{
   data: { name: string; age: number };
 }>();
 

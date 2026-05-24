@@ -2,6 +2,7 @@ import { pretype, type } from '../type';
 import type { inferSh, Keys, SoA, StateValue } from '../types';
 
 const label = type(({ optional }) => optional('string'));
+label.__type; // $ExpectType string | undefined
 
 // Complex nested structure with array, optional, intersection
 const complex1 = type(({ array, optional, intersection, use }) => ({
@@ -105,7 +106,7 @@ const apiResponse = type(({ array, optional, union, intersection }) => ({
   }),
 }));
 
-expectTypeOf(apiResponse.type).toEqualTypeOf<{
+expectTypeOf(apiResponse.type).branded.toEqualTypeOf<{
   data:
     | {
         success: boolean;
@@ -137,7 +138,7 @@ const nestedTuples = type(({ tuple, array, optional }) => ({
   bounds: optional(tuple({ min: 'number' }, { max: 'number' })),
 }));
 
-expectTypeOf(nestedTuples.type).toEqualTypeOf<{
+expectTypeOf(nestedTuples.type).branded.toEqualTypeOf<{
   coordinates: [number, number, number];
   path: Array<[number, number]>;
   bounds?: [{ min: number }, { max: number }];
@@ -164,7 +165,7 @@ const recordComplex = type(({ record, optional, array }) => ({
   ),
 }));
 
-expectTypeOf(recordComplex.type).toEqualTypeOf<{
+expectTypeOf(recordComplex.type).branded.toEqualTypeOf<{
   users: Record<
     'admin' | 'editor' | 'viewer',
     {
@@ -214,7 +215,7 @@ const allHelpers = type(
   }),
 );
 
-expectTypeOf(allHelpers.type).toEqualTypeOf<{
+expectTypeOf(allHelpers.type).branded.toEqualTypeOf<{
   anyValue: string;
   items: Array<{ id: string }>;
   customData: { foo: string };
@@ -236,7 +237,7 @@ type FlatPrimitiveSchema = inferSh<{
   age: 'number';
   active: 'boolean';
 }>;
-expectTypeOf<FlatPrimitiveSchema['type']>().toEqualTypeOf<{
+expectTypeOf<FlatPrimitiveSchema['type']>().branded.toEqualTypeOf<{
   name: string;
   age: number;
   active: boolean;
@@ -249,7 +250,7 @@ type DeepNestedSchema = inferSh<{
     settings: { theme: 'string'; notifications: 'boolean' };
   };
 }>;
-expectTypeOf<DeepNestedSchema['type']>().toEqualTypeOf<{
+expectTypeOf<DeepNestedSchema['type']>().branded.toEqualTypeOf<{
   user: {
     profile: { firstName: string; lastName: string };
     settings: { theme: string; notifications: boolean };
@@ -261,7 +262,7 @@ const typeWithPrimObj = type(({ primitiveObject, optional, array }) => ({
   config: primitiveObject({ host: 'string', port: 'number' }),
   tags: optional(array('string')),
 }));
-expectTypeOf(typeWithPrimObj.type).toEqualTypeOf<{
+expectTypeOf(typeWithPrimObj.type).branded.toEqualTypeOf<{
   config: { host: string; port: number };
   tags?: string[];
 }>();
@@ -270,7 +271,7 @@ expectTypeOf(typeWithPrimObj.type).toEqualTypeOf<{
 const typeWithPrimObjArray = type(({ primitiveObject, array }) => ({
   items: array(primitiveObject({ id: 'string', value: 'number' })),
 }));
-expectTypeOf(typeWithPrimObjArray.type).toEqualTypeOf<{
+expectTypeOf(typeWithPrimObjArray.type).branded.toEqualTypeOf<{
   items: Array<{ id: string; value: number }>;
 }>();
 
@@ -282,7 +283,7 @@ const typeWithPrimObjIntersection = type(
       primitiveObject({ age: 'number' }),
     ),
 );
-expectTypeOf(typeWithPrimObjIntersection.type).toEqualTypeOf<{
+expectTypeOf(typeWithPrimObjIntersection.type).branded.toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -293,7 +294,7 @@ const __pretype = type(({ partial, record, primitiveObject }) =>
       next: primitiveObject.const,
       error: primitiveObject.const,
     }),
-    children: record(primitiveObject.map.const),
+    children: record(primitiveObject.const),
   }),
 );
 
@@ -308,7 +309,7 @@ const pretype1 = _pretype({
   },
 });
 
-expectTypeOf(pretype1.type).toEqualTypeOf<{
+expectTypeOf(pretype1.type).branded.toEqualTypeOf<{
   emitters: {
     data: {
       next: string;

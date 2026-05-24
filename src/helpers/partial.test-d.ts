@@ -4,7 +4,7 @@ import { type } from '../type';
 const partialObject = type(({ partial }) => ({
   user: partial({ name: 'string', age: 'number' }),
 }));
-expectTypeOf(partialObject.type).toEqualTypeOf<{
+expectTypeOf(partialObject.type).branded.toEqualTypeOf<{
   user: Partial<{ name: string; age: number }>;
 }>();
 
@@ -12,7 +12,7 @@ expectTypeOf(partialObject.type).toEqualTypeOf<{
 const partialSingle = type(({ partial }) => ({
   config: partial({ enabled: 'boolean' }),
 }));
-expectTypeOf(partialSingle.type).toEqualTypeOf<{
+expectTypeOf(partialSingle.type).branded.toEqualTypeOf<{
   config: Partial<{ enabled: boolean }>;
 }>();
 
@@ -24,7 +24,7 @@ const partialMultiple = type(({ partial }) => ({
     darkMode: 'boolean',
   }),
 }));
-expectTypeOf(partialMultiple.type).toEqualTypeOf<{
+expectTypeOf(partialMultiple.type).branded.toEqualTypeOf<{
   settings: Partial<{
     theme: string;
     fontSize: number;
@@ -39,7 +39,7 @@ const partialNested = type(({ partial }) => ({
     meta: { count: 'number' },
   }),
 }));
-expectTypeOf(partialNested.type).toEqualTypeOf<{
+expectTypeOf(partialNested.type).branded.toEqualTypeOf<{
   data: Partial<{
     user: { name: string };
     meta: { count: number };

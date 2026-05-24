@@ -1,6 +1,6 @@
 import { pretype, type } from '../type';
 import type {
-  inferO,
+  EmptyObject,
   inferSh,
   inferT,
   NotReadonly,
@@ -166,8 +166,6 @@ const allView = type(({ optional }) => ({
   component: 'string',
 }));
 
-type OO = inferO<PrimitiveObjectT>;
-
 const context = pretype(
   type(({ primitiveObject }) => primitiveObject.const),
 )(({ array, optional, partial, omit, intersection }) => ({
@@ -227,7 +225,7 @@ expectTypeOf(context.type).toEqualTypeOf<{
   canvasZoom: number;
   user: {
     name: string;
-    prefs: {};
+    prefs: EmptyObject;
   };
   utilities: {
     rawUtility?: string | undefined;

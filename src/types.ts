@@ -210,7 +210,7 @@ type ReduceTupleU<T extends AnyArray> = T extends [
 // #endregion
 
 // oxlint-disable-next-line typescript/no-empty-object-type
-type EmptyObject = {};
+export type EmptyObject = Record<string, never>;
 
 type __TransformUnion<T extends UnionCustom> =
   T extends UnionCustom<infer TCustom>
@@ -224,12 +224,12 @@ type __TransformUnion<T extends UnionCustom> =
 // #region type Undefiny
 type HasUndefined<T> = unknown extends T
   ? false
-  : EmptyObject extends T
+  : Equals<EmptyObject, T> extends true
     ? false
     : OptionalHelperClass extends T
       ? true
       : false;
-type UndefinyObject<T extends object> = {
+type _UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
     T[K]
   >;
@@ -237,9 +237,10 @@ type UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
     T[K]
   >;
-} extends infer O
-  ? { [K in keyof O]: O[K] }
-  : never;
+};
+
+type UndefinyObject<T extends object> =
+  _UndefinyObject<T> extends infer O ? { [K in keyof O]: O[K] } : never;
 
 type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
   ? ReduceTupleU<U>
@@ -248,9 +249,8 @@ type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
     : U;
 // #endregion
 
-type TransformT<T> = EmptyObject extends T
-  ? EmptyObject
-  : Equals<ObjectMapS, T> extends true
+type TransformT<T> =
+  Equals<ObjectMapS, T> extends true
     ? object
     : T extends Types
       ? TransformTypes<T>
@@ -294,8 +294,8 @@ export interface PrimitiveObjectMap {
   [key: Keys]: PrimitiveObject;
 }
 
-export type inferO<T extends ObjectT = ObjectT> = EmptyObject extends T
-  ? EmptyObject
+export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
+  ? unknown
   : PrimitiveObjectT extends T
     ? PrimitiveObject
     : T extends Optional<infer U>

@@ -4,7 +4,7 @@ import { type } from '../type';
 const intersectionTwo = type(({ intersection }) => ({
   person: intersection({ name: 'string' }, { age: 'number' }),
 }));
-expectTypeOf(intersectionTwo.type).toEqualTypeOf<{
+expectTypeOf(intersectionTwo.type).branded.toEqualTypeOf<{
   person: { name: string; age: number };
 }>();
 
@@ -16,7 +16,7 @@ const intersectionThree = type(({ intersection }) => ({
     { createdAt: 'date' },
   ),
 }));
-expectTypeOf(intersectionThree.type).toEqualTypeOf<{
+expectTypeOf(intersectionThree.type).branded.toEqualTypeOf<{
   entity: { id: string; name: string; createdAt: Date };
 }>();
 
@@ -27,7 +27,7 @@ const intersectionNested = type(({ intersection }) => ({
     { meta: { timestamp: 'number' } },
   ),
 }));
-expectTypeOf(intersectionNested.type).toEqualTypeOf<{
+expectTypeOf(intersectionNested.type).branded.toEqualTypeOf<{
   data: {
     user: { name: string };
     meta: { timestamp: number };
@@ -43,7 +43,7 @@ const intersectionFour = type(({ intersection }) => ({
     { d: 'date' },
   ),
 }));
-expectTypeOf(intersectionFour.type).toEqualTypeOf<{
+expectTypeOf(intersectionFour.type).branded.toEqualTypeOf<{
   full: { a: string; b: number; c: boolean; d: Date };
 }>();
 
@@ -56,7 +56,7 @@ const intersectionComplex = type(({ any, intersection, array }) => ({
     ),
   ),
 }));
-expectTypeOf(intersectionComplex.type).toEqualTypeOf<{
+expectTypeOf(intersectionComplex.type).branded.toEqualTypeOf<{
   item: {
     id: string;
     tags: string[];

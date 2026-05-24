@@ -4,7 +4,7 @@ import { type } from '../type';
 const tupleNumbers = type(({ tuple }) => ({
   coordinates: tuple('number', 'number'),
 }));
-expectTypeOf(tupleNumbers.type).toEqualTypeOf<{
+expectTypeOf(tupleNumbers.type).branded.toEqualTypeOf<{
   coordinates: [number, number];
 }>();
 
@@ -12,7 +12,7 @@ expectTypeOf(tupleNumbers.type).toEqualTypeOf<{
 const tupleMixed = type(({ tuple }) => ({
   pair: tuple('string', 'number', 'boolean'),
 }));
-expectTypeOf(tupleMixed.type).toEqualTypeOf<{
+expectTypeOf(tupleMixed.type).branded.toEqualTypeOf<{
   pair: [string, number, boolean];
 }>();
 
@@ -20,7 +20,7 @@ expectTypeOf(tupleMixed.type).toEqualTypeOf<{
 const tupleObjects = type(({ tuple }) => ({
   data: tuple({ name: 'string' }, { age: 'number' }),
 }));
-expectTypeOf(tupleObjects.type).toEqualTypeOf<{
+expectTypeOf(tupleObjects.type).branded.toEqualTypeOf<{
   data: [{ name: string }, { age: number }];
 }>();
 
@@ -28,7 +28,7 @@ expectTypeOf(tupleObjects.type).toEqualTypeOf<{
 const tupleRgb = type(({ tuple }) => ({
   rgb: tuple('number', 'number', 'number'),
 }));
-expectTypeOf(tupleRgb.type).toEqualTypeOf<{
+expectTypeOf(tupleRgb.type).branded.toEqualTypeOf<{
   rgb: [number, number, number];
 }>();
 
@@ -36,7 +36,7 @@ expectTypeOf(tupleRgb.type).toEqualTypeOf<{
 const tupleEntry = type(({ tuple }) => ({
   entry: tuple('string', 'number'),
 }));
-expectTypeOf(tupleEntry.type).toEqualTypeOf<{
+expectTypeOf(tupleEntry.type).branded.toEqualTypeOf<{
   entry: [string, number];
 }>();
 
@@ -44,7 +44,7 @@ expectTypeOf(tupleEntry.type).toEqualTypeOf<{
 const tupleComplex1 = type(({ tuple }) => ({
   bounds: tuple({ min: 'number' }, { max: 'number' }),
 }));
-expectTypeOf(tupleComplex1.type).toEqualTypeOf<{
+expectTypeOf(tupleComplex1.type).branded.toEqualTypeOf<{
   bounds: [{ min: number }, { max: number }];
 }>();
 
@@ -69,7 +69,7 @@ const tupleComplex2 = type(({ tuple, litterals, array, union }) => ({
   ),
 }));
 
-expectTypeOf(tupleComplex2.type).toEqualTypeOf<{
+expectTypeOf(tupleComplex2.type).branded.toEqualTypeOf<{
   bounds: [
     { min: number },
     { max: number },

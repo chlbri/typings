@@ -5,10 +5,10 @@ describe('object — with a flat map', () => {
     v: object({ name: 'string', age: 'number' }),
   }));
 
-  expectTypeOf(result.type).toEqualTypeOf<{
+  expectTypeOf(result.type).branded.toEqualTypeOf<{
     v: { name: string; age: number };
   }>();
-  expectTypeOf(result.type.v).toEqualTypeOf<{
+  expectTypeOf(result.type.v).branded.toEqualTypeOf<{
     name: string;
     age: number;
   }>();
@@ -19,7 +19,7 @@ describe('object — with a nested map', () => {
     v: object({ user: { name: 'string', active: 'boolean' } }),
   }));
 
-  expectTypeOf(result.type).toEqualTypeOf<{
+  expectTypeOf(result.type).branded.toEqualTypeOf<{
     v: { user: { name: string; active: boolean } };
   }>();
 });
@@ -27,5 +27,5 @@ describe('object — with a nested map', () => {
 describe('object — no argument infers unknown map', () => {
   const result = type(({ object }) => ({ v: object() }));
 
-  expectTypeOf(result.type).toMatchTypeOf<object>();
+  expectTypeOf(result.type).toExtend<object>();
 });

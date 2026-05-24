@@ -1,7 +1,7 @@
-import type { StandardSchemaV1 } from './standard.types';
-import type { inferT, Sh } from './types';
-import { type } from './type';
 import { STANDARD_KEY } from './constants';
+import type { StandardSchemaV1 } from './standard.types';
+import { type } from './type';
+import type { inferT, Sh } from './types';
 
 describe('type', () => {
   test('type — no option', () => {
@@ -45,11 +45,7 @@ describe('type', () => {
   test('type — direct object option', () => {
     const result = type({ name: 'string', age: 'number' });
 
-    expectTypeOf(result.type).toEqualTypeOf<{
-      name: string;
-      age: number;
-    }>();
-    expectTypeOf(result.type).toEqualTypeOf<{
+    expectTypeOf(result.type).branded.toEqualTypeOf<{
       name: string;
       age: number;
     }>();
@@ -74,11 +70,11 @@ describe('type', () => {
   test(`type — ${STANDARD_KEY}.types`, () => {
     const result = type({ x: 'string' });
 
-    expectTypeOf(result[STANDARD_KEY].types?.input).toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.input).branded.toEqualTypeOf<
       { x: string } | undefined
     >();
 
-    expectTypeOf(result[STANDARD_KEY].types?.output).toEqualTypeOf<
+    expectTypeOf(result[STANDARD_KEY].types?.output).branded.toEqualTypeOf<
       { x: string } | undefined
     >();
   });

@@ -5,7 +5,7 @@ import { type } from '../type';
 const svBasic = type(({ sv }) => ({
   state: sv.const,
 }));
-expectTypeOf(svBasic.type).toEqualTypeOf<{
+expectTypeOf(svBasic.type).branded.toEqualTypeOf<{
   state: StateValue;
 }>();
 
@@ -15,7 +15,7 @@ const svNested = type(({ sv }) => ({
     currentState: sv.type,
   },
 }));
-expectTypeOf(svNested.type).toEqualTypeOf<{
+expectTypeOf(svNested.type).branded.toEqualTypeOf<{
   machine: { currentState: StateValue };
 }>();
 
@@ -24,7 +24,7 @@ const svMultiple = type(({ sv }) => ({
   state1: sv.type,
   state2: sv.type,
 }));
-expectTypeOf(svMultiple.type).toEqualTypeOf<{
+expectTypeOf(svMultiple.type).branded.toEqualTypeOf<{
   state1: StateValue;
   state2: StateValue;
 }>();
@@ -35,7 +35,7 @@ const svWithOthers = type(({ sv, optional }) => ({
   name: 'string',
   count: optional('number'),
 }));
-expectTypeOf(svWithOthers.type).toEqualTypeOf<{
+expectTypeOf(svWithOthers.type).branded.toEqualTypeOf<{
   state: StateValue;
   name: string;
   count?: number;
@@ -46,7 +46,7 @@ const svWithOthers2 = type(({ sv, optional }) => ({
   name: 'string',
   count: optional('number'),
 }));
-expectTypeOf(svWithOthers2.type).toEqualTypeOf<{
+expectTypeOf(svWithOthers2.type).branded.toEqualTypeOf<{
   state: '';
   name: string;
   count?: number;
@@ -57,7 +57,7 @@ const svWithOthers3 = type(({ sv, optional }) => ({
   name: 'string',
   count: optional('number'),
 }));
-expectTypeOf(svWithOthers3.type).toEqualTypeOf<{
+expectTypeOf(svWithOthers3.type).branded.toEqualTypeOf<{
   state: 'state1';
   name: string;
   count?: number;
@@ -73,7 +73,7 @@ const svWithOthers4 = type(({ sv, optional }) => ({
   name: 'string',
   count: optional('number'),
 }));
-expectTypeOf(svWithOthers4.type).toEqualTypeOf<{
+expectTypeOf(svWithOthers4.type).branded.toEqualTypeOf<{
   state: {
     readonly parallel: {
       readonly state1: 'state11';
