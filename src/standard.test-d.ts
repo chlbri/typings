@@ -1,4 +1,4 @@
-import type { StandardSchemaV1 } from './standard.types';
+import type { StandardSchemaV1 } from './types';
 import { standardize, standardize2 } from './standard';
 import { STANDARD_KEY } from './constants';
 

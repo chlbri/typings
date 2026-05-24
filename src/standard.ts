@@ -1,5 +1,5 @@
 import { STANDARD_KEY, vendor } from './constants';
-import type { StandardSchemaV1 } from './standard.types';
+import type { StandardSchemaV1 } from './types';
 
 type Standardize_F = <T>(value: T) => {
   __type: T;

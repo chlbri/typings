@@ -305,7 +305,7 @@ const pretype1 = _pretype({
     data: { next: 'string', error: 'string' },
   },
   children: {
-    child1: { NEXT: 'never', PREVIOUS: 'never' },
+    child1: { NEXT: 'undefined', PREVIOUS: 'undefined' },
   },
 });
 
@@ -318,8 +318,8 @@ expectTypeOf(pretype1.type).toEqualTypeOf<{
   };
   children: {
     child1: {
-      NEXT: never;
-      PREVIOUS: never;
+      NEXT: undefined;
+      PREVIOUS: undefined;
     };
   };
 }>();

@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/typings",
-  "version": "1.1.6",
+  "version": "1.2.0",
   "description": "Typings by variables",
   "author": {
     "email": "bri_lvi@icloud.com",
@@ -35,10 +35,12 @@
     "./package.json": "./package.json",
     "./tsconfig.json": "./tsconfig.json",
     "./types": {
-      "types": "./lib/types.d.ts"
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/types/index.js",
+      "require": "./lib/types/index.cjs"
     },
     "./standard": {
-      "types": "./lib/standard.types.d.ts"
+      "types": "./lib/types/standard.types.d.ts"
     }
   },
   "maintainers": [
@@ -68,11 +70,10 @@
     "node": ">=24"
   },
   "scripts": {
-    "prune": "pnpm store prune",
     "build": "pnpm rm:lib && pnpm run rolldown",
     "_ci": "pnpm clean --lockfile && pnpm run config:off && pnpm run lint && pnpm run test",
     "ci": "CI_START=$(date +%s) && pnpm run _ci && pnpm run p-q && echo \"\n✅ CI takes $(($(date +%s) - CI_START))s\n\"",
-    "ci:admin": "CI_START=$(date +%s) && pnpm run prune && pnpm run rm && pnpm run upgrade:fast && pnpm run _ci && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_START))s\n\"",
+    "ci:admin": "CI_START=$(date +%s) && pnpm run rm && pnpm run upgrade:fast && pnpm run _ci && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_START))s\n\"",
     "clean": "pnpm run rm && pnpm run config",
     "config": "pnpm install",
     "config:off": "pnpm run config --offline",

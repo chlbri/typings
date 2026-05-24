@@ -1,5 +1,5 @@
 import { STANDARD_KEY } from './constants';
-import type { StandardSchemaV1 } from './standard.types';
+import type { StandardSchemaV1 } from './types';
 import { type } from './type';
 import type { inferT, Sh } from './types';
 

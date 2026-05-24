@@ -1,10 +1,15 @@
-export const PRIMITIVES = [
+export const JSON_PRIMITIVES = [
   'string',
   'number',
   'boolean',
+  'undefined',
+  'json',
+] as const;
+
+export const PRIMITIVES = [
+  ...JSON_PRIMITIVES,
   'bigint',
   'symbol',
-  'undefined',
   'null',
   'never',
   'primitive',

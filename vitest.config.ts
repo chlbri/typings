@@ -10,7 +10,7 @@ export default defineConfig({
       ignoreCoverageFiles: [
         '**/index.ts',
         '**/fixtures.ts',
-        'src/types.ts',
+        'src/types/undefiny.ts',
         '**/*.types.ts',
         '**/*.test-d.ts',
       ],

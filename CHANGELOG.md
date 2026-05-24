@@ -4,6 +4,24 @@
 
 <details>
 <summary>
+## **[1.2.0] - 24/05/2026** => _22:07_
+
+</summary>
+
+- Refactor: Reorganize type definitions into a dedicated `types` directory for
+  improved modularity and better code organization
+- Refactor: Update package.json exports to support new types directory
+  structure with full CommonJS and ESM support
+- Refactor: Simplify npm scripts by removing deprecated `pnpm store prune`
+  command
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.6] - 24/05/2026** => _12:28_
 
 </summary>
