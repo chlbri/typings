@@ -1,5 +1,6 @@
 import { pretype, type } from '../type';
 import type {
+  inferO,
   inferSh,
   inferT,
   NotReadonly,
@@ -44,21 +45,21 @@ expectTypeOf(mapResult).toEqualTypeOf<PrimitiveObjectMapS>();
 
 // inferT: flat map transformation
 type FlatMapT = inferSh<{ name: 'string'; age: 'number' }>;
-expectTypeOf<FlatMapT['type']>().toEqualTypeOf<{
+expectTypeOf<FlatMapT['type']>().branded.toEqualTypeOf<{
   name: string;
   age: number;
 }>();
 
 // inferT: nested map transformation
 type NestedMapT = inferSh<{ user: { name: 'string'; active: 'boolean' } }>;
-expectTypeOf<NestedMapT['type']>().toEqualTypeOf<{
+expectTypeOf<NestedMapT['type']>().branded.toEqualTypeOf<{
   user: { name: string; active: boolean };
 }>();
 
 // inferT: from primitiveObject schema variable
 const schemaVar = primitiveObject({ id: 'string', score: 'number' });
 type SchemaVarT = inferSh<typeof schemaVar>;
-expectTypeOf<SchemaVarT['type']>().toEqualTypeOf<{
+expectTypeOf<SchemaVarT['type']>().branded.toEqualTypeOf<{
   id: string;
   score: number;
 }>();
@@ -70,7 +71,7 @@ const multiFieldSchema = primitiveObject({
   active: 'boolean',
 });
 type MultiFieldT = inferSh<typeof multiFieldSchema>;
-expectTypeOf<MultiFieldT['type']>().toEqualTypeOf<{
+expectTypeOf<MultiFieldT['type']>().branded.toEqualTypeOf<{
   name: string;
   age: number;
   active: boolean;
@@ -80,7 +81,7 @@ expectTypeOf<MultiFieldT['type']>().toEqualTypeOf<{
 const typeWithFlatMap = type(({ primitiveObject }) =>
   primitiveObject({ name: 'string', age: 'number' }),
 );
-expectTypeOf(typeWithFlatMap.type).toEqualTypeOf<{
+expectTypeOf(typeWithFlatMap.type).branded.toEqualTypeOf<{
   name: string;
   age: number;
 }>();
@@ -89,7 +90,7 @@ expectTypeOf(typeWithFlatMap.type).toEqualTypeOf<{
 const typeWithPrimitiveString = type(({ primitiveObject }) =>
   primitiveObject('string'),
 );
-expectTypeOf(typeWithPrimitiveString.type).toEqualTypeOf<string>();
+expectTypeOf(typeWithPrimitiveString.type).branded.toEqualTypeOf<string>();
 
 // type() with primitiveObject: primitive number
 const typeWithPrimitiveNumber = type(({ primitiveObject }) =>
@@ -101,7 +102,7 @@ expectTypeOf(typeWithPrimitiveNumber.type).toEqualTypeOf<number>();
 const typeWithNested = type(({ primitiveObject }) =>
   primitiveObject({ user: { name: 'string', active: 'boolean' } }),
 );
-expectTypeOf(typeWithNested.type).toEqualTypeOf<{
+expectTypeOf(typeWithNested.type).branded.toEqualTypeOf<{
   user: {
     name: string;
     active: boolean;
@@ -115,7 +116,7 @@ const typeWithNested2 = type(({ primitiveObject, partial }) =>
   }),
 );
 
-expectTypeOf(typeWithNested2.type).toEqualTypeOf<{
+expectTypeOf(typeWithNested2.type).branded.toEqualTypeOf<{
   user: {
     name: string;
     active: boolean;
@@ -130,7 +131,7 @@ const typeWithCombined = type(({ primitiveObject, optional }) => ({
   schema: primitiveObject({ name: 'string', age: 'number' }),
   label: optional('string'),
 }));
-expectTypeOf(typeWithCombined.type).toEqualTypeOf<{
+expectTypeOf(typeWithCombined.type).branded.toEqualTypeOf<{
   schema: { name: string; age: number };
   label?: string;
 }>();
@@ -143,7 +144,7 @@ const unionWithPrimitiveObject = type(({ primitiveObject, union }) =>
   ),
 );
 type TU1 = inferT<typeof unionWithPrimitiveObject>;
-expectTypeOf<TU1>().toEqualTypeOf<
+expectTypeOf<TU1>().branded.toEqualTypeOf<
   | boolean
   | {
       name: string;
@@ -165,6 +166,8 @@ const allView = type(({ optional }) => ({
   component: 'string',
 }));
 
+type OO = inferO<PrimitiveObjectT>;
+
 const context = pretype(
   type(({ primitiveObject }) => primitiveObject.const),
 )(({ array, optional, partial, omit, intersection }) => ({
@@ -185,7 +188,7 @@ const context = pretype(
 
   user: {
     name: 'string',
-    prefs: 'any',
+    prefs: {},
   },
 
   utilities: partial({
@@ -203,7 +206,11 @@ const context = pretype(
   }),
 }));
 
-expectTypeOf(context.type).branded.toEqualTypeOf<{
+context.type.user.prefs;
+
+type(() => ({})).type;
+
+expectTypeOf(context.type).toEqualTypeOf<{
   canvas: string[];
   views: {
     id: string;
@@ -220,7 +227,7 @@ expectTypeOf(context.type).branded.toEqualTypeOf<{
   canvasZoom: number;
   user: {
     name: string;
-    prefs: any;
+    prefs: {};
   };
   utilities: {
     rawUtility?: string | undefined;
@@ -295,3 +302,6 @@ expectTypeOf(stringContext3.type).toEqualTypeOf<'string' | 'number'>();
 // @ts-expect-error - 'string' is not assignable to constant type '"string" | "number"'
 const stringContext4 = _stringContext.type('string');
 expectTypeOf(stringContext4.type).toEqualTypeOf<'string' | 'number'>();
+
+const pDefault = type(({ primitiveObject }) => primitiveObject.const);
+expectTypeOf(pDefault.type);

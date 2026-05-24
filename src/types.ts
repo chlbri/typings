@@ -167,11 +167,11 @@ export type IntersectionCustom<T extends ObjectMapS[]> = T extends [
 type _ObjectT = __ObjectT | Optional | ArrayCustom;
 
 export type PrimitiveObjectT = SoRa<
-  | Types
-  | (PrimitiveObjectMapS & Partial<Record<typeof PARTIAL, never>>)
-  | ArrayCustom<Types | PrimitiveObjectMapS>
-  | Optional<Types | PrimitiveObjectMapS>
-  | UnionCustom<Types[] | PrimitiveObjectMapS[]>
+  | PrimitiveT
+  | PrimitiveObjectMapS
+  | ArrayCustom<PrimitiveT | PrimitiveObjectMapS>
+  | Optional<PrimitiveT | PrimitiveObjectMapS>
+  | UnionCustom<(PrimitiveObjectMapS | PrimitiveT)[]>
   | PartialCustom<PrimitiveObjectMapS>
 >;
 
@@ -224,9 +224,11 @@ type __TransformUnion<T extends UnionCustom> =
 // #region type Undefiny
 type HasUndefined<T> = unknown extends T
   ? false
-  : OptionalHelperClass extends T
-    ? true
-    : false;
+  : EmptyObject extends T
+    ? false
+    : OptionalHelperClass extends T
+      ? true
+      : false;
 type UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? never : K]: Undefiny<
     T[K]
@@ -235,21 +237,20 @@ type UndefinyObject<T extends object> = {
   [K in keyof T as HasUndefined<T[K]> extends true ? K : never]?: Undefiny<
     T[K]
   >;
-} extends infer F
-  ? {
-      [K in keyof F]: F[K];
-    }
+} extends infer O
+  ? { [K in keyof O]: O[K] }
   : never;
 
 type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
   ? ReduceTupleU<U>
-  : U extends Ru
+  : U extends TrueObject
     ? UndefinyObject<U>
     : U;
 // #endregion
 
-type TransformT<T> =
-  Equals<ObjectMapS, T> extends true
+type TransformT<T> = EmptyObject extends T
+  ? EmptyObject
+  : Equals<ObjectMapS, T> extends true
     ? object
     : T extends Types
       ? TransformTypes<T>
@@ -288,11 +289,18 @@ export type StandardOutput<T = any> = {
   };
 };
 
-export type inferO<T extends ObjectT = ObjectT> = ObjectT extends T
-  ? unknown
-  : T extends Optional<infer U>
-    ? TransformT<U> | undefined
-    : TransformT<T>;
+export type PrimitiveObject = SoRa<Primitive | PrimitiveObjectMap>;
+export interface PrimitiveObjectMap {
+  [key: Keys]: PrimitiveObject;
+}
+
+export type inferO<T extends ObjectT = ObjectT> = EmptyObject extends T
+  ? EmptyObject
+  : PrimitiveObjectT extends T
+    ? PrimitiveObject
+    : T extends Optional<infer U>
+      ? TransformT<U> | undefined
+      : TransformT<T>;
 
 export type inferSh<T extends ObjectT = ObjectT> = _Sh<T, inferO<T>>;
 export type inferT<T extends StandardOutput = StandardOutput> = Exclude<

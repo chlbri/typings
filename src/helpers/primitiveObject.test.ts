@@ -137,7 +137,7 @@ describe('Helper: primitiveObject', () => {
 
         user: {
           name: 'string',
-          prefs: 'any',
+          prefs: {},
         },
 
         utilities: partial({
@@ -205,7 +205,7 @@ describe('Helper: primitiveObject', () => {
       ],
       user: {
         name: 'string',
-        prefs: 'any',
+        prefs: {},
       },
       utilities: {
         rawUtility: 'string',

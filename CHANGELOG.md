@@ -4,6 +4,27 @@
 
 <details>
 <summary>
+## **[1.1.5] - 24/05/2026** => _04:23_
+
+</summary>
+
+- Enhance: Refactor `PrimitiveObjectT` type to use `PrimitiveT` for improved
+  type consistency
+- Enhance: Improve `UndefinyObject` type inference with better empty object
+  handling
+- Enhance: Update `TransformT` type with enhanced empty object detection
+- Enhance: Add `PrimitiveObject` and `PrimitiveObjectMap` exports for better
+  type composition
+- Enhance: Improve `inferO` type with `PrimitiveObjectT` detection
+- Enhance: Add branded type checks to `primitiveObject` test suite
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.4] - 24/05/2026** => _02:26_
 
 </summary>
