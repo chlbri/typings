@@ -58,7 +58,10 @@ type _PreTransform_F<U extends ObjectT> = <
 
 export type PreTransform_F = <U extends ObjectT>(
   _?: inferSh<U>,
-) => FnBasic<_PreTransform_F<U>, { type: _PreTransform_F<U> }>;
+) => FnBasic<
+  _PreTransform_F<U>,
+  { type: _PreTransform_F<U>; pretype: inferSh<U> }
+>;
 
 const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
   const _obj = obj as any;
@@ -99,5 +102,8 @@ export const type: Transform_F = option => {
   return standardize(out);
 };
 
-export const pretype: PreTransform_F = _ =>
-  expandFn(type, { type }) as any;
+export const pretype: PreTransform_F = pretype =>
+  expandFn(type, {
+    type,
+    pretype: standardize(pretype?.__type ?? ('any' as const)),
+  }) as any;

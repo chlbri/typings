@@ -287,17 +287,17 @@ expectTypeOf(typeWithPrimObjIntersection.type).toEqualTypeOf<{
   age: number;
 }>();
 
-const _pretype = pretype(
-  type(({ partial, record, primitiveObject }) =>
-    partial({
-      emitters: record({
-        next: primitiveObject.const,
-        error: primitiveObject.const,
-      }),
-      children: record(primitiveObject.map.const),
+const __pretype = type(({ partial, record, primitiveObject }) =>
+  partial({
+    emitters: record({
+      next: primitiveObject.const,
+      error: primitiveObject.const,
     }),
-  ),
+    children: record(primitiveObject.map.const),
+  }),
 );
+
+const _pretype = pretype(__pretype);
 
 const pretype1 = _pretype({
   emitters: {
@@ -322,3 +322,5 @@ expectTypeOf(pretype1.type).toEqualTypeOf<{
     };
   };
 }>();
+
+expectTypeOf(_pretype.pretype).toEqualTypeOf(__pretype);

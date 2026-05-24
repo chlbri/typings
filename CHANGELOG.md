@@ -4,6 +4,24 @@
 
 <details>
 <summary>
+## **[1.1.4] - 24/05/2026** => _02:26_
+
+</summary>
+
+- Enhance: Improve `pretype` function with extended type context including
+  `pretype` property
+- Enhance: Update `PreTransform_F` type signature to include `pretype` in
+  the result object
+- Expand: Add comprehensive type-checking tests for enhanced `pretype`
+  functionality
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.3] - 24/05/2026** => _01:38_
 
 </summary>
