@@ -4,6 +4,23 @@
 
 <details>
 <summary>
+## **[1.1.3] - 24/05/2026** => _01:38_
+
+</summary>
+
+- Add: `SafePre<T>` type for safe type pre-processing
+- Enhance: Improve `pretype` function with better type inference using `expandFn`
+- Refactor: Reorganize imports for improved code clarity
+- Enhance: Improve type definitions and configuration in `rolldown.config.ts` and `tsconfig.json`
+- Expand: Add comprehensive test coverage for `pretype` functionality
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.1.2] - 23/05/2026** => _21:30_
 
 </summary>

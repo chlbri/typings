@@ -311,7 +311,8 @@ type ReduceTupleSafePre<T extends ReadonlyArray<ObjectT>> =
   ]
     ? readonly [SafePre<First>, ...ReduceTupleSafePre<Rest>]
     : [];
-export type SafePre<T extends ObjectT> = PrimitiveObjectT extends T
+
+type _SafePre<T extends ObjectT> = PrimitiveObjectT extends T
   ? PrimitiveObjectT
   : PrimitiveT extends T
     ? PrimitiveT
@@ -338,5 +339,6 @@ export type SafePre<T extends ObjectT> = PrimitiveObjectT extends T
                         : T extends ObjectMapS
                           ? { [K in keyof T]: SafePre<T[K]> }
                           : T;
+export type SafePre<T extends ObjectT> = Extract<_SafePre<T>, ObjectT>;
 
 export * from './standard.types';
