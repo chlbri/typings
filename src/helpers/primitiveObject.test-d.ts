@@ -4,6 +4,7 @@ import type {
   inferSh,
   inferT,
   NotReadonly,
+  PrimitiveObject,
   PrimitiveObjectMapS,
   PrimitiveObjectT,
 } from '../types';
@@ -302,4 +303,17 @@ const stringContext4 = _stringContext.type('string');
 expectTypeOf(stringContext4.type).toEqualTypeOf<'string' | 'number'>();
 
 const pDefault = type(({ primitiveObject }) => primitiveObject.const);
-expectTypeOf(pDefault.type);
+expectTypeOf(pDefault.type).toExtend<PrimitiveObject>;
+
+const pD1 = pretype(pDefault)(({ litterals }) => litterals('data'));
+expectTypeOf(pD1.type).toExtend<PrimitiveObject>;
+expectTypeOf(pD1.type).toEqualTypeOf<'data'>();
+
+const pCustom = type(({ primitiveObject, custom }) =>
+  primitiveObject({
+    id: custom<string>(),
+    age: custom<number>(),
+  }),
+);
+expectTypeOf(pCustom.type).toExtend<PrimitiveObject>;
+expectTypeOf(pCustom.type).toEqualTypeOf<{ id: string; age: number }>();

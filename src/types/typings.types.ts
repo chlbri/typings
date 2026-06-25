@@ -11,6 +11,7 @@ import type {
   PartialCustom,
   UnionCustom,
 } from './customs.types';
+import type { JSON_Primitive } from './types.types';
 import type { Keys } from './utilities.types';
 
 export type JSON_PrimitiveT = (typeof JSON_PRIMITIVES)[number];
@@ -24,6 +25,7 @@ export type PrimitiveObjectT = SoRa<
   | Optional<JSON_PrimitiveT | PrimitiveObjectMapS>
   | UnionCustom<(PrimitiveObjectMapS | JSON_PrimitiveT)[]>
   | PartialCustom<PrimitiveObjectMapS>
+  | Custom<Exclude<JSON_Primitive, undefined>>
 >;
 
 export interface PrimitiveObjectMapS {

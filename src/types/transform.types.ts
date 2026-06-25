@@ -71,10 +71,10 @@ export type TransformT<T> =
       ? object
       : PrimitiveObjectT extends T
         ? PrimitiveObject
-        : T extends Types
-          ? TransformTypes<T>
-          : T extends ArrayCustom<infer A>
-            ? TransformT<A>[]
+        : T extends ArrayCustom<infer A>
+          ? TransformT<A>[]
+          : T extends Types
+            ? TransformTypes<T>
             : T extends UnionCustom
               ? __TransformUnion<T>
               : T extends SoRaCustom<infer TSoA>

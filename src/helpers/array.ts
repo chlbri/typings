@@ -1,7 +1,7 @@
 import { standardize2 } from '../standard';
-import type { ArrayCustom, ObjectT } from '../types';
+import type { ArrayCustom, NotReadonly, ObjectT } from '../types';
 import { _const, expandFn2 } from '../utils';
 
-export const array = expandFn2(<T extends ObjectT>(value: T) => {
-  return standardize2<ArrayCustom<T>>([value]);
+export const array = expandFn2(<const T extends ObjectT>(value: T) => {
+  return standardize2<ArrayCustom<NotReadonly<T>>>([value]);
 }, _const<ArrayCustom>());

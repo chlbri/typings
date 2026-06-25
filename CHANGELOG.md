@@ -4,12 +4,34 @@
 
 <details>
 <summary>
+## **[1.3.0] - 25/06/2026** => _11:04_
+
+</summary>
+
+- Enhance: Support custom primitive definitions in `PrimitiveObject` and
+  `PrimitiveObjectT` type checks
+- Enhance: Improve type safety and const inference in `array` helper
+- Refactor: Simplify Vitest configuration and enforce source error checking
+  in typecheck options
+- Refactor: Add `pnpm:devPreinstall` hook script to automatically sync
+  package manager version
+- Update: Upgrade devDependencies including `@bemedev/dev-utils`,
+  `@types/node`, `vitest`, `rolldown`, and update package manager to
+  `pnpm@11.8.0`
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
 ## **[1.2.0] - 24/05/2026** => _22:07_
 
 </summary>
 
-- Refactor: Reorganize type definitions into a dedicated `types` directory for
-  improved modularity and better code organization
+- Refactor: Reorganize type definitions into a dedicated `types` directory
+  for improved modularity and better code organization
 - Refactor: Update package.json exports to support new types directory
   structure with full CommonJS and ESM support
 - Refactor: Simplify npm scripts by removing deprecated `pnpm store prune`

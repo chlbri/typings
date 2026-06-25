@@ -86,6 +86,25 @@ the base type in multiple transformations.
 
 <br/>
 
+## Custom Types inside Primitive Objects
+
+The `primitiveObject` helper accepts a restricted `Custom` type.
+Specifically, it allows custom validations for types extending `string`,
+`number`, or `boolean` (i.e., `Exclude<JSON_Primitive, undefined>`).
+
+```ts
+import { type } from '@bemedev/typings';
+
+const result = type(({ primitiveObject, custom }) =>
+  primitiveObject({
+    id: custom<string>(), // Custom validator for string
+    age: custom<number>(), // Custom validator for number
+  }),
+);
+```
+
+<br/>
+
 ## Available Helpers
 
 - `any`: Any type
