@@ -1,6 +1,16 @@
 import { STANDARD_KEY } from '../constants';
 import type { ObjectT, Sh } from '../types';
 
+/**
+ * Type guard that checks if a given value is a valid Standard Schema object of type
+ * {@linkcode Sh}.
+ *
+ * @template | Type {@linkcode ObjectT} `T` - Expected schema target type.
+ *
+ * @param value - The value to inspect.
+ *
+ * @returns `true` if `value` conforms to type {@linkcode Sh}, otherwise `false`.
+ */
 export const isSh = <T extends ObjectT = ObjectT>(
   value: unknown,
 ): value is Sh<T> => {

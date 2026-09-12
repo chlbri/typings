@@ -30,7 +30,14 @@
       "require": "./lib/types/index.cjs"
     },
     "./standard": {
-      "types": "./lib/types/standard.types.d.ts"
+      "types": "./lib/standard.d.ts",
+      "import": "./lib/standard.js",
+      "require": "./lib/standard.cjs"
+    },
+    "./utils/*": {
+      "types": "./lib/utils/*.d.ts",
+      "import": "./lib/utils/*.js",
+      "require": "./lib/utils/*.cjs"
     }
   },
   "files": [
@@ -66,8 +73,7 @@
   ],
   "scripts": {
     "build": "pnpm run rm:lib && pnpm run rolldown",
-    "rm:lib": "pnpx rimraf ./lib",
-    "test": "vitest run",
+    "rm:lib": "node -e \"fs.rmSync('./lib', { recursive: true, force: true })\"",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
     "_lint": "oxlint",
@@ -75,9 +81,8 @@
     "lint": "pnpm run fmt && pnpm run lint:fix",
     "p-q": "pretty-quick",
     "pretest": "pnpm run build && pnpm run size",
-    "posttest": "exit 0",
-    "test:only": "pnpm run test --no-coverage",
-    "_ci": "pnpm run lint && pnpm run test",
+    "posttest": "pnpm run fmt",
+    "_ci": "pnpm run lint && pnpm run pretest",
     "size": "size-limit",
     "rolldown": "rolldown -c"
   },
@@ -86,23 +91,22 @@
     "@size-limit/file": "^13.0.3",
     "rolldown": "^1.2.8",
     "size-limit": "^13.0.3",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@standard-schema/spec": "^1.1.0"
   },
   "size-limit": [
     {
-      "path": "lib/**/*.js",
+      "path": "lib/*.js",
       "limit": "10kb"
     },
     {
-      "path": "lib/**/*.d.ts",
-      "limit": "10kb"
+      "path": "lib/*.cjs",
+      "limit": "10 kb"
     },
     {
-      "path": "lib/**/*.cjs",
+      "path": "lib/*.d.ts",
       "limit": "10 kb"
     }
   ]

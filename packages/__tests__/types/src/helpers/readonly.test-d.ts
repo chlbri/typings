@@ -1,0 +1,84 @@
+import { type } from '@bemedev/typings';
+import type { SoA } from '@bemedev/typings';
+import { litterals } from '@bemedev/typings/helpers';
+
+describe('helpers: readonly', () => {
+  const rd1 = type(({ readonly }) => readonly({ readonly: 'string' }));
+
+  expectTypeOf(rd1.type).toEqualTypeOf<{ readonly readonly: string }>();
+
+  const rd2 = type(({ readonly, array }) => ({
+    readonlyArray: readonly(array('number')),
+  }));
+  const _rd2 = type(({ array }) => ({ readonlyArray: array('number') }));
+  expectTypeOf(rd2.type).toEqualTypeOf(_rd2.type);
+
+  const rd3 = type(({ readonly, tuple }) => readonly(tuple('string', 'number')));
+  const _rd3 = type(({ tuple }) => tuple('string', 'number'));
+  expectTypeOf(rd3.type).toEqualTypeOf(_rd3.type);
+
+  const rd4 = type(({ readonly, optional, soa, litterals, any }) =>
+    readonly({
+      name: 'string',
+      nickname: optional('string'),
+      tags: soa('string'),
+      status: litterals('active', 'inactive'),
+      metadata: any({ createdAt: 'date', updatedAt: 'date' }),
+      readonlyData: readonly({
+        createdAt: 'date',
+        updatedAt: 'date',
+        tags: soa('string'),
+      }),
+      maybeReadonlyData1: readonly(
+        any({ createdAt: 'date', updatedAt: 'date', tags: soa('string') }),
+      ),
+      maybeReadonlyData2: any(
+        readonly({ createdAt: 'date', updatedAt: 'date', tags: soa('string') }),
+      ),
+    }),
+  );
+  expectTypeOf(rd4.type).toEqualTypeOf<{
+    readonly name: string;
+    readonly tags: SoA<string>;
+    readonly status: 'active' | 'inactive';
+    readonly metadata: { createdAt: Date; updatedAt: Date };
+    readonly readonlyData: {
+      readonly createdAt: Date;
+      readonly updatedAt: Date;
+      readonly tags: string | string[] | readonly string[];
+    };
+    readonly maybeReadonlyData1: {
+      createdAt: Date;
+      updatedAt: Date;
+      tags: string | string[] | readonly string[];
+    };
+    readonly maybeReadonlyData2: {
+      createdAt: Date;
+      updatedAt: Date;
+      tags: string | string[] | readonly string[];
+    };
+    readonly nickname?: string | undefined;
+  }>();
+
+  const rd5 = type(({ readonly, union }) =>
+    union.discriminated(
+      'type',
+
+      readonly({
+        a: { value: 'string' },
+        b: { value: 'number' },
+        type: litterals('a'),
+      }),
+
+      readonly({ type: litterals('b'), value: 'number' }),
+    ),
+  );
+  expectTypeOf(rd5.type).toEqualTypeOf<
+    | {
+        readonly a: { readonly value: string };
+        readonly b: { readonly value: number };
+        readonly type: 'a';
+      }
+    | { readonly type: 'b'; readonly value: number }
+  >();
+});

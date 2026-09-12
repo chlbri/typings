@@ -9,7 +9,28 @@ const _union = <T extends [ObjectT, ObjectT, ...ObjectT[]]>(...values: T) => {
 
 type Discriminated<K extends Keys> = ObjectMapS & Record<K, ObjectT>;
 
+/**
+ * Creates a union schema composed of multiple alternative schema branches.
+ *
+ * @template | Type {@linkcode ObjectT} `T` - Tuple of union branch schema
+ *   definitions.
+ *
+ * @param values - Variadic array of branch schemas.
+ *
+ * @returns The union schema wrapped as type {@linkcode UnionCustom}.
+ */
 export const union = expandFn(_union, {
+  /**
+   * Creates a discriminated union schema based on a discriminator key.
+   *
+   * @template | Type {@linkcode Keys} `K` - The discriminator property key name.
+   * @template `T` - Tuple of discriminated object schemas sharing key `K`.
+   *
+   * @param _key - The discriminator property key.
+   * @param values - Variadic array of discriminated branch schemas.
+   *
+   * @returns The union schema wrapped as type {@linkcode UnionCustom}.
+   */
   discriminated: <
     const K extends Keys,
     T extends [Discriminated<K>, Discriminated<K>, ...Discriminated<K>[]],
