@@ -5,18 +5,32 @@
 <details>
 <summary>
 
-## **[1.3.1] - 12/09/2026** => _12:21_
+## **[1.4.0] - 12/09/2026** => _12:35_
 
 </summary>
 
 - Add: Subpath exports for `./standard` and `./utils/*` in `package.json`
-- Add: `CustomFn` interface and enhanced function support in `custom` types
 - Docs: Add comprehensive JSDoc comments across all exported functions, types, and
   constants
 - Refactor: Migrate repository structure to a pnpm monorepo workspace and separate
   test suites
 - Refactor: Replace `rm:lib` cleaning script with native Node.js `fs.rmSync`
 - Update: Update `rolldown` and `@bemedev/dev-utils` dependencies
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
+## **[1.3.1] - 01/08/2026** => _05:09_
+
+</summary>
+
+- Update: Upgrade devDependencies including `@bemedev/dev-utils`, `@types/node`,
+  `vitest`, `rolldown`, and `typescript`
 - <u>Test coverage **_100%_**</u>
 
 </details>
