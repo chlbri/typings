@@ -1,0 +1,109 @@
+{
+  "name": "@bemedev/typings",
+  "version": "1.3.1",
+  "description": "Typings by variables",
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "module": "lib/index.js",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs",
+      "types": "./lib/index.d.ts"
+    },
+    "./helpers": {
+      "import": "./lib/helpers/index.js",
+      "require": "./lib/helpers/index.cjs",
+      "types": "./lib/helpers/index.d.ts"
+    },
+    "./constants": {
+      "import": "./lib/constants.js",
+      "require": "./lib/constants.cjs",
+      "types": "./lib/constants.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./tsconfig.json": "./tsconfig.json",
+    "./types": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/types/index.js",
+      "require": "./lib/types/index.cjs"
+    },
+    "./standard": {
+      "types": "./lib/types/standard.types.d.ts"
+    }
+  },
+  "files": [
+    "lib"
+  ],
+  "author": {
+    "email": "bri_lvi@icloud.com",
+    "name": "chlbri",
+    "url": "https://bemedev.vercel.app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chlbri/typings.git"
+  },
+  "maintainers": [
+    {
+      "email": "bri_lvi@icloud.com",
+      "name": "chlbri",
+      "url": "https://bemedev.vercel.app"
+    }
+  ],
+  "contributors": [
+    {
+      "email": "bri_lvi@icloud.com",
+      "name": "chlbri",
+      "url": "https://bemedev.vercel.app"
+    }
+  ],
+  "keywords": [
+    "typings",
+    "typescript",
+    "types"
+  ],
+  "scripts": {
+    "build": "pnpm run rm:lib && pnpm run rolldown",
+    "rm:lib": "pnpx rimraf ./lib",
+    "test": "vitest run",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "_lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "lint": "pnpm run fmt && pnpm run lint:fix",
+    "p-q": "pretty-quick",
+    "pretest": "pnpm run build && pnpm run size",
+    "posttest": "exit 0",
+    "test:only": "pnpm run test --no-coverage",
+    "_ci": "pnpm run lint && pnpm run test",
+    "size": "size-limit",
+    "rolldown": "rolldown -c"
+  },
+  "devDependencies": {
+    "@bemedev/dev-utils": "^1.5.0",
+    "@size-limit/file": "^13.0.3",
+    "rolldown": "^1.2.8",
+    "size-limit": "^13.0.3",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.0"
+  },
+  "dependencies": {
+    "@standard-schema/spec": "^1.1.0"
+  },
+  "size-limit": [
+    {
+      "path": "lib/**/*.js",
+      "limit": "10kb"
+    },
+    {
+      "path": "lib/**/*.d.ts",
+      "limit": "10kb"
+    },
+    {
+      "path": "lib/**/*.cjs",
+      "limit": "10 kb"
+    }
+  ]
+}

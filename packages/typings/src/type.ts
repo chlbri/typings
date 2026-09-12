@@ -1,0 +1,103 @@
+import {
+  any,
+  array,
+  custom,
+  intersection,
+  litterals,
+  object,
+  omit,
+  optional,
+  partial,
+  primitive,
+  primitiveObject,
+  readonly,
+  record,
+  soa,
+  sora,
+  sv,
+  tuple,
+  union,
+  use,
+} from './helpers';
+import { standardize } from './standard';
+import type { FnBasic, inferSh, ObjectT, SafePre } from './types';
+import { expandFn } from './utils';
+
+type Helpers = {
+  any: typeof any;
+  custom: typeof custom;
+  intersection: typeof intersection;
+  litterals: typeof litterals;
+  optional: typeof optional;
+  partial: typeof partial;
+  record: typeof record;
+  soa: typeof soa;
+  use: typeof use;
+  sv: typeof sv;
+  union: typeof union;
+  array: typeof array;
+  tuple: typeof tuple;
+  primitiveObject: typeof primitiveObject;
+  primitive: typeof primitive;
+  readonly: typeof readonly;
+  object: typeof object;
+  omit: typeof omit;
+  sora: typeof sora;
+};
+
+export type Transform_F = <T extends ObjectT = ObjectT>(
+  option?: ((helpers: Helpers) => T) | T,
+) => inferSh<T>;
+
+type _PreTransform_F<U extends ObjectT> = <T extends SafePre<U> = SafePre<U>>(
+  option?: ((helpers: Helpers) => T) | T,
+) => inferSh<T>;
+
+export type PreTransform_F = <U extends ObjectT>(
+  _?: inferSh<U>,
+) => FnBasic<_PreTransform_F<U>, { type: _PreTransform_F<U>; pretype: inferSh<U> }>;
+
+const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
+  const _obj = obj as any;
+  return _obj;
+};
+
+export const type: Transform_F = option => {
+  let out: any;
+
+  if (!option) {
+    out = option;
+  } else if (typeof option === 'function') {
+    const objectS = option({
+      any,
+      custom,
+      intersection,
+      litterals,
+      optional,
+      omit,
+      partial,
+      record,
+      soa,
+      sv,
+      union,
+      array,
+      tuple,
+      primitiveObject,
+      primitive,
+      readonly,
+      object,
+      sora,
+      use: use,
+    });
+
+    out = _transform(objectS);
+  } else out = _transform(option);
+
+  return standardize(out);
+};
+
+export const pretype: PreTransform_F = pretype =>
+  expandFn(type, {
+    type,
+    pretype: standardize(pretype?.__type ?? ('any' as const)),
+  }) as any;

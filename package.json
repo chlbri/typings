@@ -1,7 +1,8 @@
 {
-  "name": "@bemedev/typings",
+  "name": "@bemedev/typings-monorepo",
   "version": "1.3.1",
-  "description": "Typings by variables",
+  "private": true,
+  "description": "Monorepo workspace root",
   "author": {
     "email": "bri_lvi@icloud.com",
     "name": "chlbri",
@@ -9,40 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/chlbri/typings.git"
+    "url": "https://github.com/chlbri/typings"
   },
   "license": "MIT",
   "type": "module",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "module": "lib/index.js",
-  "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "types": "./lib/index.d.ts"
-    },
-    "./helpers": {
-      "import": "./lib/helpers/index.js",
-      "require": "./lib/helpers/index.cjs",
-      "types": "./lib/helpers/index.d.ts"
-    },
-    "./constants": {
-      "import": "./lib/constants.js",
-      "require": "./lib/constants.cjs",
-      "types": "./lib/constants.d.ts"
-    },
-    "./package.json": "./package.json",
-    "./tsconfig.json": "./tsconfig.json",
-    "./types": {
-      "types": "./lib/types/index.d.ts",
-      "import": "./lib/types/index.js",
-      "require": "./lib/types/index.cjs"
-    },
-    "./standard": {
-      "types": "./lib/types/standard.types.d.ts"
-    }
-  },
   "maintainers": [
     {
       "email": "bri_lvi@icloud.com",
@@ -57,85 +28,50 @@
       "url": "https://bemedev.vercel.app"
     }
   ],
-  "keywords": [
-    "typings",
-    "typescript",
-    "types"
-  ],
-  "files": [
-    "lib",
-    "public"
-  ],
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
   "scripts": {
+    "_ci": "pnpm run -r --sort --sequential _ci",
+    "ci": "CIN=$(date +%s) && pnpm install && pnpm run rm:lib && pnpm run lint && pnpm run pretest && pnpm run test:only && pnpm run posttest && echo \"\n✅ CI takes $(($(date +%s) - CIN))s\n\"",
+    "_ci:admin": "CI_ADMIN=$(date +%s) && pnpm run rm && pnpm run up && pnpm install && pnpm run _ci && pnpm install && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_ADMIN))s\n\"",
+    "ci:admin": "FULL_CI=$(date +%s) && pnpm run ci && pnpm run _ci:admin && echo \"\n✅ Full CI takes $(($(date +%s) - FULL_CI))s\n\"",
     "pnpm:devPreinstall": "node -e \"const fs=require('fs'); const pkg=JSON.parse(fs.readFileSync('./package.json')); const version=require('child_process').execSync('pnpm -v').toString().trim(); pkg.packageManager='pnpm@' + version; fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\\n');\"",
-    "build": "pnpm rm:lib && pnpm run rolldown",
-    "_ci": "pnpm clean --lockfile && pnpm run config:off && pnpm run lint && pnpm run test",
-    "ci": "CI_START=$(date +%s) && pnpm run _ci && pnpm run p-q && echo \"\n✅ CI takes $(($(date +%s) - CI_START))s\n\"",
-    "ci:admin": "CI_START=$(date +%s) && pnpm run rm && pnpm run upgrade:fast && pnpm run _ci && echo \"\n✅ Admin CI takes $(($(date +%s) - CI_START))s\n\"",
-    "clean": "pnpm run rm && pnpm run config",
-    "config": "pnpm install",
-    "config:off": "pnpm run config --offline",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
-    "lint": "pnpm run fmt && pnpm run lint:fix",
-    "lint:fix": "oxlint --fix",
-    "lint:watch": "onchange --await-write-finish 1500 -d 10000 -v \"**/*.ts\" -- pnpm run lint",
-    "prepublishOnly": "",
-    "prepare": "husky",
-    "pretest": "pnpm run build && pnpm run size",
-    "posttest": "pnpm run fmt",
-    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
-    "p-q": "pretty-quick",
+    "build": "pnpm -r --sort --sequential run build",
+    "config": "pnpm i",
+    "rimraf": "pnpx rimraf -rf",
     "rinit": "pnpm run rm && pnpm run config",
-    "rinit:off": "pnpm run rm && pnpm run config:off",
-    "rimraf": "pnpm dlx rimraf -rf",
-    "rm": "pnpm run rimraf -- node_modules pnpm-lock.yaml",
-    "rm:lib": "pnpm run rimraf -- lib",
-    "rolldown": "rolldown -c",
-    "size": "size-limit",
-    "test": "pnpm run test:coverage",
-    "test:coverage": "vitest run",
-    "test:only": "pnpm run test:coverage --no-coverage",
-    "test:ui": "vitest --ui",
-    "test:watch": "vitest",
-    "upgrade": "pnpm dlx @bemedev/upgrade-npm-package",
-    "upgrade:fast": "pnpm up --latest"
+    "fmt": "pnpm run -r fmt",
+    "fmt:check": "pnpm run -r fmt:check",
+    "lint": "pnpm run -r lint",
+    "pretest": "pnpm run -r pretest",
+    "test": "pnpm run -r test",
+    "posttest": "pnpm run -r posttest",
+    "test:only": "pnpm run -r test:only",
+    "rm": "pnpm run rimraf -- node_modules pnpm-lock.yaml && pnpm clean --lockfile",
+    "up": "pnpm -r update --latest !typescript && pnpm run check-updates",
+    "check-updates": "pnpm dlx npm-check-updates -w -u --dep peer,optional,prod",
+    "prepare": "husky",
+    "rm:lib": "pnpm -r --sort --sequential run rm:lib",
+    "p-q": "pretty-quick"
   },
-  "size-limit": [
-    {
-      "path": "lib/*.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "lib/*.cjs",
-      "limit": "10 KB"
-    }
-  ],
   "devDependencies": {
-    "@bemedev/dev-utils": "^1.1.1",
-    "@bemedev/fsf": "^1.0.1",
-    "@size-limit/file": "^13.0.3",
-    "@types/node": "^26.1.2",
-    "@vitest/coverage-v8": "^4.1.10",
-    "@vitest/ui": "4.1.10",
+    "@bemedev/dev-utils": "^1.5.0",
+    "@types/node": "^26.5.1",
+    "@vitest/coverage-v8": "^5.0.0",
     "glob": "^13.0.6",
-    "globals": "^17.8.0",
+    "globals": "^17.12.0",
     "husky": "^9.1.7",
     "onchange": "^7.1.0",
-    "oxfmt": "^0.61.0",
-    "oxlint": "^1.76.0",
+    "oxfmt": "^0.67.0",
+    "oxlint": "^1.82.0",
     "pretty-quick": "^4.2.2",
-    "rolldown": "1.2.1",
-    "size-limit": "^13.0.3",
+    "rimraf": "^6.1.3",
+    "rolldown": "^1.2.8",
     "tslib": "^2.8.1",
+    "tsx": "^4.23.13",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.10"
+    "vitest": "^5.0.0"
   },
-  "dependencies": {
-    "@standard-schema/spec": "^1.1.0"
-  },
-  "packageManager": "pnpm@11.8.0"
+  "packageManager": "pnpm@11.22.0"
 }

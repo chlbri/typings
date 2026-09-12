@@ -1,0 +1,25 @@
+import { standardize2 } from '../standard';
+import type { Custom, ObjectT } from '../types';
+import { _const, expandFn2 } from '../utils';
+
+/**
+ * Create a custom value that can be used in the state value or as a literal.
+ *
+ * @example
+ *   ```ts
+ *   const myCustomValue = custom({ foo: 'bar' });
+ *   // myCustomValue is of type Custom<{ foo: 'bar }>
+ *   ```;
+ *
+ * @param value The value to create the custom value from.
+ *
+ * @returns A custom value that can be used in the state value or as a literal.
+ *
+ * @important the type parameter `T` must not inherit of type {@link ObjectT}, otherwise it will be considered as an object and do not transform it in {@link type}
+ *
+ * @see {@link Custom} for more information about custom values.
+ */
+export const custom = expandFn2(<const T = any>(value?: T) => {
+  type TT = ObjectT extends T ? 'any' : Custom<T>;
+  return standardize2<TT>(value);
+}, 'any');

@@ -1,13 +1,13 @@
 {
   "name": "Node.js Library",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:24",
-  // 3 GB RAM for the container
-  "runArgs": ["--memory=3g", "--memory-swap=3g", "--cpus=2"],
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:24-bookworm",
+  // 8 GB RAM for the container
+  "runArgs": ["--memory=8g", "--memory-swap=8g", "--cpus=3"],
   "hostRequirements": {
-    "memory": "3gb"
+    "memory": "8gb"
   },
   // pnpm via corepack (ships with Node 24) + install deps
-  "postCreateCommand": "corepack use pnpm@latest && pnpm install --frozen-lockfile",
+  "postCreateCommand": "corepack use pnpm@latest && pnpm run ci:admin",
   // Forward vitest --ui port, also Ollama
   "forwardPorts": [51204, 11434],
   "portsAttributes": {
@@ -22,8 +22,8 @@
   },
   "remoteEnv": {
     "NODE_ENV": "development",
-    // Give Node.js ~2 GB for heap
-    "NODE_OPTIONS": "--max-old-space-size=2048",
+    // Give Node.js ~6 GB for heap
+    "NODE_OPTIONS": "--max-old-space-size=6144",
     // pnpm store inside the container (no cross-device issues)
     "PNPM_HOME": "/home/node/.local/share/pnpm"
   },
@@ -37,22 +37,23 @@
         "vitest.commandLine": "pnpm run test:only"
       },
       "extensions": [
-        // TypeScript / JavaScript
         "ms-vscode.vscode-typescript-next",
         "ms-vscode.js-debug",
-        // Lint & format
         "oxc.oxc-vscode",
-        // Testing
+        "bokuweb.vscode-ripgrep",
         "vitest.explorer",
-        // Coverage
         "ryanluker.vscode-coverage-gutters",
-        // Git
         "adam-bender.commit-message-editor",
-        // GitHub
         "github.vscode-github-actions",
         "github.copilot",
         "github.copilot-chat",
-        "anthropic.claude-code"
+        "anthropic.claude-code",
+        "Gruntfuggly.todo-tree",
+        "TypeScriptTeam.native-preview",
+        "rioj7.commandOnAllFiles",
+        "formulahendry.code-runner",
+        "ms-azuretools.vscode-containers",
+        "yatki.vscode-surround"
       ]
     }
   }

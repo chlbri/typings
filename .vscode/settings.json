@@ -1,36 +1,22 @@
 {
-  "github-actions.workflows.pinned.workflows": [
-    ".github/workflows/ci.yml",
-    ".github/workflows/publish-NPM.yml"
-  ],
-  "githubPullRequests.ignoredPullRequestBranches": ["dev"],
-  "editor.colorDecorators": false,
-  "[json]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
+  "github-actions.workflows.pinned.workflows": [".github/workflows/ci.yml"],
+  "oxc.enable": true,
+  "search.followSymlinks": false,
+  "search.useIgnoreFiles": true,
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.pnpm-store": true,
+    "**/.git": true,
+    "**/.coverage": true,
+    "**/.tanstack": true,
+    "**/dist": true,
+    "**/build": true
   },
-  "[javascript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "[javascriptreact]": {
-    "editor.defaultFormatter": "oxc.oxc-vscode"
-  },
-  "chat.tools.terminal.autoApprove": {
-    "pnpm": true,
-    "npx tsc": true,
-    "git stash": true,
-    "npx vitest": true,
-    "mv": true,
-    "mkdir": true,
-    "uniq": true,
-    "/^cd \"/Users/chlbri/Documents/github/NODE JS/Librairies bemedev/app-ts\" && node extract-machines\\.mjs$/": {
-      "approve": true,
-      "matchCommandLine": true
-    }
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.pnpm-store/**": true,
+    "**/.coverage/**": true
   }
 }
