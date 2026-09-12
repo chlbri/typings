@@ -2,6 +2,7 @@ import {
   any,
   array,
   custom,
+  fn,
   intersection,
   litterals,
   object,
@@ -27,6 +28,8 @@ import { expandFn } from './utils';
 type Helpers = {
   any: typeof any;
   custom: typeof custom;
+  fn: typeof fn;
+  function: typeof fn;
   intersection: typeof intersection;
   litterals: typeof litterals;
   optional: typeof optional;
@@ -119,6 +122,8 @@ export const type: Transform_F = option => {
     const objectS = option({
       any,
       custom,
+      fn,
+      function: fn,
       intersection,
       litterals,
       optional,

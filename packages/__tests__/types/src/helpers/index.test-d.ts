@@ -52,4 +52,12 @@ describe('helpers: index', () => {
   expectTypeOf(_funcPartial.type).toEqualTypeOf<{
     user: Partial<{ name: string; active: boolean }>;
   }>();
+
+  // Via function — fn helper field
+  const _funcFn = type(({ fn }) => ({
+    handler: fn(['string', 'number'], 'boolean'),
+  }));
+  expectTypeOf(_funcFn.type).toEqualTypeOf<{
+    handler: (arg0: string, arg1: number) => boolean;
+  }>();
 });

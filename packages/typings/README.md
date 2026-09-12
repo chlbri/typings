@@ -98,6 +98,7 @@ const result = type(({ primitiveObject, custom }) =>
 - `any`: Any type
 - `array`: Array of types
 - `custom`: Custom type
+- `fn`: Function schema helper (alias `function`)
 - `intersection`: Intersection of types
 - `litterals`: Literal types
 - `object`: Object schema helper

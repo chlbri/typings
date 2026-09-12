@@ -82,10 +82,12 @@ type ReduceArraySimple<T extends any[]> = T extends [
  */
 export type Simplify<T> = unknown extends T
   ? T
-  : T extends Primitive
+  : T extends Primitive | void
     ? T
-    : T extends any[]
-      ? ReduceArraySimple<T>
-      : T extends TrueObject
-        ? { [K in keyof T]: Simplify<T[K]> }
-        : T & {};
+    : T extends Fn
+      ? T
+      : T extends any[]
+        ? ReduceArraySimple<T>
+        : T extends TrueObject
+          ? { [K in keyof T]: Simplify<T[K]> }
+          : T & {};

@@ -9,7 +9,7 @@ import type { Fn, TrueObject } from './utilities.types';
  */
 export type AnyArray<T = unknown> = ReadonlyArray<T> | T[];
 
-type ReduceTuple<T extends AnyArray> = T extends [
+type ReduceTuple<T extends AnyArray> = T extends readonly [
   infer First,
   ...infer Rest extends AnyArray,
 ]
@@ -26,7 +26,7 @@ type ReduceTuple<T extends AnyArray> = T extends [
  *
  * @see -- type {@linkcode TransformT}
  */
-export type ReduceTuple2<T extends AnyArray<ObjectT>> = T extends [
+export type ReduceTuple2<T extends AnyArray<ObjectT>> = T extends readonly [
   infer First,
   ...infer Rest extends AnyArray<ObjectT>,
 ]

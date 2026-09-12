@@ -5,6 +5,23 @@
 <details>
 <summary>
 
+## **[1.4.1] - 12/09/2026** => _16:45_
+
+</summary>
+
+- Add: `fn` helper (with `function` alias) to define function schemas with typed
+  parameters and return values
+- Enhance: Support `readonly` tuple types in `ReduceTuple` and `ReduceTuple2`
+- Enhance: Preserve `Fn` and handle `void` in `Simplify` utility type
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[1.4.0] - 12/09/2026** => _12:35_
 
 </summary>

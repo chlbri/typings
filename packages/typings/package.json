@@ -1,6 +1,6 @@
 {
   "name": "@bemedev/typings",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Typings by variables",
   "type": "module",
   "main": "lib/index.js",

@@ -1,6 +1,7 @@
 export * from './any';
 export * from './array';
 export * from './custom';
+export * from './fn';
 export * from './intersection';
 export * from './use';
 export * from './litterals';

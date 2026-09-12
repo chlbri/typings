@@ -7,8 +7,22 @@ import type {
   SORA,
   UNION,
 } from '../constants';
-import type { AnyArray } from './arrays.types';
+import type { AnyArray, NotReadonly, ReduceTuple2 } from './arrays.types';
+import type { inferO } from './standard.types';
 import type { __ObjectT, ObjectMapS, ObjectT } from './typings.types';
+import type { Fn } from './utilities.types';
+
+/**
+ * Internal marker type wrapper for function schemas using type {@linkcode Custom}.
+ *
+ * @template | Type {@linkcode AnyArray} `Args` - Function parameter schema
+ *   definitions.
+ * @template | Type {@linkcode ObjectT} `Return` - Function return schema definition.
+ */
+export type FunctionCustom<
+  Args extends AnyArray<ObjectT> = [],
+  Return extends ObjectT = Custom<void>,
+> = Custom<Fn<ReduceTuple2<NotReadonly<Args>>, inferO<Return>>>;
 
 /**
  * Internal marker type wrapper for custom types and validator outputs.
