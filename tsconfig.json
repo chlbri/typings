@@ -19,6 +19,17 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "noEmit": true,
-    "declarationMap": true
+    "declarationMap": true,
+    "paths": {
+      "@bemedev/typings": ["./packages/typings/src/index.ts"],
+      "@bemedev/typings/constants": ["./packages/typings/src/constants.ts"],
+      "@bemedev/typings/helpers": ["./packages/typings/src/helpers/index.ts"],
+      "@bemedev/typings/helpers/*": ["./packages/typings/src/helpers/*"],
+      "@bemedev/typings/standard": ["./packages/typings/src/standard.ts"],
+      "@bemedev/typings/types": ["./packages/typings/src/types/index.ts"],
+      "@bemedev/typings/types/*": ["./packages/typings/src/types/*"],
+      "@bemedev/typings/utils/*": ["./packages/typings/src/utils/*"],
+      "@bemedev/typings/*": ["./packages/typings/src/*"]
+    }
   }
 }

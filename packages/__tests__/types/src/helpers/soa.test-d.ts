@@ -1,0 +1,30 @@
+import { type } from '@bemedev/typings';
+import type { SoA } from '@bemedev/typings';
+
+describe('helpers: soa', () => {
+  // SoA with string
+  const soaString = type(({ soa }) => ({ value: soa('string') }));
+  expectTypeOf(soaString.type).toEqualTypeOf<{ value: SoA<string> }>();
+
+  // SoA with number
+  const soaNumber = type(({ soa }) => ({ count: soa('number') }));
+  expectTypeOf(soaNumber.type).toEqualTypeOf<{ count: SoA<number> }>();
+
+  // SoA with boolean
+  const soaBoolean = type(({ soa }) => ({ flag: soa('boolean') }));
+  expectTypeOf(soaBoolean.type).toEqualTypeOf<{ flag: SoA<boolean> }>();
+
+  // SoA with object
+  const soaObject = type(({ soa }) => ({ item: soa({ name: 'string' }) }));
+  expectTypeOf(soaObject.type).branded.toEqualTypeOf<{
+    item: SoA<{ name: string }>;
+  }>();
+
+  // SoA with complex object
+  const soaComplex = type(({ soa }) => ({
+    user: soa({ id: 'string', name: 'string', age: 'number' }),
+  }));
+  expectTypeOf(soaComplex.type).branded.toEqualTypeOf<{
+    user: SoA<{ id: string; name: string; age: number }>;
+  }>();
+});

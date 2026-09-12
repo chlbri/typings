@@ -10,10 +10,20 @@ import type {
 import type { JSON_Primitive } from './types.types';
 import type { Keys } from './utilities.types';
 
+/** String literal union of all JSON-compatible primitive type names. */
 export type JSON_PrimitiveT = (typeof JSON_PRIMITIVES)[number];
+
+/** String literal union of all primitive type names. */
 export type PrimitiveT = (typeof PRIMITIVES)[number];
+
+/** String literal union of all primitive and primitive-object type names. */
 export type Types = PrimitiveT | (typeof PRIMITIVE_OBJECTS)[number];
 
+/**
+ * Schema definition type representing a primitive object or recursive map thereof.
+ *
+ * @see -- type {@linkcode SoRa}
+ */
 export type PrimitiveObjectT = SoRa<
   | JSON_PrimitiveT
   | PrimitiveObjectMapS
@@ -24,10 +34,16 @@ export type PrimitiveObjectT = SoRa<
   | Custom<Exclude<JSON_Primitive, undefined>>
 >;
 
+/**
+ * Interface representing a dictionary map of primitive object schemas.
+ *
+ * @see -- type {@linkcode PrimitiveObjectT}
+ */
 export interface PrimitiveObjectMapS {
   [key: Keys]: PrimitiveObjectT;
 }
 
+/** Core schema union representing all primitive, map, custom, and partial types. */
 export type __ObjectT =
   | Types
   | ObjectMapS
@@ -37,13 +53,19 @@ export type __ObjectT =
 
 type _ObjectT = __ObjectT | Optional | ArrayCustom;
 
+/**
+ * Schema mapping object keys to schema definitions or recursive arrays thereof.
+ *
+ * @see -- type {@linkcode Keys}
+ */
 export type ObjectMapS = { [key: Keys]: SoRa<_ObjectT> };
 
 /**
- * A type that represents a primitive object, which can be a primitive value or an
- * object
+ * Universal schema definition type representing any valid schema node.
  *
- * @remark
+ * @see -- type {@linkcode SoRa}
  */
 export type ObjectT = SoRa<_ObjectT>;
+
+/** Alias for type {@linkcode ObjectT}. */
 export type POS = ObjectT;

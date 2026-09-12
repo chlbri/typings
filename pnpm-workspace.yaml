@@ -1,6 +1,7 @@
 packages:
   - 'packages/typings'
-  - 'packages/__tests__/project1'
+  - 'packages/__tests__/units'
+  - 'packages/__tests__/types'
 
 allowBuilds:
   '@parcel/watcher': true

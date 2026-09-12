@@ -14,9 +14,6 @@ export default defineConfig({
 
     coverage: { enabled: true, reportsDirectory: '.coverage', provider: 'v8' },
 
-    projects: [
-      'packages/typings/vitest.config.ts',
-      'packages/__tests__/project1/vitest.config.ts',
-    ],
+    projects: ['packages/__tests__/**/vitest.config.ts'],
   },
 });

@@ -113,16 +113,32 @@ const result = type(({ primitiveObject, custom }) =>
 - `sv`: State Value
 - `tuple`: Tuple types
 - `union`: Union types
+- `use`: Extracts underlying `__type` schema definition from a Standard Schema object
 
 <br/>
 
-## Licence
+## Exports
+
+The package supports the following subpath exports for both ESM and CommonJS:
+
+- `@bemedev/typings`: Main entry point (`type`, `pretype`, etc.)
+- `@bemedev/typings/helpers`: Schema helper functions (`array`, `object`, `use`,
+  etc.)
+- `@bemedev/typings/constants`: Internal constants and type markers
+- `@bemedev/typings/types`: TypeScript types and interfaces
+- `@bemedev/typings/standard`: Standard Schema utilities (`standardize`, `isSh`,
+  etc.)
+- `@bemedev/typings/utils/*`: Utility functions (e.g. `isSh`, `expandFn`)
+
+<br/>
+
+## License
 
 MIT
 
 ## [CHANGELOG](CHANGELOG.md)
 
-## Auteur
+## Author
 
 chlbri (bri_lvi@icloud.com)
 
@@ -132,6 +148,6 @@ chlbri (bri_lvi@icloud.com)
 
 <br/>
 
-## Liens
+## Links
 
 - [Documentation](https://github.com/chlbri/typings)

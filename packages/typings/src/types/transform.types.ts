@@ -50,6 +50,12 @@ type TransformPrimitiveS<T extends PrimitiveT> = T extends 'string'
                   ? JSON_Primitive
                   : Primitive;
 
+/**
+ * Transforms a primitive or primitive-object type name string literal into its
+ * TypeScript type representation.
+ *
+ * @template | Type {@linkcode Types} `T` - Primitive or primitive-object type name.
+ */
 export type TransformTypes<T extends Types> = T extends PrimitiveT
   ? TransformPrimitiveS<T>
   : T extends 'date'
@@ -60,6 +66,13 @@ export type TransformTypes<T extends Types> = T extends PrimitiveT
         ? unknown
         : object;
 
+/**
+ * Recursively transforms a schema definition type into its inferred TypeScript type.
+ *
+ * @template T - The schema definition type to transform.
+ *
+ * @see -- type {@linkcode TransformTypes}
+ */
 export type TransformT<T> =
   Equals<EmptyObject, T> extends true
     ? EmptyObject
@@ -125,4 +138,10 @@ type _SafePre<T extends ObjectT> = PrimitiveObjectT extends T
                               ? _SafePre<Tk>
                               : T[K];
                           };
+
+/**
+ * Extracts a safe pre-transformation schema type for nested schema validation.
+ *
+ * @template | Type {@linkcode ObjectT} `T` - Input schema definition.
+ */
 export type SafePre<T extends ObjectT> = Extract<_SafePre<T>, ObjectT>;
