@@ -12,14 +12,8 @@ const result = type(({ array, optional, intersection }) => ({
     array(
       intersection(
         {
-          position: {
-            x: 'number',
-            y: 'number',
-          },
-          data: {
-            label: optional('string'),
-            content: 'string',
-          },
+          position: { x: 'number', y: 'number' },
+          data: { label: optional('string'), content: 'string' },
           input: 'boolean',
         },
         { id: 'string' },
@@ -50,10 +44,7 @@ import { type, pretype } from '@bemedev/typings';
 
 const baseType = type(({ partial, record, primitiveObject }) =>
   partial({
-    emitters: record({
-      next: primitiveObject.const,
-      error: primitiveObject.const,
-    }),
+    emitters: record({ next: primitiveObject.const, error: primitiveObject.const }),
     children: record(primitiveObject.map.const),
   }),
 );
@@ -62,9 +53,7 @@ const pretypedResult = pretype(baseType);
 
 // Access the pre-processed type context
 const finalType = pretypedResult({
-  emitters: {
-    data: { next: 'string', error: 'string' },
-  },
+  emitters: { data: { next: 'string', error: 'string' } },
   children: { eventMap: 'string' },
 });
 
@@ -77,20 +66,19 @@ expectTypeOf(finalType.type).toEqualTypeOf<{
 expectTypeOf(pretypedResult.pretype).toEqualTypeOf(baseType);
 ```
 
-N.B. The `pretype` function is designed to work with the type definitions
-created using the `type` function, allowing you to create complex type
-transformations while maintaining access to the original type context for
-further processing or reuse. Also `pretype.pretype` is a getter to the
-original type definition, which can be useful for chaining or referencing
-the base type in multiple transformations.
+N.B. The `pretype` function is designed to work with the type definitions created
+using the `type` function, allowing you to create complex type transformations while
+maintaining access to the original type context for further processing or reuse. Also
+`pretype.pretype` is a getter to the original type definition, which can be useful
+for chaining or referencing the base type in multiple transformations.
 
 <br/>
 
 ## Custom Types inside Primitive Objects
 
-The `primitiveObject` helper accepts a restricted `Custom` type.
-Specifically, it allows custom validations for types extending `string`,
-`number`, or `boolean` (i.e., `Exclude<JSON_Primitive, undefined>`).
+The `primitiveObject` helper accepts a restricted `Custom` type. Specifically, it
+allows custom validations for types extending `string`, `number`, or `boolean` (i.e.,
+`Exclude<JSON_Primitive, undefined>`).
 
 ```ts
 import { type } from '@bemedev/typings';
@@ -121,8 +109,7 @@ const result = type(({ primitiveObject, custom }) =>
 - `readonly`: Readonly object types
 - `record`: Record types
 - `soa`: Single or Array types
-- `sora`: Single or Array types, with recursive support, (soa with
-  recursion)
+- `sora`: Single or Array types, with recursive support, (soa with recursion)
 - `sv`: State Value
 - `tuple`: Tuple types
 - `union`: Union types

@@ -6,7 +6,7 @@ import { union } from './union';
 /**
  * Creates a literal union schema from string, number, or boolean literal values.
  *
- * @template | Type {@linkcode Array} `T` - Tuple of literal values.
+ * @template | Interface {@linkcode Array} `T` - Tuple of literal values.
  *
  * @param values - Literal values that form the allowed literal set.
  *

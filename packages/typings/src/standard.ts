@@ -32,6 +32,12 @@ const _standardize = (__type: any) => {
 /**
  * Standardizes a schema value into an object implementing the interface
  * {@linkcode StandardSchemaV1} contract.
+ *
+ * @template T - The schema definition type.
+ *
+ * @param value - The input value to standardize.
+ *
+ * @returns The standardized schema object.
  */
 export const standardize: Standardize_F = _standardize;
 

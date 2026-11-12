@@ -48,7 +48,7 @@ export type SoRaCustom<T extends ObjectT = ObjectT> = { [SORA]: T };
 /**
  * Internal marker type wrapper for union schemas.
  *
- * @template | Type {@linkcode Array} `T` - Tuple of union branch schemas.
+ * @template | Interface {@linkcode Array} `T` - Tuple of union branch schemas.
  */
 export type UnionCustom<T extends ObjectT[] = ObjectT[]> = { [UNION]: T };
 
@@ -71,7 +71,7 @@ export type ArrayCustom<T extends ObjectT = any> = { [ARRAY]: T };
 /**
  * Internal marker type wrapper for optional properties.
  *
- * @template | Type {@linkcode **ObjectT} `T` - Schema definition to mark as
+ * @template | Type {@linkcode ObjectT} `T` - Schema definition to mark as
  *   optional.
  */
 export type Optional<
@@ -81,7 +81,7 @@ export type Optional<
 /**
  * Intersects multiple object schemas into a single unified object schema type.
  *
- * @template | Type {@linkcode Array} `T` - Array of object map schemas.
+ * @template | Interface {@linkcode Array} `T` - Array of object map schemas.
  */
 export type IntersectionCustom<T extends ObjectMapS[]> = T extends [
   infer First extends ObjectMapS,

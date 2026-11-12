@@ -32,7 +32,7 @@ export type TrueObject = Ru & {
 /**
  * Generic callable function signature.
  *
- * @template | Type {@linkcode Array} `Args` - Function parameter types tuple.
+ * @template | Interface {@linkcode Array} `Args` - Function parameter types tuple.
  * @template R - Function return type.
  */
 export type Fn<Args extends any[] = any[], R = any> = (...args: Args) => R;

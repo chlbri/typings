@@ -55,6 +55,10 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
+# Build output
+**/dist/
+**/target/
+
 # Optional eslint cache
 .eslintcache
 
@@ -147,3 +151,5 @@ tsconfig.vitest-temp.json
 
 #tanstack
 .tanstack
+
+.vitest/

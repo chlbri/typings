@@ -2,27 +2,25 @@
 
 ## Problem
 
-`createMachine` currently relies heavily on the TypeScript language server
-to infer complex generic types at authoring time. The deep nesting of
-conditional types (`TransformPrimitiveObject`, `TransformConfigDef`,
-`NoExtraKeysConfig`, `FlatMapN`, etc.) causes the TS server to slow down
-significantly on larger machines.
+`createMachine` currently relies heavily on the TypeScript language server to infer
+complex generic types at authoring time. The deep nesting of conditional types
+(`TransformPrimitiveObject`, `TransformConfigDef`, `NoExtraKeysConfig`, `FlatMapN`,
+etc.) causes the TS server to slow down significantly on larger machines.
 
 Additionally, the existing `app.gen.ts` generation uses the opaque
-`MachineEntry<Events, Children, Emitters, PContext, Tags>` helper type —
-which leaves `options.actions`, `options.guards`, and `options.delays`
-typed as the loose `string`. This means the compiler cannot constrain those
-identifiers at call-sites.
+`MachineEntry<Events, Children, Emitters, PContext, Tags>` helper type — which leaves
+`options.actions`, `options.guards`, and `options.delays` typed as the loose
+`string`. This means the compiler cannot constrain those identifiers at call-sites.
 
 **Goals of this rewrite**:
 
 1. Offload ALL type computation to a CLI tool.
-2. Eliminate `MachineEntry<>` from generated files — emit **fully inlined
-   raw types** so every string literal union is explicit.
-3. Use `parseTree` (the library's own runtime function) as the single
-   source of truth for extracting all symbol sets from a config.
-4. Use `ts-morph` for proper TypeScript AST extraction instead of fragile
-   regex heuristics.
+2. Eliminate `MachineEntry<>` from generated files — emit **fully inlined raw types**
+   so every string literal union is explicit.
+3. Use `parseTree` (the library's own runtime function) as the single source of truth
+   for extracting all symbol sets from a config.
+4. Use `ts-morph` for proper TypeScript AST extraction instead of fragile regex
+   heuristics.
 5. CLI built on `cmd-ts` + `chokidar`, following the same patterns used in
    `@bemedev/codebase` and `@bemedev/core`.
 
@@ -109,15 +107,15 @@ User writes *.machine.ts / *.fsm.ts
    (one-shot)           (chokidar watcher)
 ```
 
-**Single output file**: `app.gen.ts` at the project root (or at `rootDir`
-from `tsconfig.json` if present). No per-machine `*.gen.ts` files.
+**Single output file**: `app.gen.ts` at the project root (or at `rootDir` from
+`tsconfig.json` if present). No per-machine `*.gen.ts` files.
 
 ---
 
 ## File Convention
 
-**Convention**: `*.fsm.ts` or `*.machine.ts`, one
-`export default createMachine(...)` per file.
+**Convention**: `*.fsm.ts` or `*.machine.ts`, one `export default createMachine(...)`
+per file.
 
 ```ts
 // src/__tests__/interpreters/tags/tags.machine.ts
@@ -130,10 +128,7 @@ export default createMachine(
     initial: 'idle',
     states: {
       idle: { tags: ['idle'], on: { NEXT: '/working' } },
-      working: {
-        tags: ['working', 'busy'],
-        on: { NEXT: '/final', PREV: '/idle' },
-      },
+      working: { tags: ['working', 'busy'], on: { NEXT: '/final', PREV: '/idle' } },
       final: {},
     },
   },
@@ -145,13 +140,11 @@ Rules:
 
 - **Arg 1**: string literal — the machine's register key (relative path, no
   extension).
-- **Arg 2**: the config `NodeConfig` object literal. Must be statically
-  evaluable by ts-morph (pure object literal or locally-resolvable
-  `const`).
-- **Arg 3** (optional): typings object — used **only** to extract
-  `pContext` and `context` type shapes. Event and actor symbol keys are
-  extracted from the config itself via `parseTree` and need not be repeated
-  here.
+- **Arg 2**: the config `NodeConfig` object literal. Must be statically evaluable by
+  ts-morph (pure object literal or locally-resolvable `const`).
+- **Arg 3** (optional): typings object — used **only** to extract `pContext` and
+  `context` type shapes. Event and actor symbol keys are extracted from the config
+  itself via `parseTree` and need not be repeated here.
 
 ---
 
@@ -168,14 +161,14 @@ const project = new Project({
 });
 ```
 
-A single `Project` instance is created once per `generateAppGen` call and
-shared across all source files. This avoids parsing `tsconfig.json` once
-per file and reuses the type checker.
+A single `Project` instance is created once per `generateAppGen` call and shared
+across all source files. This avoids parsing `tsconfig.json` once per file and reuses
+the type checker.
 
 ### 1.2 Locate the `createMachine` Call
 
-For each `*.machine.ts` / `*.fsm.ts` file, add the source file to ts-morph
-and navigate to the `export default createMachine(...)` call expression:
+For each `*.machine.ts` / `*.fsm.ts` file, add the source file to ts-morph and
+navigate to the `export default createMachine(...)` call expression:
 
 ```
 SourceFile
@@ -188,22 +181,21 @@ SourceFile
 
 ### 1.3 Evaluate the Config AST → `NodeConfig`
 
-The config argument is an `ObjectLiteralExpression`. ts-morph is used to
-**statically evaluate** it into a plain JavaScript `NodeConfig` object:
+The config argument is an `ObjectLiteralExpression`. ts-morph is used to **statically
+evaluate** it into a plain JavaScript `NodeConfig` object:
 
 - `StringLiteral` / `NumericLiteral` → plain value.
 - `ArrayLiteralExpression` → array (elements evaluated recursively).
-- `ObjectLiteralExpression` → plain object (properties evaluated
-  recursively).
-- `Identifier` or `PropertyAccessExpression` → resolve the binding via
-  ts-morph's symbol API, then evaluate.
-- Anything non-resolvable (function calls, imports from external packages,
-  spread operators) → **skip the file with a warning**.
+- `ObjectLiteralExpression` → plain object (properties evaluated recursively).
+- `Identifier` or `PropertyAccessExpression` → resolve the binding via ts-morph's
+  symbol API, then evaluate.
+- Anything non-resolvable (function calls, imports from external packages, spread
+  operators) → **skip the file with a warning**.
 
-> **Why not `eval()` / dynamic `import()`?** Importing the file at CLI time
-> would require a runtime environment matching the project's module aliases
-> (`#machine`, `#states`, etc.) and could execute side effects. Static AST
-> evaluation via ts-morph is hermetic, alias-independent, and safe.
+> **Why not `eval()` / dynamic `import()`?** Importing the file at CLI time would
+> require a runtime environment matching the project's module aliases (`#machine`,
+> `#states`, etc.) and could execute side effects. Static AST evaluation via ts-morph
+> is hermetic, alias-independent, and safe.
 
 ### 1.4 Extract `pContext` Type from the Typings Arg
 
@@ -219,21 +211,20 @@ The optional third argument may contain a `pContext` field built with the
 ts-morph is used to find the `pContext` property inside the typings
 `ObjectLiteralExpression`, then:
 
-1. If the value is a `CallExpression` to `type(...)`, extract its first
-   argument and recursively convert primitive type strings to TS notation:
-   `'string'` → `string`, `'number'` → `number`, `'boolean'` → `boolean`,
-   `'never'` → `never`, nested objects → recurse.
+1. If the value is a `CallExpression` to `type(...)`, extract its first argument and
+   recursively convert primitive type strings to TS notation: `'string'` → `string`,
+   `'number'` → `number`, `'boolean'` → `boolean`, `'never'` → `never`, nested
+   objects → recurse.
 2. If absent or `undefined` → emit `undefined`.
 
-This produces an inline type string such as
-`{ data: string; count: number }`.
+This produces an inline type string such as `{ data: string; count: number }`.
 
 ---
 
 ## Phase 2 — `parseTree` Runtime Analysis
 
-Once Phase 1 produces a plain `NodeConfig` object, the CLI calls the
-library's own `parseTree` function directly:
+Once Phase 1 produces a plain `NodeConfig` object, the CLI calls the library's own
+`parseTree` function directly:
 
 ```ts
 import { parseTree } from '../../utils/parseTree';
@@ -256,8 +247,8 @@ const tree = parseTree(config); // NodeConfig → Output
 | `tags`         | `BetterSet<string>`           | `options.tags` + `tags?` → union   |
 | `pContextKeys` | `BetterSet<string>`           | informational (for pContext type)  |
 
-`parseTree` traverses the entire nested state tree recursively, so the CLI
-contains **no custom tree walker**. Symbol extraction is 100% delegated.
+`parseTree` traverses the entire nested state tree recursively, so the CLI contains
+**no custom tree walker**. Symbol extraction is 100% delegated.
 
 ---
 
@@ -297,8 +288,8 @@ type ConfigPaths = {
 };
 ```
 
-Serialization recurses over the runtime value and emits an inline
-TypeScript type literal:
+Serialization recurses over the runtime value and emits an inline TypeScript type
+literal:
 
 ```ts
 function configPathsToType(cp: ConfigPaths, indent = 0): string {
@@ -327,16 +318,15 @@ function configPathsToType(cp: ConfigPaths, indent = 0): string {
 
 ### 3.4 `pContext` type string
 
-The type string produced in Phase 1.4 is used verbatim. If absent, emit
-`undefined`.
+The type string produced in Phase 1.4 is used verbatim. If absent, emit `undefined`.
 
 ---
 
 ## Phase 4 — Raw Inline Type Emission (No `MachineEntry`)
 
-Each machine produces one raw inline type block. No helper type
-(`MachineEntry`, `MachineTypeDef`, etc.) is imported or referenced in the
-generated file. Every field is an explicit literal union.
+Each machine produces one raw inline type block. No helper type (`MachineEntry`,
+`MachineTypeDef`, etc.) is imported or referenced in the generated file. Every field
+is an explicit literal union.
 
 ### Target shape per Register entry
 
@@ -371,10 +361,7 @@ export default createMachine(
     initial: 'idle',
     states: {
       idle: { tags: ['idle'], on: { NEXT: '/working' } },
-      working: {
-        tags: ['working', 'busy'],
-        on: { NEXT: '/final', PREV: '/idle' },
-      },
+      working: { tags: ['working', 'busy'], on: { NEXT: '/final', PREV: '/idle' } },
       final: {},
     },
   },
@@ -429,13 +416,9 @@ export default createMachine(
   {
     initial: 'idle',
     states: {
-      idle: {
-        on: { START: { target: '/checking', actions: 'provideAsset' } },
-      },
+      idle: { on: { START: { target: '/checking', actions: 'provideAsset' } } },
       checking: {
-        after: {
-          CHECK_DELAY: { target: '/working', guards: 'assetIsDefined' },
-        },
+        after: { CHECK_DELAY: { target: '/working', guards: 'assetIsDefined' } },
         on: { RESET: '/idle' },
       },
       working: {
@@ -457,11 +440,7 @@ export default createMachine(
   },
   {
     pContext: type({ asset: { id: 'string', value: 'number' } }),
-    eventsMap: type({
-      START: 'never',
-      ADD_INTERMEDIARY: 'never',
-      RESET: 'never',
-    }),
+    eventsMap: type({ START: 'never', ADD_INTERMEDIARY: 'never', RESET: 'never' }),
   },
 );
 ```
@@ -573,13 +552,12 @@ export {};
 
 Key rules:
 
-- **No imports** — the generated file has zero `import` statements. All
-  types are inline. No `MachineEntry`, no `type`, no `@bemedev/typings`.
-- One `declare module` block targeting the correct module specifier
-  (`'@bemedev/app'` for a project-level gen file; `'../index'` for a
-  test-scoped gen file like `src/__tests__/app.gen.ts`).
-- Entries sorted **alphabetically** by machine name for deterministic
-  diffs.
+- **No imports** — the generated file has zero `import` statements. All types are
+  inline. No `MachineEntry`, no `type`, no `@bemedev/typings`.
+- One `declare module` block targeting the correct module specifier (`'@bemedev/app'`
+  for a project-level gen file; `'../index'` for a test-scoped gen file like
+  `src/__tests__/app.gen.ts`).
+- Entries sorted **alphabetically** by machine name for deterministic diffs.
 - A **timestamp comment** at the top makes stale gen files easy to spot.
 
 ---
@@ -633,12 +611,7 @@ export const generateCmd = command({
     }),
   },
   handler: async ({ output, cwd, dryRun, excludes }) => {
-    await generateAppGen({
-      output,
-      cwd,
-      dryRun,
-      excludes: excludes?.split(','),
-    });
+    await generateAppGen({ output, cwd, dryRun, excludes: excludes?.split(',') });
   },
 });
 ```
@@ -651,8 +624,7 @@ import { watchMachines } from '../core/watcher';
 
 export const watchCmd = command({
   name: 'watch',
-  description:
-    'Watch *.machine.ts / *.fsm.ts and regenerate app.gen.ts on change',
+  description: 'Watch *.machine.ts / *.fsm.ts and regenerate app.gen.ts on change',
   args: {
     output: option({ type: optional(string), long: 'output', short: 'o' }),
     cwd: option({ type: optional(string), long: 'cwd' }),
@@ -892,26 +864,25 @@ export async function generateAppGen(options: {
 
 ### Why `parseTree` and not a custom walker
 
-The previous `generator.ts` (v1) re-implemented tree traversal with a
-private `parseStateTree`, `extractActionsFromNode`, `collectActionKeys`,
-etc. set of helpers. These duplicated logic that already lives — and is
-already tested — inside `parseTree`.
+The previous `generator.ts` (v1) re-implemented tree traversal with a private
+`parseStateTree`, `extractActionsFromNode`, `collectActionKeys`, etc. set of helpers.
+These duplicated logic that already lives — and is already tested — inside
+`parseTree`.
 
 With v2:
 
-- `parseTree` is the **single, tested** source of truth for symbol
-  extraction.
-- Any future change to how the library interprets configs (new `always`
-  handling, new actor emitter types, new `pContextKeys` semantics) is
-  automatically reflected in the generated file on the next save.
-- The CLI carries **zero knowledge** of the internal config schema — it
-  calls `parseTree` and serializes what comes back.
+- `parseTree` is the **single, tested** source of truth for symbol extraction.
+- Any future change to how the library interprets configs (new `always` handling, new
+  actor emitter types, new `pContextKeys` semantics) is automatically reflected in
+  the generated file on the next save.
+- The CLI carries **zero knowledge** of the internal config schema — it calls
+  `parseTree` and serializes what comes back.
 
 ### What `parseTree` gives us (and what it does not)
 
-`parseTree` operates on the **runtime `NodeConfig` object** and extracts
-symbol **keys** — the string identifiers that appear as action names, guard
-names, delay names, event names, emitter keys, child keys, and tag names.
+`parseTree` operates on the **runtime `NodeConfig` object** and extracts symbol
+**keys** — the string identifiers that appear as action names, guard names, delay
+names, event names, emitter keys, child keys, and tag names.
 
 It does **not** extract:
 
@@ -919,16 +890,16 @@ It does **not** extract:
 - TypeScript type shape of `pContext`.
 - TypeScript type shape of `context`.
 
-These come from the `typings` argument (Phase 1.4). For the current
-`Register` shape, only `pContext` requires type extraction from the typings
-arg. All string literal unions come purely from `parseTree`.
+These come from the `typings` argument (Phase 1.4). For the current `Register` shape,
+only `pContext` requires type extraction from the typings arg. All string literal
+unions come purely from `parseTree`.
 
 ---
 
 ## Register Shape Alignment
 
-The `Register` interface in `src/registry.ts` defines what each entry must
-satisfy. Each generated inline type is built to exactly match that shape:
+The `Register` interface in `src/registry.ts` defines what each entry must satisfy.
+Each generated inline type is built to exactly match that shape:
 
 ```ts
 // From src/registry.ts
@@ -952,9 +923,9 @@ satisfy. Each generated inline type is built to exactly match that shape:
 ```
 
 The key improvement over `MachineEntry<>` is that **`options.actions`,
-`options.delays`, and `options.guards` become exact string literal unions**
-instead of the loose `string`. This allows the machine's `addOptions` and
-related APIs to reject unknown identifiers at compile time.
+`options.delays`, and `options.guards` become exact string literal unions** instead
+of the loose `string`. This allows the machine's `addOptions` and related APIs to
+reject unknown identifiers at compile time.
 
 ---
 
@@ -962,37 +933,33 @@ related APIs to reject unknown identifiers at compile time.
 
 ### Dynamically computed configs
 
-If the config argument contains expressions that ts-morph cannot resolve
-statically (spread `...baseConfig`, function calls, variables imported from
-external packages), the file is **skipped with a warning**. Machine configs
-must be pure object literals or reference only locally-resolvable `const`
-bindings.
+If the config argument contains expressions that ts-morph cannot resolve statically
+(spread `...baseConfig`, function calls, variables imported from external packages),
+the file is **skipped with a warning**. Machine configs must be pure object literals
+or reference only locally-resolvable `const` bindings.
 
 ### Multiple machines per file
 
-Not supported. Convention: one `export default createMachine(...)` per
-`*.machine.ts` / `*.fsm.ts` file. If multiple call expressions are found,
-the CLI uses the first `export default` call and warns about the rest.
+Not supported. Convention: one `export default createMachine(...)` per `*.machine.ts`
+/ `*.fsm.ts` file. If multiple call expressions are found, the CLI uses the first
+`export default` call and warns about the rest.
 
 ### Missing `name` arg (legacy 2-arg form)
 
-If `createMachine(config, typings?)` is detected (no name string as first
-argument), the file is skipped. The 3-arg form is required for CLI-driven
-generation.
+If `createMachine(config, typings?)` is detected (no name string as first argument),
+the file is skipped. The 3-arg form is required for CLI-driven generation.
 
 ### `never` vs absent union
 
 An empty `BetterSet` serializes to `never`. This is intentional:
-`options.actions: never` is a stronger signal than
-`options.actions: string` — it tells the compiler this machine truly
-defines no user-facing action keys.
+`options.actions: never` is a stronger signal than `options.actions: string` — it
+tells the compiler this machine truly defines no user-facing action keys.
 
 ---
 
 ## Summary of Removed Artifacts
 
-After this plan is implemented, the following are **deleted or
-superseded**:
+After this plan is implemented, the following are **deleted or superseded**:
 
 | Artifact                              | Reason                                       |
 | ------------------------------------- | -------------------------------------------- |

@@ -4,6 +4,7 @@ export default defineConfig({
   plugins: ['typescript'],
   categories: { correctness: 'off' },
   env: { builtin: true, node: true },
+
   ignorePatterns: [
     '**/node_modules',
     '**/publish',
@@ -14,6 +15,7 @@ export default defineConfig({
     '**/*.test-d.ts',
     '**/libs/bemedev/*',
   ],
+
   rules: {
     'constructor-super': 'error',
     'for-direction': 'error',
@@ -64,7 +66,10 @@ export default defineConfig({
     'no-unsafe-optional-chaining': 'error',
     'no-unused-labels': 'error',
     'no-unused-private-class-members': 'error',
-    'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    'no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
     'no-useless-backreference': 'error',
     'no-useless-catch': 'error',
     'no-useless-escape': 'error',
@@ -93,9 +98,11 @@ export default defineConfig({
     'typescript/prefer-namespace-keyword': 'error',
     'typescript/triple-slash-reference': 'error',
   },
+
   overrides: [
     {
       files: ['**/*.ts', '**/*.tsx'],
+
       rules: {
         'constructor-super': 'off',
         'no-class-assign': 'off',

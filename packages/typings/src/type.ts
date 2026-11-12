@@ -104,6 +104,13 @@ const _transform = <T extends ObjectT>(obj: T): inferSh<T> => {
  * Creates and standardizes a schema from an object definition or a helper-callback
  * function.
  *
+ * @template | Type {@linkcode ObjectT} `T` - Schema definition type.
+ *
+ * @param option - Optional schema definition object or builder function receiving
+ *   type {@linkcode Helpers}.
+ *
+ * @returns The standardized schema of type {@linkcode inferSh}.
+ *
  * @example
  *   ```ts
  *   const userSchema = type(({ optional, primitive }) => ({
@@ -152,6 +159,15 @@ export const type: Transform_F = option => {
 /**
  * Pre-processes schema definitions for chaining type transformations and reusable
  * schemas.
+ *
+ * @template | Type {@linkcode ObjectT} `U` - Base schema definition type.
+ *
+ * @param pretype - Optional base schema input of type {@linkcode inferSh}.
+ *
+ * @returns A callable transform function with attached `type` and `pretype`
+ *   properties.
+ *
+ * @see -- type {@linkcode FnBasic}
  */
 export const pretype: PreTransform_F = pretype =>
   expandFn(type, {

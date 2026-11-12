@@ -52,8 +52,6 @@ type UndefinyObject<T extends object> = _UndefinyObject<T>;
  * @template T - The input object or array type.
  * @template | Class {@linkcode OptionalHelperClass} `U` - Type with sentinel class
  *   {@linkcode OptionalHelperClass} excluded.
- *
- * @see -- class {@linkcode OptionalHelperClass}
  */
 export type Undefiny<T, U = Exclude<T, OptionalHelperClass>> = U extends AnyArray
   ? ReduceTupleU<U>

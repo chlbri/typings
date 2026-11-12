@@ -2,10 +2,42 @@
   "name": "@bemedev/typings",
   "version": "1.4.1",
   "description": "Typings by variables",
+  "keywords": [
+    "typings",
+    "typescript",
+    "types"
+  ],
+  "author": {
+    "name": "chlbri",
+    "email": "bri_lvi@icloud.com",
+    "url": "https://bemedev.vercel.app"
+  },
+  "maintainers": [
+    {
+      "email": "bri_lvi@icloud.com",
+      "name": "chlbri",
+      "url": "https://bemedev.vercel.app"
+    }
+  ],
+  "contributors": [
+    {
+      "email": "bri_lvi@icloud.com",
+      "name": "chlbri",
+      "url": "https://bemedev.vercel.app"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chlbri/typings.git"
+  },
+  "files": [
+    "lib",
+    "package.json"
+  ],
   "type": "module",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -40,74 +72,39 @@
       "require": "./lib/utils/*.cjs"
     }
   },
-  "files": [
-    "lib"
-  ],
-  "author": {
-    "email": "bri_lvi@icloud.com",
-    "name": "chlbri",
-    "url": "https://bemedev.vercel.app"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/chlbri/typings.git"
-  },
-  "maintainers": [
-    {
-      "email": "bri_lvi@icloud.com",
-      "name": "chlbri",
-      "url": "https://bemedev.vercel.app"
-    }
-  ],
-  "contributors": [
-    {
-      "email": "bri_lvi@icloud.com",
-      "name": "chlbri",
-      "url": "https://bemedev.vercel.app"
-    }
-  ],
-  "keywords": [
-    "typings",
-    "typescript",
-    "types"
-  ],
   "scripts": {
-    "build": "pnpm run rm:lib && pnpm run rolldown",
-    "rm:lib": "node -e \"fs.rmSync('./lib', { recursive: true, force: true })\"",
-    "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
-    "_lint": "oxlint",
-    "lint:fix": "oxlint --fix",
-    "lint": "pnpm run fmt && pnpm run lint:fix",
     "p-q": "pretty-quick",
-    "pretest": "pnpm run build && pnpm run size",
-    "posttest": "pnpm run fmt",
-    "_ci": "pnpm run lint && pnpm run pretest",
-    "size": "size-limit",
-    "rolldown": "rolldown -c"
+    "posttest": "vp fmt",
+    "pretest": "vp run pack",
+    "rm:lib": "vp dlx rimraf ./lib",
+    "test:coverage": "vp test run",
+    "test": "vp run test:coverage --no-coverage",
+    "test:only": "vp run test",
+    "test:watch": "vp test"
   },
   "devDependencies": {
-    "@bemedev/dev-utils": "^1.5.0",
-    "@size-limit/file": "^13.0.3",
-    "rolldown": "^1.2.8",
-    "size-limit": "^13.0.3",
-    "typescript": "^7.0.2"
+    "@bemedev/dev-utils": "^1.5.2",
+    "@size-limit/file": "^14.3.0",
+    "size-limit": "^14.3.0",
+    "typescript": "^7.0.2",
+    "vite-plus": "catalog:",
+    "vitest": "catalog:"
   },
   "dependencies": {
     "@standard-schema/spec": "^1.1.0"
   },
   "size-limit": [
     {
-      "path": "lib/*.js",
+      "path": "lib/**/*.js",
       "limit": "10kb"
     },
     {
-      "path": "lib/*.cjs",
-      "limit": "10 kb"
+      "path": "lib/**/*.cjs",
+      "limit": "10kb"
     },
     {
-      "path": "lib/*.d.ts",
-      "limit": "10 kb"
+      "path": "lib/**/*.d.ts",
+      "limit": "10kb"
     }
   ]
 }

@@ -20,7 +20,7 @@ export const primitive = expandFn2(
     /**
      * Creates a boolean schema or a literal boolean schema.
      *
-     * @template | Type {@linkcode Boolean} `T` - Boolean literal type.
+     * @template | Interface {@linkcode Boolean} `T` - Boolean literal type.
      *
      * @param value - Optional boolean literal value.
      *
@@ -34,7 +34,7 @@ export const primitive = expandFn2(
     /**
      * Creates a string schema or a literal string schema.
      *
-     * @template | Type {@linkcode String} `T` - String literal type.
+     * @template | Interface {@linkcode String} `T` - String literal type.
      *
      * @param value - Optional string literal value.
      *
@@ -48,7 +48,7 @@ export const primitive = expandFn2(
     /**
      * Creates a number schema or a literal number schema.
      *
-     * @template | Type {@linkcode Number} `T` - Number literal type.
+     * @template | Interface {@linkcode Number} `T` - Number literal type.
      *
      * @param value - Optional number literal value.
      *
@@ -62,7 +62,7 @@ export const primitive = expandFn2(
     /**
      * Creates a bigint schema or a literal bigint schema.
      *
-     * @template | Type {@linkcode BigInt} `T` - BigInt literal type.
+     * @template | Interface {@linkcode BigInt} `T` - BigInt literal type.
      *
      * @param value - Optional bigint literal value.
      *
@@ -76,7 +76,7 @@ export const primitive = expandFn2(
     /**
      * Creates a symbol schema or a literal symbol schema.
      *
-     * @template | Type {@linkcode Symbol} `T` - Symbol type.
+     * @template | Interface {@linkcode Symbol} `T` - Symbol type.
      *
      * @param value - Optional symbol value.
      *
