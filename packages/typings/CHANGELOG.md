@@ -5,6 +5,27 @@
 <details>
 <summary>
 
+## **[1.5.0] - 12/11/2026** => _13:31_
+
+</summary>
+
+- Docs: Expand JSDoc annotations for `type`, `pretype` and `standardize`, and align
+  `@template` tags with the reference conventions
+- Refactor: Migrate the build and test toolchain from `rolldown`/`vitest` configs to
+  Vite+ (`vp`), with `vite-plus` and `vitest` resolved from the pnpm catalog
+- Update: Widen `size-limit` globs to `lib/**/*.{js,cjs,d.ts}` and reorder
+  `package.json` metadata fields
+- Update: Upgrade `@bemedev/dev-utils`, `size-limit` and `@size-limit/file`
+  devDependencies
+- <u>Test coverage **_100%_**</u>
+
+</details>
+
+<br/>
+
+<details>
+<summary>
+
 ## **[1.4.1] - 12/09/2026** => _16:45_
 
 </summary>
